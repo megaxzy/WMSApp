@@ -10,15 +10,6 @@ page{
  box-sizing: border-box; 
  background-color: #f2f2f2
 } 
-  
-/*登录图片*/
-.login-icon{ 
- flex: none; 
-} 
-.login-img{ 
- width: 750rpx; 
-} 
-  
 /*表单内容*/
 .login-from { 
  margin-top: 20px; 
@@ -60,15 +51,18 @@ page{
 } 
 /*按钮*/
 .loginBtnView { 
- width: 100%; 
+ 
+ width: 80%; 
  height: auto; 
  background-color: #f2f2f2; 
  margin-top: 0px; 
  margin-bottom: 0px; 
+ margin-left: 30px; 
  padding-bottom: 0px; 
+ 
 } 
   
 .loginBtn { 
- width: 80%; 
+ width: 100%; 
  margin-top: 35px; 
 }

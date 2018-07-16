@@ -17,39 +17,42 @@ page{
 } 
 .login-img{ 
  width: 750rpx; 
+ height: 500rpx; 
 } 
   
 /*表单内容*/
 .login-from { 
- margin-top: 20px; 
+ margin-top: 15%; 
  flex: auto; 
  height:100%; 
 } 
   
 .inputView { 
  background-color: #fff; 
- line-height: 44px; 
+ line-height: 200%; 
 } 
-/*输入框*/
+/*两个图片*/
 .nameImage, .keyImage { 
- margin-left: 22px; 
- width: 14px; 
- height: 14px
+ margin-left: 14px; 
+ width: 20px; 
+ height:20px
 } 
   
 .loginLab { 
  margin: 15px 15px 15px 10px; 
- color: #545454; 
- font-size: 14px
+ color: #545454;
+  
+ font-size: 80%
 } 
 .inputText { 
  flex: block; 
  float: right; 
+ 
  text-align: right; 
  margin-right: 22px; 
- margin-top: 11px; 
+ margin-top: 1%;  /*这个是px形式会出现问题*/
  color: #cccccc; 
- font-size: 14px
+ font-size: 80%  /*14px*/
 } 
   
 .line { 
