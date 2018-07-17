@@ -1,10 +1,12 @@
 
 var condition = require('../../utils/condition.js');
-
+var rescode;
+var that;
 Page({
   data: {
     name: '',
-    password: ''
+    password: '',
+    rescode:''
   },
 
   // 获取输入账号 
@@ -25,7 +27,14 @@ Page({
       scanType: 'barCode',
       success: (res) => {
         console.log(res)
+        rescode=res
+        this.setData({rescode:res});
+        console.log(res.result)
+        console.log(rescode.result)
       }
     })
+  },
+  enterware: function () {
+    
   }
 })

@@ -20,6 +20,7 @@ Page({
       password: e.detail.value
     })
   },
+  //order是排序
   //'http://localhost:9000/ledger/WMS_Template/person/{"conditions":[{"key":"name","relation":"EQUAL","values":["2"]},{"key":"password","relation":"EQUAL","values":["2"]}],"orders":[]}'
   // 登录 
   login: function () {
@@ -38,12 +39,20 @@ Page({
       //condition.AddCondition('name','EQUAL','2');
       var input_name=this.data.name;
       var input_password =this.data.password;
-      var contest = condition.AddFirstCondition('name', 'EQUAL', '2');
-      contest = condition.AddCondition('password', 'EQUAL', '2');
+      var contest=condition.NewCondition();//TODO 全局变量
+      contest= condition.AddFirstCondition('name', 'EQUAL', input_name);
+      contest = condition.AddCondition('password', 'EQUAL', input_password);
+
+      var contest2 =condition.NewCondition();//TODO 全局变量
+      contest2 = condition.AddFirstCondition('password', 'ADD', input_password);
+
       console.log('condition test:  ');
       console.log(contest);
       console.log('condition test end  ');
       
+      console.log('condition test2:  ');
+      console.log(contest2);
+      console.log('condition test2 end  ');
       /*
       var jsonObj = JSON.parse(jsonTest)
       console.log(jsonObj) 
@@ -51,7 +60,7 @@ Page({
       var jsonStr = JSON.stringify(jsonObj)   
       console.log(jsonStr) */
       wx.request({
-        
+        //TODO 常量
         url: 'http://localhost:9000/ledger/WMS_Template/person/'+contest,
         
         data: {//发送给后台的数据
@@ -64,11 +73,12 @@ Page({
           //sectionData = res.data;
           console.log("succeed connect")
           var userInfo = JSON.stringify(res.data);
+
           console.log(res)
           console.log(res.data)
-          console.log(res.data.length)
+          console.log('res.data.length:'+res.data.length)
           console.log(res.data[0])
-          console.log(res.data[0].name)
+          //console.log(res.data[0].name)
           //定义变量
           requiredata=res
         },
@@ -76,28 +86,48 @@ Page({
         fail: function (err) {
           console.log("false")
           wx.showToast({
-            title: '登录失败，请检查你的网络',
+            title: '连接失败,请检查你的网络或者服务端是否开启',
             icon: 'none',
             duration: 1500
           })
         },
         complete: function () //请求完成后执行的函数
         {
+          
           console.log('res:')
           console.log(requiredata.statusCode)
           console.log('res end')
-          if (requiredata.statusCode=='200') {
-            console.log('res:' + requiredata.statusCode)
+          
+          //TODO 500是字符串
+          if (requiredata.statusCode === '500' || requiredata.statusCode=== '404') {
+            //console.log('res:' + requiredata.statusCode)
+            console.log('连接超时')
+            wx.showToast({
+              title: '连接超时',
+              icon: 'none',
+              duration: 1500
+            })
+          }
+          else if(requiredata.data.length==0){
+            console.log('登陆失败')
+            wx.showToast({
+              title: '登录失败,请检查用户名或者密码是否输入正确',
+              icon: 'none',
+              duration: 1500
+            })
           }
           else {
+
             wx.navigateTo({
-              url: '../../main/index/index'
+              //这个url不能是tabBar中的页面
+              url: '../../main/scan/scan'
             })
             wx.showToast({
               title: '登录成功',
               icon: 'success',
               duration: 1500
             })
+
           }
         }
       })
