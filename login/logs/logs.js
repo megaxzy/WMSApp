@@ -3,11 +3,59 @@ var condition = require('../../utils/condition.js')
 var globaldata = require('../../utils/globaldata.js');
 
 Page({
+
   //使用data必须用this.data.name形式
   data: {
     name: '',
     password: '',
-    requiredata:''
+    requiredata: '',
+    all_warehouse: '',
+    all_warehouse_array:[],
+    index:0
+  },
+
+  onShow: function () {
+    var that=this
+    //获得仓库的所有内容
+    var con = condition.NewCondition();
+    con = condition.AddFirstOrder('name', ' ASC');//???ASC DESC都一样
+    wx.request({
+      url: globaldata.url + 'warehouse/WMS_Template/warehouse/' + con,
+      success: function (res) {
+        //console.log(res)
+        //console.log(res.data.length)
+        var res_temp = res
+        that.setData({
+          all_warehouse: res
+        })
+      },
+      complete: function ()
+      {
+        globaldata.all_warehouse = that.data.all_warehouse 
+        //test
+        console.log('all_warehouse：')
+        console.log(that.data.all_warehouse.data[0].name)
+        console.log(that.data.all_warehouse.data[0])
+        console.log(that.data.all_warehouse)
+        console.log(that.data.all_warehouse.data.length)
+        //testend
+        var all_warehouse_array=[];
+        for (var i = 0; i < that.data.all_warehouse.data.length; i++) {
+          all_warehouse_array.push(that.data.all_warehouse.data[i].name);//添加数组的功能
+        } 
+        console.log(all_warehouse_array)
+        that.setData({
+          all_warehouse_array:all_warehouse_array
+        })
+      }
+    })
+  },
+
+  WarehouseChose: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      index: e.detail.value
+    })
   },
 
   // 获取输入账号 
@@ -37,22 +85,15 @@ Page({
       })
     } 
      else {
-       //condition情况下会收到所有的
-      var jsonTest = '{"conditions":[{"key":"name","relation":"EQUAL","values":["2"]},{"key":"password","relation":"EQUAL","values":["2"]}]}'   
-
-      //condition test 
-      //condition.AddCondition('name','EQUAL','2');
-      var input_name=this.data.name;
-      var input_password =this.data.password;
-      var contest=condition.NewCondition();//TODO 全局变量
-      contest= condition.AddFirstCondition('name', 'EQUAL', input_name);
-      contest = condition.AddCondition('password', 'EQUAL', input_password);
+      var con=condition.NewCondition();
+      con = condition.AddFirstCondition('name', 'EQUAL', this.data.name);
+      con = condition.AddCondition('password', 'EQUAL', this.data.password);
 
       var contest2 =condition.NewCondition();
-      contest2 = condition.AddFirstCondition('password', 'ADD', input_password);
+      contest2 = condition.AddFirstCondition('password', 'ADD', this.data.password);
 
       console.log('condition test:  ');
-      console.log(contest);
+      console.log(con);
       console.log('condition test end  ');
       
       console.log('condition test2:  ');
@@ -63,30 +104,15 @@ Page({
       console.log(jsonObj) 
 
       var jsonStr = JSON.stringify(jsonObj)   
-      console.log(jsonStr) */
+      console.log(jsonStr) 
+      */
       wx.request({
         //TODO 常量
-        url: globaldata.url+contest,
-        
-        data: {//发送给后台的数据
-        },
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
+        url: globaldata.url +'ledger/WMS_Template/person/'+con,
         method: 'GET',//GET为默认方法   /POST
         success: function (res) {
-          //sectionData = res.data;
           console.log("succeed connect")
-          /*
-          var userInfo = JSON.stringify(res.data);
-
-          console.log(res)
-          console.log(res.data)
-          console.log('res.data.length:'+res.data.length)
-          console.log(res.data[0])
-          */
-          //console.log(res.data[0].name)
-          //定义变量
+          //定义变量 不这么定义好像无法赋值到globaldata中
           var res_temp=res
           that.setData({
             requiredata: res
@@ -104,17 +130,7 @@ Page({
         },
         complete: function () //请求完成后执行的函数
         {
-          
-          console.log('res:')
-          console.log(that.data.requiredata.statusCode)
-          console.log(that.data.requiredata.data)
-          console.log(that.data.requiredata.data[0])
-          console.log(that.data.requiredata.data[0].name)
-          console.log('res end')
-          
-          //TODO 500是字符串
           if (that.data.requiredata.statusCode == '500'|| that.data.requiredata.statusCode== '404') {
-            //console.log('res:' + requiredata.statusCode)
             console.log('连接超时')
             wx.showToast({
               title: '连接超时',
@@ -130,25 +146,29 @@ Page({
               duration: 1500
             })
           }
-          else {
-                                 that.data.requiredata.data[0].name
+          else {     
+            //test
+            console.log('resquiredata：')   
+            console.log(that.data.requiredata.data[0].name)   
+            console.log(that.data.requiredata.data[0])      
+            console.log(that.data.requiredata)
+            //testend
             globaldata.user_name=that.data.requiredata.data[0].name
             globaldata.user_role =that.data.requiredata.data[0].role
+            globaldata.all_user_messages=that.data.requiredata.data[0]
             wx.navigateTo({
               //这个url不能是tabBar中的页面
-              url: '../../main/scan/scan'
+              //url: '../../main/scan/scan'
+              url: '../../warehouse/warehouse/warehouse'
             })
             wx.showToast({
               title: '登录成功',
               icon: 'success',
               duration: 1500
             })
-
           }
         }
       })
-
-
     }
   }
 })

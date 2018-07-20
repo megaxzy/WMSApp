@@ -1,0 +1,81 @@
+<view class="container"> 
+
+  <!--收到信息-->
+  <!--decode="{{true}}" 后面的&nbsp才能用-->
+    <view class="message">模式入库扫码模式</view>
+  <view class="message">
+    <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>
+  </view>
+
+  <view class="message" style="color:red;">{{rescode.result==null ? '未接收到数据':'接收到的数据：'+rescode.result}}</view>       
+
+  <!--按钮-->
+  <view class="loginBtnView"> 
+    <button class="loginBtn" type="primary" bindtap="scan">扫码</button> 
+  </view> 
+
+
+<form > <!--onsubmit="add"-->
+<view class="form">
+	<view class="item">
+		<view class="title">入库单号</view>
+		<view class="subtitle">
+			<input type="number" name="priority" value="{{category.priority}}" placeholder="留空自动生成" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">供应商代号</view>
+		<view class="subtitle">
+			<input type="number" name="priority" value="{{category.priority}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">供应商代号</view>
+		<view class="subtitle">
+			<input type="number" name="priority" value="{{category.priority}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">供应商代号</view>
+		<view class="subtitle">
+			<input type="number" name="priority" value="{{category.priority}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">供应商代号</view>
+		<view class="subtitle">
+			<input type="number" name="priority" value="{{category.priority}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">供应商代号</view>
+		<view class="subtitle">
+			<input type="number" name="priority" value="{{category.priority}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">供应商代号</view>
+		<view class="subtitle">
+			<input type="number" name="priority" value="{{category.priority}}" placeholder="" />
+		</view>
+	</view>  
+  <view class="item">
+		<view class="title">供应商代号</view>
+		<view class="subtitle">
+			<input type="number" name="priority" value="{{category.priority}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">供应商代号</view>
+		<view class="subtitle">
+			<input type="number" name="priority" value="{{category.priority}}" placeholder="" />
+		</view>
+	</view>
+</view>
+</form>
+  <!--按钮-->
+  <view class="loginBtnView"> 
+    <button class="loginBtn" type="primary" bindtap="scan">生成入库单</button> 
+  </view> 
+
+</view>

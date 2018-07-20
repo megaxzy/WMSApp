@@ -2,8 +2,8 @@
   "pages":[
     "login/logs/logs",
     "main/scan/scan",
-    "main/index/index"
-    
+    "main/index/index",
+    "warehouse/warehouse/warehouse"
     
   ],
   "window":{

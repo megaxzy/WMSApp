@@ -1,7 +1,6 @@
 
 var condition = require('../../utils/condition.js');
 var globaldata = require('../../utils/globaldata.js');
-var rescode;
 
 Page({
   data: {

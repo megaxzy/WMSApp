@@ -9,6 +9,8 @@
       <label class="loginLab">账号</label> 
     <input class="inputText" placeholder="请输入账号" bindinput="nameInput" /> 
   </view> 
+
+  <!--缝隙-->
   <view class="line"></view> 
     
   <!--密码-->
@@ -17,7 +19,21 @@
       <label class="loginLab">密码</label> 
     <input class="inputText" password="true" placeholder="请输入密码" bindinput="passwordInput" /> 
   </view> 
-    
+
+  <!--缝隙-->
+  <view class="line"></view>
+
+  <!--仓库-->
+  <view class="choseView">
+  <image class="warehouseImage" src="/images/UserPassword.png"></image> 
+  <label class="loginLab">仓库</label> 
+  <picker bindchange="WarehouseChose" value="{{index}}" range="{{all_warehouse_array}}">
+    <view class="inputWarehouse">
+     {{all_warehouse_array[index]}}
+    </view>
+  </picker>
+  </view>
+
   <!--按钮-->
   <view class="loginBtnView"> 
     <button class="loginBtn" type="primary" size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}" disabled="{{disabled}}" bindtap="login">登录</button> 
