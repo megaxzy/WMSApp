@@ -1,17 +1,19 @@
 
 var condition = require('../../utils/condition.js')
 var globaldata = require('../../utils/globaldata.js');
-
+var util = require('../../utils/util.js');
+var time = require('../../utils/time.js');
 Page({
 
   //使用data必须用this.data.name形式
   data: {
     name: '',
     password: '',
-    requiredata: '',
-    all_warehouse: '',
-    all_warehouse_array:[],
-    index:0
+    requiredata: '', //收到的用户信息
+    all_warehouse: '', //收到的所有的仓库信息
+    all_warehouse_array: [], //仓库姓名合集
+    index:1,  //选择的哪项  默认为1
+    chosen_warehouse:'',
   },
 
   onShow: function () {
@@ -20,13 +22,22 @@ Page({
     var con = condition.NewCondition();
     con = condition.AddFirstOrder('name', ' ASC');//???ASC DESC都一样
     wx.request({
-      url: globaldata.url + 'warehouse/WMS_Template/warehouse/' + con,
+      url: globaldata.url + 'warehouse/'+globaldata.account+'warehouse/' + con,
       success: function (res) {
         //console.log(res)
         //console.log(res.data.length)
         var res_temp = res
         that.setData({
           all_warehouse: res
+        })
+      },
+      //请求失败
+      fail: function (err) {
+        console.log("false")
+        wx.showToast({
+          title: '连接失败,请检查你的网络或者服务端是否开启',
+          icon: 'none',
+          duration: 2000
         })
       },
       complete: function ()
@@ -108,7 +119,7 @@ Page({
       */
       wx.request({
         //TODO 常量
-        url: globaldata.url +'ledger/WMS_Template/person/'+con,
+        url: globaldata.url + 'ledger/' + globaldata.account +'person/'+con,
         method: 'GET',//GET为默认方法   /POST
         success: function (res) {
           console.log("succeed connect")
@@ -153,6 +164,10 @@ Page({
             console.log(that.data.requiredata.data[0])      
             console.log(that.data.requiredata)
             //testend
+            
+            globaldata.chosen_warehouse=that.data.all_warehouse.data[that.data.index]
+            //console如果以'...'+变量的形式构成 则变量无法正常显示出来
+            console.log(globaldata.chosen_warehouse)
             globaldata.user_name=that.data.requiredata.data[0].name
             globaldata.user_role =that.data.requiredata.data[0].role
             globaldata.all_user_messages=that.data.requiredata.data[0]

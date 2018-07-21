@@ -67,3 +67,9 @@ page{
 	flex: 3;
   color: #333333;
 }
+
+.section{
+  text-align: center;
+  width:750rpx;
+  background: white;
+}

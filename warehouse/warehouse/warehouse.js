@@ -1,7 +1,7 @@
 
 var condition = require('../../utils/condition.js');
 var globaldata = require('../../utils/globaldata.js');
-
+var time = require('../../utils/time.js');
 Page({
   data: {
     name: '',
@@ -9,21 +9,28 @@ Page({
     authority:'',
     rescode: '',
     warehouse_list:'',
-    warehouseId:''
+    warehouse_id:'',
+    date:'',
   },
   onShow: function () {
+    //获取时间
+    var Y=time.Y
+    var M=time.M
+    var D=time.D
+    var date=Y+'-'+M+'-'+D
     this.setData({
       name:globaldata.user_name,
       role:globaldata.user_role,
-      warehouseId:globaldata.warehouseId
+      warehouse_id:globaldata.chosen_warehouse.id,
+      date:date
     })
 
     var that = this
     var con = condition.NewCondition();
-    con = condition.AddFirstCondition('warehouseId', 'EQUAL', '1');
+    con = condition.AddFirstCondition('warehouseId', 'EQUAL', that.data.warehouse_id);
     //con = condition.AddFirstOrder('name', ' DESC');//???DESC和ASC没有区别
     wx.request({
-      url: globaldata.url + 'warehouse/WMS_Template/supply/' + con,
+      url: globaldata.url + 'warehouse/' + globaldata.account +'supply/' + con,
       data: {//发送给后台的数据
       },
       header: {
@@ -32,7 +39,7 @@ Page({
       method: 'GET',//GET为默认方法   /POST
       success: function (res) {
         console.log("succeed connect")
-        console.log(globaldata.url + 'warehouse/WMS_Template/warehouse_entry/' + con)
+        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con)
         var res_temp = res
         that.setData({
           warehouse_list: res
