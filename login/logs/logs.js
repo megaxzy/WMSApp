@@ -67,6 +67,7 @@ Page({
     this.setData({
       index: e.detail.value
     })
+  
   },
 
   // 获取输入账号 
@@ -82,6 +83,8 @@ Page({
       password:e.detail.value
     })
   },
+
+
   //order是排序
   //'http://localhost:9000/ledger/WMS_Template/person/{"conditions":[{"key":"name","relation":"EQUAL","values":["2"]},{"key":"password","relation":"EQUAL","values":["2"]}],"orders":[]}'
   // 登录 

@@ -51,7 +51,7 @@ page{
 	margin-left: 0;
 }
 
-/*标题与文本框*/
+/*标题与文本框 下面的选择*/
 .title {
   width: 750rpx;
   font-size: 40rpx;
@@ -73,3 +73,9 @@ page{
   width:750rpx;
   background: white;
 }
+
+.line { 
+ width: 750rpx; 
+ background-color: black; 
+ margin-top: 3rpx; 
+} 

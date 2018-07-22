@@ -11,9 +11,11 @@ Page({
     warehouse_list:'',
     warehouse_id:'',
     date:'',
+    date_today:''
   },
   onShow: function () {
-    //获取时间
+    var that = this
+    //获取现在时间
     var Y=time.Y
     var M=time.M
     var D=time.D
@@ -22,15 +24,46 @@ Page({
       name:globaldata.user_name,
       role:globaldata.user_role,
       warehouse_id:globaldata.chosen_warehouse.id,
-      date:date
+      date:date,
+      date_today:date
     })
-
-    var that = this
+    that.showWarehouseEntry();
+  },
+  scan: function () {
+    wx.scanCode({
+      scanType: 'barCode',
+      success: (res) => {
+        console.log(res)
+        this.setData({
+          rescode:res
+        });
+        console.log(res.result)
+        
+      }
+    })
+  },
+  bindDateChange: function (e) {
+    var that=this
+    this.setData({
+      date: e.detail.value
+    })
+    that.showWarehouseEntry();
+  },
+  enterware: function () {
+    
+  },
+  showWarehouseEntry:function(){
+    var that=this
     var con = condition.NewCondition();
-    con = condition.AddFirstCondition('warehouseId', 'EQUAL', that.data.warehouse_id);
+    var dates=[]
+    dates.push(that.data.date)
+    dates.push(that.data.date_today)
+    con = condition.AddFirstCondition('createTime', 'BETWEEN', dates);//
+    //con = condition.AddCondition('createTime', 'BETWEEN', that.data.date_today);
     //con = condition.AddFirstOrder('name', ' DESC');//???DESC和ASC没有区别
     wx.request({
-      url: globaldata.url + 'warehouse/' + globaldata.account +'supply/' + con,
+      /*url:'http://localhost:9000/warehouse/WMS_Template/supply/{"conditions":[{"key":"createTime","relation":"BETWEEN","values":["2018-07-01","2018-07-22"]}],"orders":[]}',*/
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con,
       data: {//发送给后台的数据
       },
       header: {
@@ -60,21 +93,5 @@ Page({
       }
     })
 
-  },
-  scan: function () {
-    wx.scanCode({
-      scanType: 'barCode',
-      success: (res) => {
-        console.log(res)
-        this.setData({
-          rescode:res
-        });
-        console.log(res.result)
-        console.log(rescode.result)
-      }
-    })
-  },
-  enterware: function () {
-    
   }
 })

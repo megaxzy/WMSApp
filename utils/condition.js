@@ -22,7 +22,14 @@ function AddCondition(key, relation, value) {
   con += '],"orders":[]}';
   return con;
 }
-
+/*
+function AddFirstConditions(key, relation, value1,value2) {
+  con = con.substr(0, con.length - 14);
+  var conitem = '{"key":"' + key + '","relation":"' + relation + '","values":["' + value1 + '"]}' + '","values":["' + value2 + '"]}';
+  con += conitem;
+  con += '],"orders":[]}';
+  return con;
+}*/
 function AddFirstOrder(key,value) {
   con = con.substr(0, con.length - 2);
   var conitem = '{"key":"' + key + '","values":"' + value + '"}';
@@ -37,5 +44,6 @@ module.exports = {
   NewCondition:NewCondition,
   AddFirstCondition:AddFirstCondition,
   AddCondition:AddCondition,
-  AddFirstOrder: AddFirstOrder
+  AddFirstOrder: AddFirstOrder,
+  //AddFirstConditions: AddFirstConditions,
 }

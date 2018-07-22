@@ -2,13 +2,16 @@
 
   
   <!--decode="{{true}}" 后面的&nbsp才能用-->
-    <view class="message">模式入库扫码模式</view>
+  <view class="message">模式入库扫码模式</view>
+  <view class="line"></view>
   <view class="message">
     <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>
   </view>
-  
+
+  <view class="line"></view>
   <!--入库单时间-->
   <view class="section">
+  <!--???这个地方的end写什么合适  end="{{date}}"-->
   <picker mode="date" value="{{date}}" start="2015-09-01" end="{{date}}" bindchange="bindDateChange">
     <view class="picker">
       选择入库单起始日期: {{date}}
@@ -16,6 +19,7 @@
   </picker>
   </view>
 
+  <view class="line"></view>
 <!--收到信息-->
   <view class="message" style="color:red;">{{rescode.result==null ? '未接收到数据':'接收到的数据：'+rescode.result}}
   </view>       
