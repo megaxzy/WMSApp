@@ -1,0 +1,91 @@
+page{ 
+ height: 100%; 
+ background-color: #f2f2f2
+} 
+  
+.container { 
+ height: 75rpx; 
+ display: flex; 
+ flex-direction: column; 
+ padding: 0; 
+ box-sizing: border-box; 
+ background-color: #f2f2f2
+} 
+
+/*接收到的数据*/
+.message {
+	width: 750rpx;
+	color: black;
+  background: white;
+	line-height: 50rpx;
+	text-align: center;
+}
+ 
+/*按钮*/
+.loginBtnView { 
+ width: 600rpx; 
+ height: auto; 
+ background-color: #f2f2f2; 
+ margin-top: 0px; 
+ margin-bottom: 0px; 
+ margin-left: 0px; 
+ padding-bottom: 0px; 
+ 
+} 
+  
+.loginBtn { 
+ width: 500rpx; 
+ margin-top: 10rpx; 
+}
+
+/*form*/
+.form{
+  display: flex;
+  flex-direction:row; 
+}
+
+/*每行*/
+.item {
+	align-items: center;
+	border-bottom: 1rpx solid #eee;
+	background: white;
+	margin-left: 0;
+}
+
+/*选择form*/
+.title {
+  width: 750rpx;
+  font-size: 40rpx;
+	flex: 1;
+  /*color: #E81548;*/
+  color:blue;
+}
+
+.subtitle {
+  /*font-size:40rpx;*/
+  width: 750rpx; 
+  font-size: 40rpx;
+	flex: 3;
+  color: #333333;
+}
+.subtitle_press {
+  /*font-size:40rpx;*/
+  width: 750rpx; 
+  font-size: 40rpx;
+	flex: 3;
+  color: #333333;
+  background-color:	#7FFF00;
+}
+/*入库单的日期*/
+.section{
+  text-align: center;
+  width:750rpx;
+  background: white;
+}
+
+.line { 
+ width: 750rpx; 
+ background-color: #cccccc; 
+ height: 3rpx; 
+ font-size:3rpx;
+} 

@@ -76,6 +76,6 @@ page{
 
 .line { 
  width: 750rpx; 
- background-color: black; 
+ background-color: #cccccc; 
  margin-top: 3rpx; 
 } 

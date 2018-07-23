@@ -21,7 +21,7 @@
   </view> 
 
   <!--缝隙-->
-  <view class="line"></view>
+  <view class="line">' '</view>
 
   <!--仓库-->
   <view class="choseView">

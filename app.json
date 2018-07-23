@@ -3,8 +3,8 @@
     "login/logs/logs",
     "main/scan/scan",
     "main/index/index",
-    "warehouse/warehouse/warehouse"
-    
+    "warehouse/warehouseEntryItem/warehouseEntryItem",
+    "warehouse/warehouseEntry/warehouseEntry"
   ],
   "window":{
     

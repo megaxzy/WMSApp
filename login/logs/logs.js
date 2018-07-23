@@ -44,11 +44,13 @@ Page({
       {
         globaldata.all_warehouse = that.data.all_warehouse 
         //test
+        /*
         console.log('all_warehouse：')
         console.log(that.data.all_warehouse.data[0].name)
         console.log(that.data.all_warehouse.data[0])
         console.log(that.data.all_warehouse)
         console.log(that.data.all_warehouse.data.length)
+        */
         //testend
         var all_warehouse_array=[];
         for (var i = 0; i < that.data.all_warehouse.data.length; i++) {
@@ -177,7 +179,7 @@ Page({
             wx.navigateTo({
               //这个url不能是tabBar中的页面
               //url: '../../main/scan/scan'
-              url: '../../warehouse/warehouse/warehouse'
+              url: '../../warehouse/warehouseEntry/warehouseEntry'
             })
             wx.showToast({
               title: '登录成功',

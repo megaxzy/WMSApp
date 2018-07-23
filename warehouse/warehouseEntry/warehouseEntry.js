@@ -8,7 +8,7 @@ Page({
     role:'',
     authority:'',
     rescode: '',
-    warehouse_list:'',
+    warehouseEntry_list:'',
     warehouse_id:'',
     date:'',
     date_today:''
@@ -58,12 +58,12 @@ Page({
     var dates=[]
     dates.push(that.data.date)
     dates.push(that.data.date_today)
-    con = condition.AddFirstCondition('createTime', 'BETWEEN', dates);//
+    con = condition.AddFirstConditions('createTime', 'BETWEEN', dates);//
     //con = condition.AddCondition('createTime', 'BETWEEN', that.data.date_today);
     //con = condition.AddFirstOrder('name', ' DESC');//???DESC和ASC没有区别
     wx.request({
       /*url:'http://localhost:9000/warehouse/WMS_Template/supply/{"conditions":[{"key":"createTime","relation":"BETWEEN","values":["2018-07-01","2018-07-22"]}],"orders":[]}',*/
-      url: globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con,
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'warehouse_entry/' + con,
       data: {//发送给后台的数据
       },
       header: {
@@ -72,10 +72,10 @@ Page({
       method: 'GET',//GET为默认方法   /POST
       success: function (res) {
         console.log("succeed connect")
-        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con)
+        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'warehouse_entry/' + con)
         var res_temp = res
         that.setData({
-          warehouse_list: res
+          warehouseEntry_list: res
         })
         console.log(res)
       },
@@ -93,5 +93,17 @@ Page({
       }
     })
 
+  },
+  chose: function () {
+    wx.showToast({
+      title: '进入【入库单条目】生成页面',
+      icon: 'none',
+      duration: 2000
+    })
+    wx.navigateTo({
+      //这个url不能是tabBar中的页面
+      //url: '../../main/scan/scan'
+      url: '../../warehouse/warehouseEntryItem/warehouseEntryItem'
+    })
   }
 })
