@@ -1,3 +1,7 @@
+//json数据用wx.navigateTo需要先用JSON.stringify转码再用JSON.parse转码
+
+
+
 //app.js
 App({
   onLaunch: function () {

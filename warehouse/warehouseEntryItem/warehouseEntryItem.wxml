@@ -2,79 +2,123 @@
 
   
   <!--decode="{{true}}" 后面的&nbsp才能用-->
-  <view class="message">模式入库扫码模式</view>
+  <view class="message">模式:入库扫码模式</view>
   <view class="line"></view>
   <view class="message">
     <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>
   </view>
 
-  <view class="line"></view>
-  <!--入库单时间-->
-  <view class="section">
-  <!--???这个地方的end写什么合适  end="{{date}}"-->
-  <picker mode="date" value="{{date}}" start="2015-09-01" end="{{date}}" bindchange="bindDateChange">
-    <view class="picker">
-      选择入库单起始日期: {{date}}
-    </view>
-  </picker>
-  </view>
 
-  <view class="line"></view>
-<!--收到信息-->
-  <view class="message" style="color:red;">{{rescode.result==null ? '未接收到数据':'接收到的数据：'+rescode.result}}
-  </view>       
-
-
-
-  <!--按钮-->
-  <view class="loginBtnView"> 
-    <button class="loginBtn" type="primary" bindtap="scan">扫码</button> 
-  </view> 
-
-
+<view class="line"></view>
 <form > <!--onsubmit="add"-->
 <view class="form">
 	<view class="item">
-		<view class="title">入库单号</view>
+    <view class="title" style="color:blue; 	text-align: center;">入库单信息</view>
+    <view class="line"></view>
+  </view>
+
+	<view class="item">
+		<view class="title" >物料代号</view>
 		<view class="subtitle">
-			<input type="number" name="priority" value="{{category.priority}}" placeholder="留空自动生成" />
+			<input type="number" name="materialNo" value="{{material_no}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
-		<view class="title">供应商代号</view>
+		<view class="title" >物料名称</view>
 		<view class="subtitle">
-			<input type="number" name="priority" value="{{category.priority}}" placeholder="" />
+			<input type="text" name="materialName" value="{{material_name}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
-		<view class="title">供应商代号</view>
+		<view class="title" >物料名称</view>
 		<view class="subtitle">
-			<input type="number" name="priority" value="{{category.priority}}" placeholder="" />
+			<input type="text" name="materialProductLine" value="{{material_product_line}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
-		<view class="title">供应商代号</view>
+		<view class="title" >供货商名称</view>
 		<view class="subtitle">
-			<input type="number" name="priority" value="{{category.priority}}" placeholder="" />
+			<input type="text" name="supplierName" value="{{supplier_name}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >供货商名称</view>
+		<view class="subtitle">
+			<input type="text" name="materialProductLine" value="{{material_product_line}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >入库库位编码</view>
+		<view class="subtitle">
+			<input type="number" name="storageLocationId" value="{{}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">订单数量(初始为默认值)</view>
+		<view class="subtitle">
+			<input type="number" name="expectedAmount" value="{{supply.defaultEntryAmount}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">实收数量( )</view>
+		<view class="subtitle">
+			<input type="number" name="realAmount" value="{{supply.defaultEntryAmount}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">单位(初始为默认值)</view>
+		<view class="subtitle">
+			<input type="text" name="unit" value="{{supply.defaultEntryUnit}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">单位数量(初始为默认值)</view>
+		<view class="subtitle">
+			<input type="number" name="unitAmount" value="{{supply.defaultEntryUnitAmount}}" placeholder="" />
+		</view>
+	</view>  
+    <view class="item">
+		<view class="title">拒收数量( )</view>
+		<view class="subtitle">
+			<input type="number" name="refuseAmount" value="0" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">拒收单位(初始为默认值)</view>
+		<view class="subtitle">
+			<input type="text" name="refuseUnit" value="{{supply.defaultEntryUnit}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">拒收单位数量(初始为默认值)</view>
+		<view class="subtitle">
+			<input type="number" name="refuseUnitAmount" value="0" placeholder="" />
 		</view>
 	</view>  
   <view class="item">
-		<view class="title">供应商代号</view>
+		<view class="title">已送检数量</view>
 		<view class="subtitle">
-			<input type="number" name="priority" value="{{category.priority}}" placeholder="" />
+			<input type="number" name="inspectionAmount" value="0" placeholder="" />
 		</view>
 	</view>
   <view class="item">
-		<view class="title">供应商代号</view>
+		<view class="title">状态（0待入库 1送检中 2正品入库 3不良品入库）</view>
 		<view class="subtitle">
-			<input type="number" name="priority" value="{{category.priority}}" placeholder="" />
+			<input type="number" name="state" value="0" placeholder="" />
 		</view>
 	</view>
+  <view class="item">
+		<view class="title">存货日期</view>
+		<view class="subtitle">
+			<input type="text" name="inventoryDate" value="{{date_today}}" placeholder="" />
+		</view>
+	</view>
+
 </view>
 </form>
   <!--按钮-->
   <view class="loginBtnView"> 
-    <button class="loginBtn" type="primary" bindtap="scan">生成入库单条目</button> 
+    <button class="loginBtn" type="primary" bindtap="create">生成入库单条目</button> 
   </view> 
 
 </view>

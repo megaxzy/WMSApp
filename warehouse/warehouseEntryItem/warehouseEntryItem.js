@@ -7,13 +7,19 @@ Page({
     name: '',
     role:'',
     authority:'',
-    rescode: '',
     warehouse_list:'',
     warehouse_id:'',
-    date:'',
-    date_today:''
+    date: '',//选择的时间
+    date_today: '',//今天的时间
+    supplier_id: '',
+    supplier_name: '',
+    material_id: '',
+    material_name: '',
+    material_no: '',
+    supply:'',
+    material_product_line:''
   },
-  onShow: function () {
+  onLoad: function (query) {
     var that = this
     //获取现在时间
     var Y=time.Y
@@ -27,57 +33,40 @@ Page({
       date:date,
       date_today:date
     })
-    that.showWarehouseEntry();
-  },
-  scan: function () {
-    wx.scanCode({
-      scanType: 'barCode',
-      success: (res) => {
-        console.log(res)
-        this.setData({
-          rescode:res
-        });
-        console.log(res.result)
-        
-      }
-    })
-  },
-  bindDateChange: function (e) {
-    var that=this
+    //传递上个页面给的参数
+    //json数据用wx.navigateTo需要先用JSON.stringify转码再用JSON.parse转码
+    var supply_json = JSON.parse(query.supply)
     this.setData({
-      date: e.detail.value
-    })
-    that.showWarehouseEntry();
+      supply: supply_json,
+      supplier_id: query.supplier_id,
+      supplier_name: query.supplier_name,
+      material_id: query.material_id,
+      material_name: query.material_name,
+      material_no: query.material_no,
+      material_product_line: query.material_product_line
+    });
+    console.log(that.data.supply)
+    console.log(that.data.supply.defaultEntryAmount)
   },
-  enterware: function () {
-    
-  },
-  showWarehouseEntry:function(){
-    var that=this
+  
+  create: function () {
+    var that = this
     var con = condition.NewCondition();
-    var dates=[]
-    dates.push(that.data.date)
-    dates.push(that.data.date_today)
-    //con = condition.AddFirstConditions('createTime', 'BETWEEN', dates);//
-    //con = condition.AddCondition('createTime', 'BETWEEN', that.data.date_today);
-    //con = condition.AddFirstOrder('name', ' DESC');//???DESC和ASC没有区别
+    con = condition.AddFirstCondition('id', 'EQUAL', that.data.material_id);
     wx.request({
-      /*url:'http://localhost:9000/warehouse/WMS_Template/supply/{"conditions":[{"key":"createTime","relation":"BETWEEN","values":["2018-07-01","2018-07-22"]}],"orders":[]}',*/
-      url: globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con,
-      data: {//发送给后台的数据
-      },
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      method: 'GET',//GET为默认方法   /POST
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'material/' + con,
+      method: 'POST ',//GET为默认方法   /POST
       success: function (res) {
         console.log("succeed connect")
-        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con)
-        var res_temp = res
+        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'material/' + con)
+        var res_temp = res.data[0].name
+        var res_temp_no = res.data[0].no
         that.setData({
-          warehouse_list: res
+          material_name: res_temp,
+          material_no: res_temp_no
         })
         console.log(res)
+        console.log(res.data[0].name)
       },
       //请求失败
       fail: function (err) {
@@ -92,6 +81,5 @@ Page({
       {
       }
     })
-
-  }
+  },
 })
