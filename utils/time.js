@@ -18,11 +18,12 @@ var h = date.getHours();
 var m = date.getMinutes();
 //秒  
 var s = date.getSeconds();
-var   YMD = Y + M + D
-
-console.log("当前时间：" + Y + M + D + h + ":" + m + ":" + s);
+var   YMD = Y +"-"+ M +"-"+ D
+var YMDhms = Y + "-" + M + "-" + D + " "+h + ":" + m + ":" + s
+console.log("当前时间：" + YMDhms );
 
 module.exports = {
+  YMDhms: YMDhms,
   YMD: YMD,
   Y:Y,
   M:M,

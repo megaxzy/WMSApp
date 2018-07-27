@@ -12,8 +12,9 @@ Page({
     requiredata: '', //收到的用户信息
     all_warehouse: '', //收到的所有的仓库信息
     all_warehouse_array: [], //仓库姓名合集
-    index:1,  //选择的哪项  默认为1
+    index:2,  //选择的哪项  默认为2
     chosen_warehouse:'',
+    all_storage_location:''
   },
 
   onShow: function () {
@@ -173,9 +174,12 @@ Page({
             globaldata.chosen_warehouse=that.data.all_warehouse.data[that.data.index]
             //console如果以'...'+变量的形式构成 则变量无法正常显示出来
             console.log(globaldata.chosen_warehouse)
+            globaldata.user_id = that.data.requiredata.data[0].id
             globaldata.user_name=that.data.requiredata.data[0].name
             globaldata.user_role =that.data.requiredata.data[0].role
             globaldata.all_user_messages=that.data.requiredata.data[0]
+            //获得所有库位信息
+            that.getAllStorageLocation()
             wx.navigateTo({
               //这个url不能是tabBar中的页面
               //url: '../../main/scan/scan'
@@ -190,5 +194,39 @@ Page({
         }
       })
     }
+  },
+
+  //获得库位的所有内容
+  getAllStorageLocation:function(){
+    var that = this
+    var con = condition.NewCondition();
+    con = condition.AddFirstOrder('name', ' ASC');//???ASC DESC都一样
+    wx.request({
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con,
+      success: function (res) {
+        //console.log(res)
+        //console.log(res.data.length)
+        var res_temp = res
+        that.setData({
+          all_storage_location: res
+        })
+      },
+      //请求失败
+      fail: function (err) {
+        console.log("false")
+        wx.showToast({
+          title: '连接失败,请检查你的网络或者服务端是否开启',
+          icon: 'none',
+          duration: 2000
+        })
+      },
+      complete: function () {
+        globaldata.all_storage_location = that.data.all_storage_location
+        //test
+        console.log('all_storage_location：')
+        console.log(that.data.all_storage_location)
+        //testend
+      }
+    })
   }
 })

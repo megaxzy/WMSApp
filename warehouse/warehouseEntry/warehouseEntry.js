@@ -19,6 +19,12 @@ Page({
     material_no: '',
     res_temp_product_line:'',
     supply:'',
+    default_entry_storage_location_name: '', //默认入库目标库位
+    default_entry_storage_location_no: '', //默认入库目标库位
+    default_qualified_storage_location_name: '', //默认入库合格品库位
+    default_qualified_storage_location_no: '', //默认入库合格品库位
+    default_unqualified_storage_location_name: '', //默认入库不合格品库位
+    default_unqualified_storage_location_no: '', //默认入库不合格品库位
   },
   onLoad: function () {
     var that = this
@@ -80,21 +86,38 @@ Page({
     })
 
   },
-  chose: function () {
+  chose: function (e) {
     var that=this
+    // 获取分类id并切换分类
+    //TODO
+    var index = e.currentTarget.dataset.index;
+    var chosen_warehouse_entry = that.data.warehouseEntry_list.data[index]
+    //var entryId = that.data.warehouseEntry_list.data[index].id
+    console.log(index)
+    console.log(that.data.warehouseEntry_list.data[index])
     wx.showToast({
       title: '进入【入库单条目】生成页面',
       icon: 'none',
       duration: 2000
     })
+    console.log(that.data.default_qualified_storage_location_name)
     var supply = JSON.stringify(that.data.supply);
-    var transvar = 'supply=' +  supply + '&' +
+    var warehouse_entry =JSON.stringify(chosen_warehouse_entry);
+    var transvar = 
+      'warehouse_entry=' + warehouse_entry + '&' +
+      'supply=' +  supply + '&' +
       'supplier_id=' + that.data.supplier_id +'&'+
       'supplier_name=' + that.data.supplier_name + '&'+
       'material_id=' + that.data.material_id + '&'+
       'material_name=' + that.data.material_name + '&' +
       'material_no=' + that.data.material_no + '&' +
-      'material_product_line=' + that.data.material_product_line 
+      'material_product_line=' + that.data.material_product_line + '&' +
+      'default_entry_storage_location_name=' + that.data.default_entry_storage_location_name + '&' + 
+      'default_entry_storage_location_no=' + that.data.default_entry_storage_location_no + '&' + 
+      'default_qualified_storage_location_name=' + that.data.default_qualified_storage_location_name + '&' +
+      'default_qualified_storage_location_no=' + that.data.default_qualified_storage_location_no + '&' +
+      'default_unqualified_storage_location_name=' + that.data.default_unqualified_storage_location_name + '&' +
+      'default_unqualified_storage_location_no=' + that.data.default_unqualified_storage_location_no
     wx.navigateTo({
       //这个url不能是tabBar中的页面
       //url: '../../main/scan/scan'
@@ -109,23 +132,49 @@ Page({
       scanType: 'barCode',
       success: (res) => {
         console.log(res)
-        this.setData({
-          rescode: res
+        /*
+        that.setData({
+          //TODO此处应该是res 仅作测试
+          rescode: '1234567'
         });
-        console.log(res.result)
-      }
+        console.log(that.data.rescode)
+        that.getSupply()
+        //根据扫码内容获得 供应商id和物料id
+        //TODO 此处应该是获得  test程序中用来索取
+        that.setData({
+          supplier_id: that.data.supply.supplier_id,
+          material_id: that.data.supply.material_id
+        })*/
+      },
+    complete: function () {
+      //test begin
+      that.setData({
+        //TODO此处应该是res 仅作测试
+        rescode: '1234567'
+      });
+      console.log(that.data.rescode)
+      that.getSupply()
+      //根据扫码内容获得 供应商id和物料id
+      //TODO 此处应该是获得  test程序中用来索取
+
+      //test end
+      
+      //同一个函数中定义两个同样的con好像会出问题???
+      //根据供应商id获得供应商名称 物料id和物料名称
+
+      //更新表单
+      that.showWarehouseEntry()
+    }
     })
-    //根据扫码内容获得 供应商id和物料id
-    //TODO 此处应该是获得  test程序中用来索取
-    that.setData({
-      supplier_id: '176',
-      material_id: '73'
-    })
-    //TODO 
+  },
+  //根据条码获得供货信息  并调用getThree...函数获得库位信息
+  getSupply: function () {
     //获得供货信息
+    var that=this
     var con = condition.NewCondition();
-    con = condition.AddFirstCondition('supplierId', 'EQUAL', that.data.supplier_id);
-    con = condition.AddCondition('materialId', 'EQUAL', that.data.material_id);
+    //
+    con = condition.AddFirstCondition('barCodeNo', 'EQUAL', that.data.rescode);
+    con = condition.AddCondition('warehouseId', 'EQUAL', that.data.warehouse_id);
     wx.request({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con,
       data: {//发送给后台的数据
@@ -139,11 +188,14 @@ Page({
         console.log(globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con)
         var res_temp = res
         that.setData({
-            supply:res_temp.data[0]
+          supply: res_temp.data[0]
         })
         console.log(that.data.supply)
-        console.log(res.data[0])
         console.log(res.data[0].barCodeNo)//TODO 暂时查不到barcodeno
+        that.setData({
+          supplier_id: that.data.supply.supplierId,
+          material_id: that.data.supply.materialId
+        })
       },
       //请求失败
       fail: function (err) {
@@ -153,17 +205,14 @@ Page({
           icon: 'none',
           duration: 2000
         })
+      },
+      complete:function(){
+        that.getThreeOfDefaultEntryStroageLocationMessages()
+        that.getSupplierName()
+        that.getMaterialName()
       }
     })
-
-    //同一个函数中定义两个同样的con好像会出问题???
-    //根据供应商id获得供应商名称 物料id和物料名称
-    that.getSupplierName()
-    that.getMaterialName()
-    //更新表单
-    that.showWarehouseEntry()
   },
-
   //根据供应商id获得供应商名称
   getSupplierName:function(){
     var that=this
@@ -232,5 +281,88 @@ Page({
       {
       }
     })
+  },
+  getThreeOfDefaultEntryStroageLocationMessages: function () {
+    var that = this
+    if (that.data.supply.defaultEntryStorageLocationId != null) {
+      var con = condition.NewCondition();
+      con = condition.AddFirstCondition('id', 'EQUAL', that.data.supply.defaultEntryStorageLocationId);
+      wx.request({
+        url: globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con,
+        method: 'GET',//GET为默认方法   /POST
+        success: function (res) {
+          console.log("succeed connect1")
+          console.log(globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con)
+          var res_temp = res
+          that.setData({
+            default_entry_storage_location_name: res_temp.data[0].name, //默认入库目标库位
+            default_entry_storage_location_no: res_temp.data[0].no, //默认入库目标库位
+          })
+        },
+        //请求失败
+        fail: function (err) {
+          console.log("false")
+          wx.showToast({
+            title: '连接失败,请检查你的网络或者服务端是否开启',
+            icon: 'none',
+            duration: 2000
+          })
+        }
+      })
+    }
+    if (that.data.supply.defaultQualifiedStorageLocationId != null) {
+      var con2 = condition.NewCondition();
+      con2 = condition.AddFirstCondition('id', 'EQUAL', that.data.supply.defaultQualifiedStorageLocationId);
+      wx.request({
+        url: globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con2,
+        method: 'GET',//GET为默认方法   /POST
+        success: function (res) {
+          console.log("succeed connect2")
+          console.log(globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con2)
+          var res_temp = res
+          that.setData({
+            default_qualified_storage_location_name: res_temp.data[0].name, //默认入库合格品库位
+            default_qualified_storage_location_no: res_temp.data[0].no, //默认入库合格品库位
+          })
+          
+        },
+        //请求失败
+        fail: function (err) {
+          console.log("false")
+          wx.showToast({
+            title: '连接失败,请检查你的网络或者服务端是否开启',
+            icon: 'none',
+            duration: 2000
+          })
+        }
+      })
+    }
+    if (that.data.supply.defaultUnqualifiedStorageLocationId != null) {
+      var con3 = condition.NewCondition();
+      con3 = condition.AddFirstCondition('id', 'EQUAL', that.data.supply.defaultUnqualifiedStorageLocationId);
+      wx.request({
+        url: globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con3,
+        method: 'GET',//GET为默认方法   /POST
+        success: function (res) {
+          console.log("succeed connect3")
+          console.log(globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con3)
+          var res_temp = res
+          that.setData({
+            default_unqualified_storage_location_name: res_temp.data[0].name, //默认入库不合格库位
+            default_unqualified_storage_location_no: res_temp.data[0].no, //默认入库不合格库位
+          })
+        },
+        //请求失败
+        fail: function (err) {
+          console.log("false")
+          wx.showToast({
+            title: '连接失败,请检查你的网络或者服务端是否开启',
+            icon: 'none',
+            duration: 2000
+          })
+        }
+      })
+    }
   }
+
 })

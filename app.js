@@ -1,7 +1,14 @@
 //json数据用wx.navigateTo需要先用JSON.stringify转码再用JSON.parse转码
-
-
-
+//多数 API 的回调都是异步，你需要处理好代码逻辑的异步问题
+/*setTimeout(function () {
+   //要延时执行的代码
+    wx.navigateBack();
+    }, 2000)
+    延时程序
+*/
+//???一个 一维码 对应 supply 还是 supplier+material
+//???同一个函数中定义两个同样的con好像会出问题
+//TODO 这个地方日期输入为空不行  这个地方应该可以用数据 var={}解决
 //app.js
 App({
   onLaunch: function () {

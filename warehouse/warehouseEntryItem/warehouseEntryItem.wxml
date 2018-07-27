@@ -10,7 +10,7 @@
 
 
 <view class="line"></view>
-<form > <!--onsubmit="add"-->
+<form onsubmit="create"> <!--onsubmit="create"-->
 <view class="form">
 	<view class="item">
     <view class="title" style="color:blue; 	text-align: center;">入库单信息</view>
@@ -20,42 +20,67 @@
 	<view class="item">
 		<view class="title" >物料代号</view>
 		<view class="subtitle">
-			<input type="number" name="materialNo" value="{{material_no}}" placeholder="" />
+			<input type="number" disabled="true" name="materialNo" value="{{material_no}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title" >物料名称</view>
 		<view class="subtitle">
-			<input type="text" name="materialName" value="{{material_name}}" placeholder="" />
+			<input type="text" disabled="true" name="materialName" value="{{material_name}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
-		<view class="title" >物料名称</view>
+		<view class="title" >物料系列</view>
 		<view class="subtitle">
-			<input type="text" name="materialProductLine" value="{{material_product_line}}" placeholder="" />
-		</view>
-	</view>
-  <view class="item">
-		<view class="title" >供货商名称</view>
-		<view class="subtitle">
-			<input type="text" name="supplierName" value="{{supplier_name}}" placeholder="" />
+			<input type="text" disabled="true" name="materialProductLine" value="{{material_product_line}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title" >供货商名称</view>
 		<view class="subtitle">
-			<input type="text" name="materialProductLine" value="{{material_product_line}}" placeholder="" />
+			<input type="text" disabled="true" name="supplierName" value="{{supplier_name}}" placeholder="" />
 		</view>
 	</view>
+  <view class="item">
+		<view class="title" >入库库位名称</view>
+		<view class="subtitle">
+			<input type="number" name="storageLocationName" value="{{default_entry_storage_location_name}}" placeholder="请输入入库库位名称" />
+		</view>
+	</view> 
+  <!--TODO 联想 输入name获得no-->
   <view class="item">
 		<view class="title" >入库库位编码</view>
 		<view class="subtitle">
-			<input type="number" name="storageLocationId" value="{{}}" placeholder="" />
+			<input type="number" name="storageLocationNo" value="{{default_entry_storage_location_no}}" placeholder="请输入入库库位编码" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >合格品库位名称</view>
+		<view class="subtitle">
+			<input type="number" name="qualifiedLocationName" value="{{default_qualified_storage_location_name}}" placeholder="请输入合格库位名称" />
+		</view>
+	</view> 
+  <view class="item">
+		<view class="title" >合格品库位编码</view>
+		<view class="subtitle">
+			<input type="number" name="qualifiedLocationNo" value="{{default_qualified_storage_location_no}}" placeholder="请输入合格库位编码" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >不良品库位名称</view>
+		<view class="subtitle">
+			<input type="number" name="unqualifiedLocationName" value="{{default_unqualified_storage_location_name}}" placeholder="请输入不良品库位名称" />
+		</view>
+	</view> 
+  <view class="item">
+		<view class="title" >不良品库位编码</view>
+		<view class="subtitle">
+			<input type="number" name="unqualifiedLocationNo" value="{{default_unqualified_storage_location_no}}" placeholder="请输入不良品库位编码" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title">订单数量(初始为默认值)</view>
-		<view class="subtitle">
+		<view class="subtitle"> 
 			<input type="number" name="expectedAmount" value="{{supply.defaultEntryAmount}}" placeholder="" />
 		</view>
 	</view>
@@ -110,15 +135,39 @@
   <view class="item">
 		<view class="title">存货日期</view>
 		<view class="subtitle">
-			<input type="text" name="inventoryDate" value="{{date_today}}" placeholder="" />
+			<input type="text" disabled="true" name="inventoryDate" value="{{date_today_YMDhms}}" placeholder="" />
 		</view>
 	</view>
-
+  <view class="item">
+		<view class="title">生产日期</view>
+		<view class="subtitle">
+			<input type="text" name="manufactureDate" value="" placeholder="年-月-日 (时:分:秒 可选)" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">失效日期</view>
+		<view class="subtitle">
+			<input type="text" name="expiryDate" value="" placeholder="年-月-日 (时:分:秒 可选)" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">作业人名称</view>
+		<view class="subtitle">
+			<input type="text" disabled="true" name="uaerName" value="{{name}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">备注</view>
+		<view class="subtitle">
+			<input type="text" name="comment" value="" placeholder="请输入备注（可空）" />
+		</view>
+	</view>
 </view>
-</form>
   <!--按钮-->
   <view class="loginBtnView"> 
-    <button class="loginBtn" type="primary" bindtap="create">生成入库单条目</button> 
+    <button class="loginBtn" type="primary" form-type="submit" >生成入库单条目</button> <!--bindtap="create"-->
   </view> 
+</form>
+
 
 </view>

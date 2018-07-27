@@ -22,14 +22,13 @@ page{
  
 /*按钮*/
 .loginBtnView { 
- width: 600rpx; 
+ width: 750rpx; 
  height: auto; 
  background-color: #f2f2f2; 
  margin-top: 0px; 
  margin-bottom: 0px; 
  margin-left: 0px; 
  padding-bottom: 0px; 
- 
 } 
   
 .loginBtn { 
