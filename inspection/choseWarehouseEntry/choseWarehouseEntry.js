@@ -1,12 +1,3 @@
-//加载信息
-//跟新warehouseEntry表格
-//扫码
-//rescode获得supply信息
-//supply的入库id获得storageLocation信息
-//supply的物料id获得material信息
-//supply供应商id获得supplier信息
-//点击入库单 进入下一个页面
-//
 
 var condition = require('../../utils/condition.js');
 var globaldata = require('../../utils/globaldata.js');
@@ -26,14 +17,7 @@ Page({
     material_id: '',
     material_name: '',
     material_no: '',
-    material_product_line:'',
     supply:'',
-    default_entry_storage_location_name: '', //默认入库目标库位
-    default_entry_storage_location_no: '', //默认入库目标库位
-    default_qualified_storage_location_name: '', //默认入库合格品库位
-    default_qualified_storage_location_no: '', //默认入库合格品库位
-    default_unqualified_storage_location_name: '', //默认入库不合格品库位
-    default_unqualified_storage_location_no: '', //默认入库不合格品库位
   },
   onLoad: function () {
     var that = this
@@ -56,7 +40,6 @@ Page({
     var that=this
     that.showWarehouseEntry();
   },
-
   bindDateChange: function (e) {
     var that=this
     this.setData({
@@ -110,7 +93,7 @@ Page({
     console.log(index)
     console.log(that.data.warehouseEntry_list.data[index])
     wx.showToast({
-      title: '进入【入库单条目】生成页面',
+      title: '进入【送检单条目】生成页面',
       icon: 'none',
       duration: 2000
     })
@@ -118,25 +101,19 @@ Page({
     var supply = JSON.stringify(that.data.supply);
     var warehouse_entry =JSON.stringify(chosen_warehouse_entry);
     var transvar = 
-      'warehouse_entry=' + warehouse_entry + '&' +
+      'warehouse_entry=' + warehouse_entry + '&' +  //选择的warehouseEntry
       'supply=' +  supply + '&' +
       'supplier_id=' + that.data.supplier_id +'&'+
       'supplier_name=' + that.data.supplier_name + '&'+
       'material_id=' + that.data.material_id + '&'+
       'material_name=' + that.data.material_name + '&' +
       'material_no=' + that.data.material_no + '&' +
-      'material_product_line=' + that.data.material_product_line + '&' +
-      'default_entry_storage_location_name=' + that.data.default_entry_storage_location_name + '&' + 
-      'default_entry_storage_location_no=' + that.data.default_entry_storage_location_no + '&' + 
-      'default_qualified_storage_location_name=' + that.data.default_qualified_storage_location_name + '&' +
-      'default_qualified_storage_location_no=' + that.data.default_qualified_storage_location_no + '&' +
-      'default_unqualified_storage_location_name=' + that.data.default_unqualified_storage_location_name + '&' +
-      'default_unqualified_storage_location_no=' + that.data.default_unqualified_storage_location_no
+      'material_product_line=' + that.data.material_product_line
     wx.navigateTo({
       //这个url不能是tabBar中的页面
       //url: '../../main/scan/scan'
       
-      url: '../../warehouse/warehouseEntryItem/warehouseEntryItem' + '?'+transvar
+      url: '../../inspection/choseWarehouseEntryItem/choseWarehouseEntryItem' + '?'+transvar
     })
   },
   scan: function () {
@@ -260,7 +237,7 @@ Page({
     })
   },
 
-  //根物料id获得 material name no product_line
+  //根物料id获得物料名称
   getMaterialName: function () {
     var that=this
     var con = condition.NewCondition();
@@ -271,11 +248,11 @@ Page({
       success: function (res) {
         console.log("succeed connect")
         console.log(globaldata.url + 'warehouse/' + globaldata.account + 'material/' + con)
-        var res_temp_name = res.data[0].name
+        var res_temp = res.data[0].name
         var res_temp_no = res.data[0].no
         var res_temp_product_line = res.data[0].productLine
         that.setData({
-          material_name: res_temp_name,
+          material_name: res_temp,
           material_no:res_temp_no,
           material_product_line:res_temp_product_line
         })
@@ -296,6 +273,7 @@ Page({
       }
     })
   },
+  
   getThreeOfDefaultEntryStroageLocationMessages: function () {
     var that = this
     if (that.data.supply.defaultEntryStorageLocationId != null) {

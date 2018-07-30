@@ -19,19 +19,32 @@ Page({
   },
 
 
-  scan: function () {
-    wx.scanCode({
-      scanType: 'barCode',
-      success: (res) => {
-        console.log(res)
-        rescode=res
-        this.setData({rescode:res});
-        console.log(res.result)
-        console.log(rescode.result)
+  enterWarehouseEntry: function () {
+    wx.navigateTo({
+      //这个url不能是tabBar中的页面
+      //url: '../../main/scan/scan'
+      url: '../../warehouse/warehouseEntry/warehouseEntry',
+      success:function(){
+        wx.showToast({
+          title: '正在进入 入库单扫码模式',
+          icon: 'success',
+          duration: 2000,
+        })
       }
     })
   },
-  enterware: function () {
-    
-  }
+  enterInspectionNote: function () {
+    wx.navigateTo({
+      //这个url不能是tabBar中的页面
+      //url: '../../main/scan/scan'
+      url: '../../inspection/choseWarehouseEntry/choseWarehouseEntry',
+      success: function () {
+        wx.showToast({
+          title: '正在进入 送检单扫码模式',
+          icon: 'success',
+          duration: 2000,
+        })
+      }
+    })
+  },
 })

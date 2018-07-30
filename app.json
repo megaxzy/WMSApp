@@ -1,10 +1,16 @@
 {
   "pages":[
     "login/logs/logs",
-    "main/scan/scan",
-    "main/index/index",
-    "warehouse/warehouseEntryItem/warehouseEntryItem",
-    "warehouse/warehouseEntry/warehouseEntry"
+    "main/chose/chose",
+    
+    "warehouse/warehouseEntry/warehouseEntry",
+    "warehouse/warehouseEntryItem/warehouseEntryItem",  
+
+    "inspection/choseWarehouseEntry/choseWarehouseEntry",
+    "inspection/choseWarehouseEntryItem/choseWarehouseEntryItem",
+    "inspection/inspectionNoteItem/inspectionNoteItem",
+    "main/index/index"
+    
   ],
   "window":{
     

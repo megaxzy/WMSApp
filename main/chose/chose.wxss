@@ -4,7 +4,7 @@ background-color: #f2f2f2
 } 
   
 .container { 
- height: 20%; 
+ height: 75rpx; 
  display: flex; 
  flex-direction: column; 
  padding: 0; 
@@ -14,13 +14,18 @@ background-color: #f2f2f2
 /*接收到的数据*/
 .message {
 	width: 750rpx;
-  
-	color: #E81548;
+	color: black;
   background: white;
-	line-height: 50px;
+	line-height: 50rpx;
 	text-align: center;
 }
-  
+
+
+.line { 
+ width: 750rpx; 
+ background-color: #cccccc; 
+ margin-top: 3rpx; 
+} 
  
 .inputText { 
  flex: block; 

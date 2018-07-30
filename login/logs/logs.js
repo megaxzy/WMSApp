@@ -38,7 +38,7 @@ Page({
         wx.showToast({
           title: '连接失败,请检查你的网络或者服务端是否开启',
           icon: 'none',
-          duration: 2000
+          duration: 4000
         })
       },
       complete: function ()
@@ -180,16 +180,20 @@ Page({
             globaldata.all_user_messages=that.data.requiredata.data[0]
             //获得所有库位信息
             that.getAllStorageLocation()
-            wx.navigateTo({
-              //这个url不能是tabBar中的页面
-              //url: '../../main/scan/scan'
-              url: '../../warehouse/warehouseEntry/warehouseEntry'
-            })
             wx.showToast({
               title: '登录成功',
               icon: 'success',
-              duration: 1500
+              duration: 1500,
+              success:{
+
+              }
             })
+            wx.navigateTo({
+              //这个url不能是tabBar中的页面
+              //url: '../../main/scan/scan'
+              url: '../../main/chose/chose'
+            })
+
           }
         }
       })

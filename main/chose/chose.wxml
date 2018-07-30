@@ -1,11 +1,22 @@
 <view class="container"> 
 
-  <!--收到信息-->
-    <view class="message" style="color:black;">欢迎：{{name}} {{role}}</view>
-    <view class="message">{{rescode.result==null ? '未接收到数据':'接收到的数据：'+rescode.result}}</view>            
+  <!--decode="{{true}}" 后面的&nbsp才能用-->
+  <view class="message">模式:选择使用哪种模式</view>
+  <view class="line"></view>
+  <view class="message">
+    <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>
+  </view>
+  <view class="line"></view>
+  <!--蓝牙是否连接-->
+  <view class="message">{{rescode.result==true ? '已连接扫码枪':'未连接扫码枪'}}</view>            
   <!--按钮-->
   <view class="loginBtnView"> 
-    <button class="loginBtn" type="primary" bindtap="scan">扫码</button> 
+    <button class="loginBtn" type="primary" bindtap="enterWarehouseEntry">入库 扫码模式</button> 
   </view> 
-
+  <view class="loginBtnView"> 
+    <button class="loginBtn" type="primary" bindtap="enterInspectionNote">送检 扫码模式</button> 
+  </view> 
+  <view class="loginBtnView"> 
+    <button class="loginBtn" type="primary" bindtap="scan">出库 扫码模式</button> 
+  </view> 
 </view>
