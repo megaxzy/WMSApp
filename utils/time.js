@@ -28,6 +28,9 @@ module.exports = {
   Y:Y,
   M:M,
   D:D,
+  h:h,
+  m:m,
+  s:s
 }
 
 /*

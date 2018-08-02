@@ -1,7 +1,7 @@
 
 <view class="container"> 
   <!--decode="{{true}}" 后面的&nbsp才能用-->
-  <view class="message">模式:入库扫码模式</view>
+  <view class="message">模式:送检扫码模式</view>
   <view class="line">' '</view>
   <view class="message">
     <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>
@@ -13,7 +13,7 @@
   <!--???这个地方的end写什么合适  end="{{date_today}}"-->
   <picker mode="date" value="{{date}}" start="2016-09-01" end="{{date_today}}" bindchange="bindDateChange">
     <view class="picker">
-      选择入库单起始日期: {{date}}
+      选择要送检的入库单起始日期: {{date}}
     </view>
   </picker>
 </view>
@@ -34,21 +34,24 @@
 <form > <!--onsubmit="add"-->
 <view class="form">
 	<view class="item">
-		<view class="title" style="	text-align: center;">入库单信息</view>
+		<view class="title" style="	text-align: center;">选择入库单条目信息</view>
     <view class="line">' '</view> 
     <!--wx:for 完了 用item表示每项-->
-		<view class="subtitle" wx:for="{{warehouseEntry_list.data}}" wx:if="{{item.supplierId==supplier_id}}" bindtap="chose" hover-class="subtitle_press" hover-stay-time="3000" data-index="{{index}}">
+    <!--这个地方是不是应该待入库的显示???-->
+		<view class="subtitle" wx:for="{{warehouse_entry_item_list.data}}" wx:if="{{item.supplyId==supply.id && item.state==1}}" bindtap="chose" hover-class="subtitle_press" hover-stay-time="3000" data-index="{{index}}">
       <view class="subtitle">
-        <view style="color:red;display:flex;flex-direction:row;">入库单号：
-          <view style="color:black;display:flex;flex-direction:row;" >{{item.no}}</view>
+        <view style="color:red;display:flex;flex-direction:row;">实收数量：
+          <view style="color:black;display:flex;flex-direction:row;" >{{item.realAmount}}</view>
         </view>
-        创建时间：{{item.createTime}}
-        <text decode="{{true}}">\n</text>
         供应商名称：{{supplier_name}}
         <text decode="{{true}}">\n</text>
-        最后修改时间：{{item.lastUpdateTime}}
+        物料名称：{{material_name}}
         <text decode="{{true}}">\n</text>
-        状态：{{item.state}}（0待入库  1送检中  2.全部入库  3.部分入库）
+        已分配送检数量（个）：{{item.inspectionAmount}}
+        <text decode="{{true}}">\n</text>
+        状态：已送检
+        <text decode="{{true}}">\n</text>
+        备注：{{item.comment}} 
       </view>
       <view class="line">' '</view>
     </view>

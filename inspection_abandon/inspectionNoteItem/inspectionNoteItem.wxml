@@ -12,45 +12,9 @@
 
 <form onsubmit="create"> <!--onsubmit="create"-->
 <view class="form">
-	<view class="item">
-    <view class="title" style="color:blue; 	text-align: center;">送检单信息</view>
-    <view class="line"></view>
-  </view>
-
-	<view class="item">
-		<view class="title" >送检单号</view>
-		<view class="subtitle">
-			<input type="number" name="no" value="" placeholder="留空自动生成" />
-		</view>
-	</view>
-  <view class="item">
-		<view class="title">描述</view>
-		<view class="subtitle">
-			<input type="text" name="description" value="" placeholder="请输入备注（可空）" />
-		</view>
-	</view>
-  <view class="item">
-		<view class="title">送检日期</view>
-		<view class="subtitle">
-			<input type="text" name="inspectionTime" value="{{date_today_YMDhms}}" placeholder="" />
-		</view>
-	</view>
-  <view class="item">
-		<view class="title">创建人姓名</view>
-		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="uaerName" value="{{name}}" placeholder="" />
-		</view>
-	</view>
-  <view class="item">
-		<view class="title">创建时间</view>
-		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="inspectionTime" value="{{date_today_YMDhms}}" placeholder="" />
-		</view>
-	</view>
-
 
     <view class="message" style="color:blue;">入库单条目信息</view> 
-		<view class="subtitle" wx:for="{{warehouse_entry_item.data}}" bindtap="choseEntryItem" hover-class="subtitle_press" data-index="{{index}}">
+		<view class="subtitle">
       <view class="subtitle">
         <view style="color:red;display:flex;flex-direction:row;">{{index+1}}
         </view>
@@ -60,11 +24,14 @@
         <text decode="{{true}}">\n</text>
         物料名称：{{material_name}}
         <text decode="{{true}}">\n</text>
-        实收数量：{{item.realAmount}}
+        实收数量：{{warehouse_entry_item.realAmount}}
         <text decode="{{true}}">\n</text>
-        备注：{{item.comment}}
+        备注：{{warehouse_entry_item.comment}}
       </view>
-<view class="{{hide[index] == true ?  'hide' : ''}}">
+      <!--<view class="line"><text decode="{{true}}">&nbsp;&nbsp;</text> </view>-->
+    </view>
+
+
 	<view class="item">
     <view class="title" style="color:blue; 	text-align: center;">送检单条目信息</view>
     <view class="title" style="color:blue; 	text-align: center;">当前选择第{{index+1}}项</view>
@@ -114,16 +81,11 @@
 			<input type="text" name="comment" value="" placeholder="请输入备注（可空）" />
 		</view>
 	</view>
-</view>
-      <!--<view class="line"><text decode="{{true}}">&nbsp;&nbsp;</text> </view>-->
-</view>
-
-
 
 </view>
   <!--按钮-->
-  <view class="loginBtnView" style="background: white;"> 
-    <button class="loginBtn" type="primary" form-type="submit" >生成入库单条目</button> <!--bindtap="create"-->
+  <view class="loginBtnView"> 
+    <button class="loginBtn" type="primary" form-type="submit" >确认该送检单条目信息</button> <!--bindtap="create"-->
   </view> 
 </form>
 

@@ -37,7 +37,35 @@ Page({
     wx.navigateTo({
       //这个url不能是tabBar中的页面
       //url: '../../main/scan/scan'
-      url: '../../inspection/choseWarehouseEntry/choseWarehouseEntry',
+      url: '../../inspection/inspectionNote/inspectionNote',
+      success: function () {
+        wx.showToast({
+          title: '正在进入 送检单扫码模式',
+          icon: 'success',
+          duration: 2000,
+        })
+      }
+    })
+  },
+  enterTransferOrder: function () {
+    wx.navigateTo({
+      //这个url不能是tabBar中的页面
+      //url: '../../main/scan/scan'
+      url: '../../transferOrder/transferOrder/transferOrder',
+      success: function () {
+        wx.showToast({
+          title: '正在进入 送检单扫码模式',
+          icon: 'success',
+          duration: 2000,
+        })
+      }
+    })
+  },
+  enterDeliveryOrder: function () {
+    wx.navigateTo({
+      //这个url不能是tabBar中的页面
+      //url: '../../main/scan/scan'
+      url: '../../deliveryOrder/deliveryOrder/deliveryOrder',
       success: function () {
         wx.showToast({
           title: '正在进入 送检单扫码模式',

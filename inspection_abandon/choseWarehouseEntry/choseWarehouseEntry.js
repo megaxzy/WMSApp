@@ -113,7 +113,7 @@ Page({
       //这个url不能是tabBar中的页面
       //url: '../../main/scan/scan'
       
-      url: '../../inspection/choseWarehouseEntryItem/choseWarehouseEntryItem' + '?'+transvar
+      url: '../../inspection_abandon/choseWarehouseEntryItem/choseWarehouseEntryItem' + '?'+transvar
     })
   },
   scan: function () {

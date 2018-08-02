@@ -17,6 +17,9 @@
     <button class="loginBtn" type="primary" bindtap="enterInspectionNote">送检 扫码模式</button> 
   </view> 
   <view class="loginBtnView"> 
-    <button class="loginBtn" type="primary" bindtap="scan">出库 扫码模式</button> 
+    <button class="loginBtn" type="primary" bindtap="enterTransferOrder">备货 扫码模式</button> 
+  </view> 
+  <view class="loginBtnView"> 
+    <button class="loginBtn" type="primary" bindtap="enterDeliveryOrder">出库 扫码模式</button> 
   </view> 
 </view>

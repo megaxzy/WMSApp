@@ -6,9 +6,18 @@
     "warehouse/warehouseEntry/warehouseEntry",
     "warehouse/warehouseEntryItem/warehouseEntryItem",  
 
-    "inspection/choseWarehouseEntry/choseWarehouseEntry",
-    "inspection/choseWarehouseEntryItem/choseWarehouseEntryItem",
+    "inspection/inspectionNote/inspectionNote",
     "inspection/inspectionNoteItem/inspectionNoteItem",
+
+    "transferOrder/transferOrder/transferOrder",
+    "transferOrder/transferOrderItem/transferOrderItem",
+
+    "deliveryOrder/deliveryOrder/deliveryOrder",
+    "deliveryOrder/deliveryOrderItem/deliveryOrderItem",
+
+
+    "inspection_abandon/choseWarehouseEntry/choseWarehouseEntry",
+    "inspection_abandon/choseWarehouseEntryItem/choseWarehouseEntryItem",
     "main/index/index"
     
   ],

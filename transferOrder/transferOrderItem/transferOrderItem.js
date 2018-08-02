@@ -25,10 +25,9 @@ Page({
     warehouse_entry:'', //选择的那个入库单
     warehouse_entry_item:'', //条目信息
     index:'',//选择的条目顺序
-    chosen_warehouse_entry_item:'',//选择的 入库条目信息
-    inspection_note:'',
-    inspection_note_item:'',//送检单条目 信息
-    hide:[],
+    chosen_delivery_order_item:'',
+    delivery_order:'',
+    storage_location:'',
   },
   onLoad: function (query) {
     var that = this
@@ -56,10 +55,11 @@ Page({
     //传递上个页面给的参数
     //json数据用wx.navigateTo需要先用JSON.stringify转码再用JSON.parse转码
     var supply_json = JSON.parse(query.supply)
-    var chosen_warehouse_entry_item_json = JSON.parse(query.chosen_warehouse_entry_item)
+    console.log(query.chosen_delivery_order_item)
+    var chosen_delivery_order_item_json = JSON.parse(query.chosen_delivery_order_item)
     this.setData({
       supply: supply_json,
-      chosen_warehouse_entry_item: chosen_warehouse_entry_item_json,
+      chosen_delivery_order_item: chosen_delivery_order_item_json,
       supplier_id: query.supplier_id,
       supplier_name: query.supplier_name,
       material_id: query.material_id,
@@ -67,56 +67,26 @@ Page({
       material_no: query.material_no,
       material_product_line: query.material_product_line
     });
-    
-    that.showInspectionNoteItem()
-    
+    //TODO get the stroageLocation
+    that.getDeliveryOrder()
+    that.getStorageLocation()
   },
 
-/*
-  //用来保证在退回entry界面的时候入库单信息改变
-  onShow: function () {
-    var that = this
-    that.showWarehouseEntryItem()
-  },
-*/
-  choseEntryItem: function (e) {
-    var that=this
-    var index = e.currentTarget.dataset.index;
-    that.setData({
-      index:index,
-    })
-    var hide=that.data.hide
-    if(that.data.hide[index] == true){
-      hide[index]=false
-      that.setData({
-        hide: hide,
-      })
-    }
-    else {
-      hide[index] = true
-      that.setData({
-        hide: hide,
-      })
-    }
-  },
-
-  getInspectionNote:function(){
+  getStorageLocation: function () {
     var that = this
     var con = condition.NewCondition();
-    console.log("noteid test test")
-    console.log(that.data.inspection_note_item.inspectionNoteId)
-    con = condition.AddFirstCondition('warehouseEntryItemId', 'EQUAL', that.data.inspection_note_item.inspectionNoteId);
+    con = condition.AddFirstCondition('id', 'EQUAL', that.data.chosen_delivery_order_item.sourceStorageLocationId);
     wx.request({
-      url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/' + con,
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con,
       method: 'GET',
       success: function (res) {
-        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/' + con)
+        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con)
         var res_temp = res
         that.setData({
-          inspection_note: res_temp.data[0]
+          storage_location: res_temp.data[0]
         })
         console.log('送检单 信息：')
-        console.log(that.data.inspection_note)
+        console.log(that.data.storage_location)
       },
       //请求失败
       fail: function (err) {
@@ -130,7 +100,37 @@ Page({
     })
   },
 
-  showInspectionNoteItem: function () {
+  getDeliveryOrder:function(){
+    var that = this
+    var con = condition.NewCondition();
+    console.log("noteid test test")
+    console.log(that.data.chosen_delivery_order_item)
+    con = condition.AddFirstCondition('id', 'EQUAL', that.data.chosen_delivery_order_item.deliveryOrderId);
+    wx.request({
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/' + con,
+      method: 'GET',
+      success: function (res) {
+        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/' + con)
+        var res_temp = res
+        that.setData({
+          delivery_order: res_temp.data[0]
+        })
+        console.log('送检单 信息：')
+        console.log(that.data.delivery_order)
+      },
+      //请求失败
+      fail: function (err) {
+        console.log("false")
+        wx.showToast({
+          title: '连接失败,请检查你的网络或者服务端是否开启',
+          icon: 'none',
+          duration: 2000
+        })
+      },
+    })
+  },
+/*
+  showDeliveryOrderItem: function () {
     var that = this
     var con = condition.NewCondition();
     con = condition.AddFirstCondition('warehouseEntryItemId', 'EQUAL', that.data.chosen_warehouse_entry_item.id );
@@ -157,19 +157,10 @@ Page({
       },
       complete:function(){
         that.getInspectionNote() //如果这个要显示则放在下一条的完成部分
-        /*
-        var hide = [];
-        for (var i = 0; i < that.data.warehouse_entry_item.data.length; i++) {
-          hide.push(true);//添加数组的功能
-          console.log(hide[i])
-        } 
-        that.setData({
-          hide:hide
-        })*/
       }
     })
   },
-
+*/
 
 
 
@@ -179,31 +170,31 @@ Page({
     var that = this 
     var form = e.detail.value
 
-    console.log("inspection note item:")
-    var object_output_inspection_note_item= {
-      "id": that.data.inspection_note_item.id,
-      "inspectionNoteId": that.data.inspection_note_item.inspectionNoteId,//auto
-      "warehouseEntryItemId": that.data.inspection_note_item.warehouseEntryItemId, //auto 
-      "state": that.data.inspection_note_item.state,
-      "amount": that.data.inspection_note_item.amount,
-      "unit": that.data.inspection_note_item.unit,
-      "unitAmount": that.data.inspection_note_item.unitAmount,
-      "returnAmount":form.returnAmount,
-      "returnUnit":form.returnUnit,
-      "returnUnitAmount":form.returnUnitAmount,
-      "comment": that.data.inspection_note_item.comment,
-      "personId":that.data.user_id
+    console.log("chosen_delivery_order_item:")
+    var object_output_delivery_order_item= {
+      "id": that.data.chosen_delivery_order_item.id,
+      "deliveryOrderId": that.data.chosen_delivery_order_item.deliveryOrderId,
+      "supplyId":that.data.chosen_delivery_order_item.supplyId,
+      "sourceStorageLocationId": that.data.chosen_delivery_order_item.sourceStorageLocationId,
+      "state":0,//0:待装车 1:装车中 2:装车完成   这个好像是后台自动改变的
+      "scheduledAmount": that.data.chosen_delivery_order_item.scheduledAmount,
+      "realAmount":form.realAmount,
+      "loadingTime":form.loadingTime,
+      "unit": form.unit,
+      "unitAmount": form.unitAmount,
+      "comment": that.data.chosen_delivery_order_item.comment,
+      "personId": that.data.user_id
     }
-    console.log(object_output_inspection_note_item)
+    console.log(object_output_delivery_order_item)
     wx.request({
-      url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/',
-      data: [object_output_inspection_note_item],
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/',
+      data: [object_output_delivery_order_item],
       method: 'PUT',
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/')
+        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/')
         console.log(res)
       },
       //请求失败
@@ -215,33 +206,54 @@ Page({
           duration: 2000
         })
       },
+                /*     
+                case 0: return "待装车";
+                case 1: return "装车中";
+                case 2: return "整单装车";
+                case 3: return "发运在途";
+                case 4: return "核减完成";
+                 */
+      
       complete: function () {
-        console.log("inspection note:")
-        var object_output_inspection_note = {
-          "id": that.data.inspection_note.id,
-          "warehouseEntryId": that.data.inspection_note.warehouseEntryId,//auto
-          "warehouseId": that.data.inspection_note.warehouseId, //auto 
-          "no": that.data.inspection_note.no,
-          "state": that.data.inspection_note.state,
-          "description": that.data.inspection_note.description,
-          "SAPNo": that.data.inspection_note.SAPNo,
-          "inspectionTime": that.data.inspection_note.inspectionTime,
-          "createPersonId": that.data.inspection_note.createPersonId,
-          "createTime": that.data.inspection_note.createTime,
+        console.log("delivery order:")
+        var object_output_delivery_order = {
+          "id": that.data.delivery_order.id,
+          "warehouseId": that.data.delivery_order.warehouseId, //auto 
+          "no": that.data.delivery_order.no,
+          "state": that.data.delivery_order.state,
+          "description": that.data.delivery_order.description,
+          "driverName":that.data.delivery_order.driverName,
+          "liscensePlateNumber": that.data.delivery_order.liscensePlateNumber,
+          "deliverTime": that.data.delivery_order.deliverTime,
+          "returnNoteNo":that.data.delivery_order.returnNoteNo,
+          "returnNoteTime": that.data.delivery_order.returnNoteTime,
+          "createPersonId": that.data.delivery_order.createPersonId,
+          "createTime": that.data.delivery_order.createTime,
           "lastUpdatePersonId": that.data.user_id,
           "lastUpdateTime": that.data.YMDhms
         }
-        console.log(object_output_inspection_note)
+        console.log(object_output_delivery_order)
         wx.request({
-          url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note/',
-          data: [object_output_inspection_note],
+          url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/',
+          data: [object_output_delivery_order],
           method: 'PUT',
           header: {
             'content-type': 'application/json' // 默认值
           },
           success: function (res) {
-            console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note/')
+            console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/')
             console.log(res)
+            wx.showToast({
+              title: '修改成功',
+              icon: 'none',
+              duration: 2500,
+              success: function () {
+                setTimeout(function () {
+                  //要延时执行的代码
+                  wx.navigateBack();
+                }, 1500)
+              }
+            })
           },
           //请求失败
           fail: function (err) {

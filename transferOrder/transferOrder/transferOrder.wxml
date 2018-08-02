@@ -1,7 +1,7 @@
 
 <view class="container"> 
   <!--decode="{{true}}" 后面的&nbsp才能用-->
-  <view class="message">模式:入库扫码模式</view>
+  <view class="message">模式:出库扫码模式</view>
   <view class="line">' '</view>
   <view class="message">
     <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>
@@ -9,14 +9,15 @@
 
   <view class="line">' '</view>
   <!--入库单时间-->
+  <!--
   <view class="section">
-  <!--???这个地方的end写什么合适  end="{{date_today}}"-->
+  
   <picker mode="date" value="{{date}}" start="2016-09-01" end="{{date_today}}" bindchange="bindDateChange">
     <view class="picker">
-      选择入库单起始日期: {{date}}
+      选择要送检的入库单起始日期: {{date}}
     </view>
   </picker>
-</view>
+  </view>-->
 
   <view class="line">' '</view>
 <!--收到信息--> 
@@ -34,21 +35,30 @@
 <form > <!--onsubmit="add"-->
 <view class="form">
 	<view class="item">
-		<view class="title" style="	text-align: center;">入库单信息</view>
+		<view class="title" style="	text-align: center;">选择出库单条目信息</view>
     <view class="line">' '</view> 
     <!--wx:for 完了 用item表示每项-->
-		<view class="subtitle" wx:for="{{warehouseEntry_list.data}}" wx:if="{{item.supplierId==supplier_id}}" bindtap="chose" hover-class="subtitle_press" hover-stay-time="3000" data-index="{{index}}">
+    <!--这个地方是不是应该待入库的显示???-->
+		<view class="subtitle" wx:for="{{delivery_order_item_list.data}}" wx:if="{{item.supplyId==supply.id && (item.state==1 || item.state==0)}}" bindtap="chose" hover-class="subtitle_press" hover-stay-time="3000" data-index="{{index}}">
       <view class="subtitle">
-        <view style="color:red;display:flex;flex-direction:row;">入库单号：
-          <view style="color:black;display:flex;flex-direction:row;" >{{item.no}}</view>
+        <view style="color:red;display:flex;flex-direction:row;">供应商名称：
+          <view style="color:black;display:flex;flex-direction:row;" >{{supplier_name}}</view>
         </view>
-        创建时间：{{item.createTime}}
+        物料名称：{{material_name}}
         <text decode="{{true}}">\n</text>
-        供应商名称：{{supplier_name}}
+        计划装车数量（个）：{{item.scheduledAmount}}
         <text decode="{{true}}">\n</text>
-        最后修改时间：{{item.lastUpdateTime}}
+        实际装车数量（个）：{{item.realAmount}}
         <text decode="{{true}}">\n</text>
-        状态：{{item.state}}（0待入库  1送检中  2.全部入库  3.部分入库）
+        装车时间：{{item.loadingTime}}
+        <text decode="{{true}}">\n</text>
+        单位：{{item.unit}}
+        <text decode="{{true}}">\n</text>
+        单位数量：{{item.unitAmount}}
+        <text decode="{{true}}">\n</text>
+        状态：{{item.state==0 ?'待装车':'部分装车'}}{{item.state}}
+        <text decode="{{true}}">\n</text>
+        备注：{{item.comment}} 
       </view>
       <view class="line">' '</view>
     </view>
