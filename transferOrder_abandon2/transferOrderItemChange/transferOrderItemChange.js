@@ -71,7 +71,26 @@ Page({
     that.getTransferOrderItem()
     //that.getStorageLocation()
   },
- 
+  choseItem: function (e) {
+    var that = this
+    var index = e.currentTarget.dataset.index;
+    that.setData({
+      index: index,
+    })
+    var hide = that.data.hide
+    if (that.data.hide[index] == true) {
+      hide[index] = false
+      that.setData({
+        hide: hide,
+      })
+    }
+    else {
+      hide[index] = true
+      that.setData({
+        hide: hide,
+      })
+    }
+  },
   getTransferOrderItem: function () {
     var that = this
     var con = condition.NewCondition();
@@ -125,33 +144,71 @@ Page({
       }
     })
   },
-
-  choseItem: function (e) {
+ /*
+  getDeliveryOrder:function(){
     var that = this
-    var index = e.currentTarget.dataset.index;
-
-    var supply = JSON.stringify(that.data.supply);
-    var chosen_transfer_order = JSON.stringify(that.data.chosen_transfer_order);
-    
-    var chosen_transfer_order_item = that.data.transfer_order_item_list.data[index]
-    console.log(chosen_transfer_order_item)
-    var chosen_transfer_order_item = JSON.stringify(chosen_transfer_order_item);
-    console.log(chosen_transfer_order_item)
-    var transvar =
-      'chosen_transfer_order=' + chosen_transfer_order + '&' +  //选择的 
-      'chosen_transfer_order_item=' + chosen_transfer_order_item + '&' +  //选择的 item
-      'supply=' + supply + '&' +
-      'supplier_id=' + that.data.supplier_id + '&' +
-      'supplier_name=' + that.data.supplier_name + '&' +
-      'material_id=' + that.data.material_id + '&' +
-      'material_name=' + that.data.material_name + '&' +
-      'source_storage_location_name=' + that.data.transfer_order_item_source_storage_location_array[index] + '&' +
-      'target_storage_location_name=' + that.data.transfer_order_item_target_storage_location_array[index] 
-    wx.navigateTo({
-      url: '../../transferOrder/transferOrderItemChange/transferOrderItemChange' + '?' + transvar
+    var con = condition.NewCondition();
+    console.log("noteid test test")
+    console.log(that.data.chosen_delivery_order_item)
+    con = condition.AddFirstCondition('id', 'EQUAL', that.data.chosen_delivery_order_item.deliveryOrderId);
+    wx.request({
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/' + con,
+      method: 'GET',
+      success: function (res) {
+        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/' + con)
+        var res_temp = res
+        that.setData({
+          delivery_order: res_temp.data[0]
+        })
+        console.log('送检单 信息：')
+        console.log(that.data.delivery_order)
+      },
+      //请求失败
+      fail: function (err) {
+        console.log("false")
+        wx.showToast({
+          title: '连接失败,请检查你的网络或者服务端是否开启',
+          icon: 'none',
+          duration: 2000
+        })
+      },
     })
   },
-  /*
+  */
+/*
+  showDeliveryOrderItem: function () {
+    var that = this
+    var con = condition.NewCondition();
+    con = condition.AddFirstCondition('warehouseEntryItemId', 'EQUAL', that.data.chosen_warehouse_entry_item.id );
+    wx.request({
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/' + con,
+      method: 'GET',//GET为默认方法   /POST
+      success: function (res) {
+        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/' + con)
+        var res_temp = res
+        that.setData({
+          inspection_note_item: res_temp.data[0]
+        })
+        console.log('送检单条目信息：')
+        console.log(that.data.inspection_note_item)
+      },
+      //请求失败
+      fail: function (err) {
+        console.log("false")
+        wx.showToast({
+          title: '连接失败,请检查你的网络或者服务端是否开启',
+          icon: 'none',
+          duration: 2000
+        })
+      },
+      complete:function(){
+        that.getInspectionNote() //如果这个要显示则放在下一条的完成部分
+      }
+    })
+  },
+*/
+
+
   updateAllItem:function(form,i){
     var that = this 
     var object_output_delivery_order_item = {
@@ -193,15 +250,22 @@ Page({
         }
       }
     })
-  },*/
+  },
 
- 
+
   update: function (e) {
     var that = this 
     var form = e.detail.value
     console.log("form messages")
     console.log(form.sourceUnit0)
     console.log(form.sourceUnit1)
+    var i=0
+    var x='form.soutceUnit'+i
+    console.log(x)
+    console.log(form.soutceUnit + "i")
+    console.log(form.soutceUnit + "'i'")
+   
+    that.updateAllItem(form,0)
 /*
         console.log("delivery order:")
         var object_output_delivery_order = {

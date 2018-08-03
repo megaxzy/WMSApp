@@ -1,0 +1,102 @@
+<view class="container"> 
+
+  
+  <!--decode="{{true}}" 后面的&nbsp才能用-->
+  <view class="message">模式:备货扫码模式</view>
+<view class="line"></view>
+  <view class="message">
+    <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>
+  </view>
+
+
+
+      
+
+	
+ 
+<form onsubmit="update"> <!--onsubmit="create"-->
+<view class="form">
+	<view class="item">
+    <view class="title" style="color:blue; 	text-align: center;">送检单条目信息</view>
+    <view class="line"></view>
+  </view>
+
+  <view class="item">
+    <view class="title" style="color:blue; 	text-align: center;">送检单条目信息)</view>
+    <view class="line"></view>
+  </view>
+
+  <view class="item">
+		<view class="title" >物料系列</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="materialName" value="{{material_name}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >源库位名称</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="sourceStorageLocationName" value="{{source_storage_location_name}}" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">源单位</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="sourceUnit" value="{{chosen_transfer_order_item.sourceUnit}}"  />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">源单位数量</view>
+		<view class="subtitle_disabled">
+			<input type="number" disabled="true" name="sourceUnitAmount" value="{{chosen_transfer_order_item.sourceUnitAmount}}"  /> 
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >源库位名称</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="targetStorageLocationName" value="{{target_storage_location_name}}" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">计划移位数量</view>
+		<view class="subtitle_disabled">
+			<input type="number" disabled="true" name="scheduledAmount" value="{{chosen_transfer_order_item.scheduledAmount}}" /> 
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">实际移位数量</view>
+		<view class="subtitle">
+			<input type="number"  name="realAmount" value="{{}}" placeholder="必填信息" /> 
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">单位(默认相同)</view>
+		<view class="subtitle">
+			<input type="number" name="unit" value="{{chosen_transfer_order_item.sourceUnit}}" placeholder="" /> 
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">单位数量(默认相同)</view>
+		<view class="subtitle">
+			<input type="number"  name="unitAmount" value="{{chosen_transfer_order_item.sourceUnitAmount}}" placeholder="" /> 
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">作业时间</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="operateTime" value="{{date_today_YMDhms}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">作业人姓名</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="uaerName" value="{{name}}" placeholder="" />
+		</view>
+	</view>
+</view>
+  <!--按钮-->
+  <view class="loginBtnView" > 
+    <button class="loginBtn" type="primary" form-type="submit" >更新送检单条目</button> 
+  </view> 
+</form>
+
+</view>

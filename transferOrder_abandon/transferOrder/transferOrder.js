@@ -29,9 +29,6 @@ Page({
     warehouse_entry_item_list:'',
     chosen_warehouse_entry_item:'',
 
-    transfer_order_list: '',
-    chosen_transfer_order: '',
-
     transfer_order_item_list: '',
     transfer_order:'', //用来判断是不是 备货单
     transfer_order_item_array: [],
@@ -63,26 +60,24 @@ Page({
     this.setData({
       date: e.detail.value
     })
-    that.showDeliveryOrder();
+    that.showDeliveryOrderItem();
   },
 
-  showTransferOrder:function(){
+  showTransferOrderItem:function(){
     var that=this
 
     var con = condition.NewCondition();
-    con = condition.AddFirstCondition('supplierId', 'EQUAL', that.data.supplier_id);
-    con = condition.AddCondition('warehouseId', 'EQUAL', that.data.warehouse_id);
-    con = condition.AddCondition('type', 'EQUAL', 1);
+    con = condition.AddFirstCondition('supplyId', 'EQUAL', that.data.supply.id);
     wx.request({
-      url: globaldata.url + 'warehouse/' + globaldata.account + 'transfer_order/' + con,
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'transfer_order_item/' + con,
       method: 'GET',
       success: function (res) {
-        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'transfer_order/' + con)
+        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'transfer_order_item/' + con)
         var res_temp = res
         that.setData({
-          transfer_order_list: res_temp
+          transfer_order_item_list: res
         })
-        console.log("由barcodeno获得的供货信息获得的条目")
+        console.log("由barcodeno获得的供货信息获得的条目单")
         console.log(res)
       },
       //请求失败
@@ -95,29 +90,88 @@ Page({
         })
       },
       complete:function(){
-        
+        that.judge(0)
       }
     })
   },
   
+  judge:function(i){
+    var that = this
 
+    var con = condition.NewCondition();
+    con = condition.AddFirstCondition('id', 'EQUAL', that.data.transfer_order_item_list.data[i].transferOrderId);
+    wx.request({
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'transfer_order/' + con,
+      method: 'GET',
+      success: function (res) {
+        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'transfer_order/' + con)
+        var res_temp = res
+        that.setData({
+          transfer_order: res_temp.data[0]
+        })
+        console.log("transferOrder:")
+        console.log(that.data.transfer_order)
+      },
+      //请求失败
+      fail: function (err) {
+        console.log("false")
+        wx.showToast({
+          title: '连接失败,请检查你的网络或者服务端是否开启',
+          icon: 'none',
+          duration: 2000
+        })
+      },
+      complete: function () {
+        console.log("i:"+i)
+        console.log(that.data.transfer_order_item_list.data.length)
+        if (that.data.transfer_order.type==1){
+          var transfer_order_item_array = that.data.transfer_order_item_array
+          var temp = that.data.transfer_order_item_list.data[i]
+          transfer_order_item_array.push(JSON.stringify(temp))
+          that.setData({
+            transfer_order_item_array: transfer_order_item_array
+          })
+
+        }
+        if(i<that.data.transfer_order_item_list.data.length-1){
+          that.judge(i+1)
+        }
+        else{
+          console.log(that.data.transfer_order_item_array)
+          /*
+          var transfer_order_item_list = JSON.parse(that.data.transfer_order_item_array)
+          that.setData({
+            transfer_order_item_list: transfer_order_item_list
+          })
+         */
+          console.log("judge 完成")
+          console.log(JSON.stringify(that.data.transfer_order_item_array))
+          console.log(that.data.transfer_order_item_array[0])
+          console.log(that.data.transfer_order_item_array[0].id)
+          console.log(that.data.transfer_order_item_array[0].valueOf("id"))
+          var transfer_order_item_list = JSON.parse(that.data.transfer_order_item_array)
+        }
+      }
+    })
+  },
 
   chose: function (e) {
     var that=this
     // 获取分类id并切换分类
     var index = e.currentTarget.dataset.index;
-    var chosen_transfer_order = that.data.transfer_order_list.data[index]
+    var chosen_transfer_order_item = that.data.transfer_order_item_list.data[index]
+    //var entryId = that.data.warehouseEntry_list.data[index].id
     console.log(index)
-    console.log(that.data.transfer_order_list.data[index])
+    console.log(that.data.transfer_order_item_list.data[index])
     wx.showToast({
       title: '进入【送检单条目】生成页面',
       icon: 'none',
       duration: 2000
     })
     var supply = JSON.stringify(that.data.supply);
-    var chosen_transfer_order = JSON.stringify(chosen_transfer_order);
+    var chosen_transfer_order_item = JSON.stringify(chosen_transfer_order_item);
     var transvar = 
-      'chosen_transfer_order=' + chosen_transfer_order + '&' +  //选择的 入库单条目
+      'chosen_transfer_order_item=' + chosen_transfer_order_item + '&' +  //选择的 入库单条目
       'supply=' +  supply + '&' +
       'supplier_id=' + that.data.supplier_id +'&'+
       'supplier_name=' + that.data.supplier_name + '&'+
@@ -205,7 +259,7 @@ Page({
       complete:function(){
         that.getSupplierName()
         that.getMaterialName()
-        that.showTransferOrder()
+        that.showTransferOrderItem()
       }
     })
   },

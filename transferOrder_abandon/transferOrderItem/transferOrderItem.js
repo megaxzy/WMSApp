@@ -22,13 +22,12 @@ Page({
     material_product_line: '',
     supply:'', //供货信息
     all_storage_location:'', //所有库位信息
-    transfer_order_item_source_storage_location_array:[],
-    transfer_order_item_target_storage_location_array:[],
-    chosen_transfer_order:'',
-    transfer_order_item_list: '',
-    index: '',//选择的条目顺序
-    hide: [],
-    //storage_location:'',
+    warehouse_entry:'', //选择的那个入库单
+    warehouse_entry_item:'', //条目信息
+    index:'',//选择的条目顺序
+    chosen_delivery_order_item:'',
+    delivery_order:'',
+    storage_location:'',
   },
   onLoad: function (query) {
     var that = this
@@ -56,11 +55,11 @@ Page({
     //传递上个页面给的参数
     //json数据用wx.navigateTo需要先用JSON.stringify转码再用JSON.parse转码
     var supply_json = JSON.parse(query.supply)
-    console.log(query.chosen_transfer_order)
-    var chosen_transfer_order_json = JSON.parse(query.chosen_transfer_order)
+    console.log(query.chosen_delivery_order_item)
+    var chosen_delivery_order_item_json = JSON.parse(query.chosen_delivery_order_item)
     this.setData({
       supply: supply_json,
-      chosen_transfer_order: chosen_transfer_order_json,
+      chosen_delivery_order_item: chosen_delivery_order_item_json,
       supplier_id: query.supplier_id,
       supplier_name: query.supplier_name,
       material_id: query.material_id,
@@ -68,26 +67,84 @@ Page({
       material_no: query.material_no,
       material_product_line: query.material_product_line
     });
-    that.getTransferOrderItem()
-    //that.getStorageLocation()
+    //TODO get the stroageLocation
+    that.getDeliveryOrder()
+    that.getStorageLocation()
   },
- 
-  getTransferOrderItem: function () {
+
+  getStorageLocation: function () {
     var that = this
     var con = condition.NewCondition();
-    con = condition.AddFirstCondition('transferOrderId', 'EQUAL', that.data.chosen_transfer_order.id);
-    con = condition.AddCondition('supplyId', 'EQUAL', that.data.supply.id);
+    con = condition.AddFirstCondition('id', 'EQUAL', that.data.chosen_delivery_order_item.sourceStorageLocationId);
     wx.request({
-      url: globaldata.url + 'warehouse/' + globaldata.account + 'transfer_order_item/' + con,
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con,
       method: 'GET',
       success: function (res) {
-        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'transfer_order_item/' + con)
+        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con)
         var res_temp = res
         that.setData({
-          transfer_order_item_list: res_temp
+          storage_location: res_temp.data[0]
         })
-        console.log('transfer 信息：')
-        console.log(that.data.transfer_order_item_list)
+        console.log('送检单 信息：')
+        console.log(that.data.storage_location)
+      },
+      //请求失败
+      fail: function (err) {
+        console.log("false")
+        wx.showToast({
+          title: '连接失败,请检查你的网络或者服务端是否开启',
+          icon: 'none',
+          duration: 2000
+        })
+      },
+    })
+  },
+
+  getDeliveryOrder:function(){
+    var that = this
+    var con = condition.NewCondition();
+    console.log("noteid test test")
+    console.log(that.data.chosen_delivery_order_item)
+    con = condition.AddFirstCondition('id', 'EQUAL', that.data.chosen_delivery_order_item.deliveryOrderId);
+    wx.request({
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/' + con,
+      method: 'GET',
+      success: function (res) {
+        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/' + con)
+        var res_temp = res
+        that.setData({
+          delivery_order: res_temp.data[0]
+        })
+        console.log('送检单 信息：')
+        console.log(that.data.delivery_order)
+      },
+      //请求失败
+      fail: function (err) {
+        console.log("false")
+        wx.showToast({
+          title: '连接失败,请检查你的网络或者服务端是否开启',
+          icon: 'none',
+          duration: 2000
+        })
+      },
+    })
+  },
+/*
+  showDeliveryOrderItem: function () {
+    var that = this
+    var con = condition.NewCondition();
+    con = condition.AddFirstCondition('warehouseEntryItemId', 'EQUAL', that.data.chosen_warehouse_entry_item.id );
+    wx.request({
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/' + con,
+      method: 'GET',//GET为默认方法   /POST
+      success: function (res) {
+        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/' + con)
+        var res_temp = res
+        that.setData({
+          inspection_note_item: res_temp.data[0]
+        })
+        console.log('送检单条目信息：')
+        console.log(that.data.inspection_note_item)
       },
       //请求失败
       fail: function (err) {
@@ -99,70 +156,30 @@ Page({
         })
       },
       complete:function(){
-        var hide = [];
-        var transfer_order_item_source_storage_location_array=[];
-        var transfer_order_item_target_storage_location_array = [];
-        for (var i = 0; i < that.data.transfer_order_item_list.data.length; i++) {
-          hide.push(true);//添加数组的功能
-          var id_s = that.data.transfer_order_item_list.data[i].sourceStorageLocationId
-          var id_t = that.data.transfer_order_item_list.data[i].targetStorageLocationId
-          for (var j = 0; j < that.data.all_storage_location.data.length; j++) {
-            if (that.data.all_storage_location.data[j].id==id_s){
-              transfer_order_item_source_storage_location_array.push(that.data.all_storage_location.data[j].name)
-            }
-            if (that.data.all_storage_location.data[j].id == id_t) {
-              transfer_order_item_target_storage_location_array.push(that.data.all_storage_location.data[j].name)
-            }
-          }
-        }
-        that.setData({
-          hide: hide,
-          transfer_order_item_source_storage_location_array: transfer_order_item_source_storage_location_array,
-          transfer_order_item_target_storage_location_array: transfer_order_item_target_storage_location_array
-        })
-        console.log(transfer_order_item_source_storage_location_array)
-        console.log(transfer_order_item_target_storage_location_array)
+        that.getInspectionNote() //如果这个要显示则放在下一条的完成部分
       }
     })
   },
+*/
 
-  choseItem: function (e) {
-    var that = this
-    var index = e.currentTarget.dataset.index;
 
-    var supply = JSON.stringify(that.data.supply);
-    var chosen_transfer_order = JSON.stringify(that.data.chosen_transfer_order);
-    
-    var chosen_transfer_order_item = that.data.transfer_order_item_list.data[index]
-    console.log(chosen_transfer_order_item)
-    var chosen_transfer_order_item = JSON.stringify(chosen_transfer_order_item);
-    console.log(chosen_transfer_order_item)
-    var transvar =
-      'chosen_transfer_order=' + chosen_transfer_order + '&' +  //选择的 
-      'chosen_transfer_order_item=' + chosen_transfer_order_item + '&' +  //选择的 item
-      'supply=' + supply + '&' +
-      'supplier_id=' + that.data.supplier_id + '&' +
-      'supplier_name=' + that.data.supplier_name + '&' +
-      'material_id=' + that.data.material_id + '&' +
-      'material_name=' + that.data.material_name + '&' +
-      'source_storage_location_name=' + that.data.transfer_order_item_source_storage_location_array[index] + '&' +
-      'target_storage_location_name=' + that.data.transfer_order_item_target_storage_location_array[index] 
-    wx.navigateTo({
-      url: '../../transferOrder/transferOrderItemChange/transferOrderItemChange' + '?' + transvar
-    })
-  },
-  /*
-  updateAllItem:function(form,i){
+
+
+
+  update: function (e) {
     var that = this 
-    var object_output_delivery_order_item = {
+    var form = e.detail.value
+
+    console.log("chosen_delivery_order_item:")
+    var object_output_delivery_order_item= {
       "id": that.data.chosen_delivery_order_item.id,
       "deliveryOrderId": that.data.chosen_delivery_order_item.deliveryOrderId,
-      "supplyId": that.data.chosen_delivery_order_item.supplyId,
+      "supplyId":that.data.chosen_delivery_order_item.supplyId,
       "sourceStorageLocationId": that.data.chosen_delivery_order_item.sourceStorageLocationId,
-      "state": 0,//0:待装车 1:装车中 2:装车完成   这个好像是后台自动改变的
+      "state":0,//0:待装车 1:装车中 2:装车完成   这个好像是后台自动改变的
       "scheduledAmount": that.data.chosen_delivery_order_item.scheduledAmount,
-      "realAmount": form.realAmount,
-      "loadingTime": form.loadingTime,
+      "realAmount":form.realAmount,
+      "loadingTime":form.loadingTime,
       "unit": form.unit,
       "unitAmount": form.unitAmount,
       "comment": that.data.chosen_delivery_order_item.comment,
@@ -173,7 +190,9 @@ Page({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/',
       data: [object_output_delivery_order_item],
       method: 'PUT',
-      header: {'content-type': 'application/json'},
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
       success: function (res) {
         console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/')
         console.log(res)
@@ -187,22 +206,15 @@ Page({
           duration: 2000
         })
       },
+                /*     
+                case 0: return "待装车";
+                case 1: return "装车中";
+                case 2: return "整单装车";
+                case 3: return "发运在途";
+                case 4: return "核减完成";
+                 */
+      
       complete: function () {
-        if (i < that.data.transfer_order_item_list.data.length-1){
-          that.updateAllItem(form,i+1)
-        }
-      }
-    })
-  },*/
-
- 
-  update: function (e) {
-    var that = this 
-    var form = e.detail.value
-    console.log("form messages")
-    console.log(form.sourceUnit0)
-    console.log(form.sourceUnit1)
-/*
         console.log("delivery order:")
         var object_output_delivery_order = {
           "id": that.data.delivery_order.id,
@@ -258,6 +270,6 @@ Page({
         })   
       }
 
-    })*/
+    })
   },
 })

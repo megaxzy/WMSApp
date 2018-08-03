@@ -129,29 +129,24 @@ Page({
   choseItem: function (e) {
     var that = this
     var index = e.currentTarget.dataset.index;
-
-    var supply = JSON.stringify(that.data.supply);
-    var chosen_transfer_order = JSON.stringify(that.data.chosen_transfer_order);
-    
-    var chosen_transfer_order_item = that.data.transfer_order_item_list.data[index]
-    console.log(chosen_transfer_order_item)
-    var chosen_transfer_order_item = JSON.stringify(chosen_transfer_order_item);
-    console.log(chosen_transfer_order_item)
-    var transvar =
-      'chosen_transfer_order=' + chosen_transfer_order + '&' +  //选择的 
-      'chosen_transfer_order_item=' + chosen_transfer_order_item + '&' +  //选择的 item
-      'supply=' + supply + '&' +
-      'supplier_id=' + that.data.supplier_id + '&' +
-      'supplier_name=' + that.data.supplier_name + '&' +
-      'material_id=' + that.data.material_id + '&' +
-      'material_name=' + that.data.material_name + '&' +
-      'source_storage_location_name=' + that.data.transfer_order_item_source_storage_location_array[index] + '&' +
-      'target_storage_location_name=' + that.data.transfer_order_item_target_storage_location_array[index] 
-    wx.navigateTo({
-      url: '../../transferOrder/transferOrderItemChange/transferOrderItemChange' + '?' + transvar
+    that.setData({
+      index: index,
     })
+    var hide = that.data.hide
+    if (that.data.hide[index] == true) {
+      hide[index] = false
+      that.setData({
+        hide: hide,
+      })
+    }
+    else {
+      hide[index] = true
+      that.setData({
+        hide: hide,
+      })
+    }
   },
-  /*
+
   updateAllItem:function(form,i){
     var that = this 
     var object_output_delivery_order_item = {
@@ -193,15 +188,17 @@ Page({
         }
       }
     })
-  },*/
+  },
 
- 
+
   update: function (e) {
     var that = this 
     var form = e.detail.value
     console.log("form messages")
     console.log(form.sourceUnit0)
     console.log(form.sourceUnit1)
+   
+    that.updateAllItem(form,0)
 /*
         console.log("delivery order:")
         var object_output_delivery_order = {

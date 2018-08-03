@@ -11,6 +11,7 @@
 
     "transferOrder/transferOrder/transferOrder",
     "transferOrder/transferOrderItem/transferOrderItem",
+    "transferOrder/transferOrderItemChange/transferOrderItemChange",
 
     "deliveryOrder/deliveryOrder/deliveryOrder",
     "deliveryOrder/deliveryOrderItem/deliveryOrderItem",
@@ -18,6 +19,7 @@
 
     "inspection_abandon/choseWarehouseEntry/choseWarehouseEntry",
     "inspection_abandon/choseWarehouseEntryItem/choseWarehouseEntryItem",
+    
     "main/index/index"
     
   ],
