@@ -184,10 +184,11 @@ Page({
               title: '登录成功',
               icon: 'success',
               duration: 1500,
-              success:{
 
-              }
             })
+            setTimeout(function () {
+              wx.hideToast()
+            }, 1500)
             wx.navigateTo({
               //这个url不能是tabBar中的页面
               //url: '../../main/scan/scan'

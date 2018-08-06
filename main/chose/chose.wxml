@@ -22,4 +22,7 @@
   <view class="loginBtnView"> 
     <button class="loginBtn" type="primary" bindtap="enterDeliveryOrder">出库 扫码模式</button> 
   </view> 
+  <view class="loginBtnView"> 
+    <button class="loginBtn" type="primary" bindtap="link">连接蓝牙</button> 
+  </view> 
 </view>

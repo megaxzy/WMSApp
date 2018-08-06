@@ -1,8 +1,11 @@
 {
   "pages":[
     "login/logs/logs",
+    "main/blueTooth/blueTooth",
+    
     "main/chose/chose",
     
+
     "warehouse/warehouseEntry/warehouseEntry",
     "warehouse/warehouseEntryItem/warehouseEntryItem",  
 

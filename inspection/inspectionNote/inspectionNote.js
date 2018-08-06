@@ -71,6 +71,7 @@ Page({
       success: function (res) {
         console.log(globaldata.url + 'warehouse/' + globaldata.account + 'warehouse_entry_item/' + con)
         var res_temp = res
+        
         that.setData({
           warehouse_entry_item_list: res
         })
@@ -85,53 +86,10 @@ Page({
           icon: 'none',
           duration: 2000
         })
-      },/*
-      complete:function(){  
-        var warehouse_entry_item_id_array=[]
-        for(var i=0;i<that.data.warehouse_entry_item_list.data.length;i++){
-          warehouse_entry_item_id_array.push(that.data.warehouse_entry_item_list.data[i].id)
-        }
-        console.log(warehouse_entry_item_id_array)
-        var inspection_note_item= []
-        for (var i = 0; i < that.data.warehouse_entry_item_list.data.length; i++) {
-          var con = condition.NewCondition();
-          console.log(i)
-          con = condition.AddFirstCondition('warehouseEntryItemId', 'EQUAL', that.data.warehouse_entry_item_list.data[i].id);//
-          wx.request({
-            url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/' + con,
-            method: 'GET',//GET为默认方法   /POST
-            success: function (res) {
-              console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/' + con)
-              for (var i = 0; i < that.data.warehouse_entry_item_list.data.length; i++) {
-                var res_temp = res.data[i]
-                res_temp = JSON.stringify(res_temp)
-                inspection_note_item.push(res_temp)
-                console.log("item is")
-                console.log(res_temp)
-              }
+      },
+      complete:function(){
 
-            },
-            //请求失败
-            fail: function (err) {
-              console.log("false")
-              wx.showToast({
-                title: '连接失败,请检查你的网络或者服务端是否开启',
-                icon: 'none',
-                duration: 2000
-              })
-            },
-            complete:function(){
-              console.log("inspection is")
-              console.log(inspection_note_item)
-              inspection_note_item = JSON.parse(inspection_note_item)
-              that.setData({
-                inspection_note_item_list: inspection_note_item
-              })
-            }
-          })
-        }
       }
-      */
     })
   },
   
