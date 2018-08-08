@@ -24,7 +24,7 @@ Page({
       success: function () {
         wx.showToast({
           title: '正在进入 蓝牙选择',
-          icon: 'success',
+          icon: 'none',
           duration: 2000,
         })
       }
@@ -42,7 +42,7 @@ Page({
       success:function(){
         wx.showToast({
           title: '正在进入 入库单扫码模式',
-          icon: 'success',
+          icon: 'none',
           duration: 2000,
         })
       }
@@ -59,7 +59,7 @@ Page({
       success: function () {
         wx.showToast({
           title: '正在进入 送检单扫码模式',
-          icon: 'success',
+          icon: 'none',
           duration: 2000,
         })
       }
@@ -76,7 +76,7 @@ Page({
       success: function () {
         wx.showToast({
           title: '正在进入 备货单扫码模式',
-          icon: 'success',
+          icon: 'none',
           duration: 2000,
         })
       }
@@ -93,7 +93,7 @@ Page({
       success: function () {
         wx.showToast({
           title: '正在进入 出库单扫码模式',
-          icon: 'success',
+          icon: 'none',
           duration: 2000,
         })
       }

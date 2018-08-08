@@ -13,7 +13,6 @@ Page({
     date: '',//选择的时间
     date_today: '',//今天的时间
     date_today_YMDhms:'',
-    date_no:'',//时间转no的形式
     supplier_id: '', //supplier message
     supplier_name: '',
     material_id: '', //material message
@@ -33,15 +32,13 @@ Page({
   onLoad: function (query) {
     var that = this
     //获取现在时间
-    var Y=time.Y
-    var M=time.M
-    var D=time.D
-    var h=time.h
-    var m=time.m
-    var s=time.s
-    var date=Y+'-'+M+'-'+D
-    var date_no=Y+M+D+h+m+s
-    var YMDhms=time.YMDhms
+    time.newTime()
+    var Y = time.getY()
+    var M = time.getM()
+    var D = time.getD()
+    var date = Y + '-' + M + '-' + D
+    var YMDhms = time.getYMDhms()
+    console.log("当前时间：" + time.getYMDhms());
     this.setData({
       name:globaldata.user_name,
       role:globaldata.user_role,
@@ -50,7 +47,6 @@ Page({
       date:date,
       date_today:date,
       date_today_YMDhms: YMDhms,
-      date_no:date_no,
       all_storage_location: globaldata.all_storage_location
     })
     //传递上个页面给的参数

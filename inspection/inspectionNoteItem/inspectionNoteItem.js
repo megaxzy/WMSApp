@@ -13,7 +13,6 @@ Page({
     date: '',//选择的时间
     date_today: '',//今天的时间
     date_today_YMDhms:'',
-    date_no:'',//时间转no的形式
     supplier_id: '', //supplier message
     supplier_name: '',
     material_id: '', //material message
@@ -33,15 +32,13 @@ Page({
   onLoad: function (query) {
     var that = this
     //获取现在时间
-    var Y=time.Y
-    var M=time.M
-    var D=time.D
-    var h=time.h
-    var m=time.m
-    var s=time.s
-    var date=Y+'-'+M+'-'+D
-    var date_no=Y+M+D+h+m+s
-    var YMDhms=time.YMDhms
+    time.newTime()
+    var Y = time.getY()
+    var M = time.getM()
+    var D = time.getD()
+    var date = Y + '-' + M + '-' + D
+    var YMDhms = time.getYMDhms()
+    console.log("当前时间：" + time.getYMDhms());
     this.setData({
       name:globaldata.user_name,
       role:globaldata.user_role,
@@ -50,7 +47,6 @@ Page({
       date:date,
       date_today:date,
       date_today_YMDhms: YMDhms,
-      date_no:date_no,
       all_storage_location: globaldata.all_storage_location
     })
     //传递上个页面给的参数
@@ -72,45 +68,17 @@ Page({
     
   },
 
-/*
-  //用来保证在退回entry界面的时候入库单信息改变
-  onShow: function () {
-    var that = this
-    that.showWarehouseEntryItem()
-  },
-*/
-  choseEntryItem: function (e) {
-    var that=this
-    var index = e.currentTarget.dataset.index;
-    that.setData({
-      index:index,
-    })
-    var hide=that.data.hide
-    if(that.data.hide[index] == true){
-      hide[index]=false
-      that.setData({
-        hide: hide,
-      })
-    }
-    else {
-      hide[index] = true
-      that.setData({
-        hide: hide,
-      })
-    }
-  },
-
   getInspectionNote:function(){
     var that = this
     var con = condition.NewCondition();
     console.log("noteid test test")
     console.log(that.data.inspection_note_item.inspectionNoteId)
-    con = condition.AddFirstCondition('warehouseEntryItemId', 'EQUAL', that.data.inspection_note_item.inspectionNoteId);
+    con = condition.AddFirstCondition('id', 'EQUAL', that.data.inspection_note_item.inspectionNoteId);
     wx.request({
-      url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/' + con,
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note/' + con,
       method: 'GET',
       success: function (res) {
-        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/' + con)
+        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note/' + con)
         var res_temp = res
         that.setData({
           inspection_note: res_temp.data[0]
@@ -229,9 +197,11 @@ Page({
           "createPersonId": that.data.inspection_note.createPersonId,
           "createTime": that.data.inspection_note.createTime,
           "lastUpdatePersonId": that.data.user_id,
-          "lastUpdateTime": that.data.YMDhms
+          "lastUpdateTime": that.data.date_today_YMDhms
         }
         console.log(object_output_inspection_note)
+        console.log(that.data.inspection_note.createTime)
+        console.log(that.data.inspection_note)
         wx.request({
           url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note/',
           data: [object_output_inspection_note],

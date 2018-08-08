@@ -10,12 +10,12 @@
   <view class="line">' '</view>
   <!--入库单时间-->
   <view class="section">
-  <!--???这个地方的end写什么合适  end="{{date_today}}"-->
+  <!--???这个地方的end写什么合适  end="{{date_today}}"
   <picker mode="date" value="{{date}}" start="2016-09-01" end="{{date_today}}" bindchange="bindDateChange">
     <view class="picker">
       选择要送检的入库单起始日期: {{date}}
     </view>
-  </picker>
+  </picker>-->
 </view>
 
   <view class="line">' '</view>

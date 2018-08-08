@@ -1,7 +1,7 @@
 <view class="container"> 
 
   <!--decode="{{true}}" 后面的&nbsp才能用-->
-  <view class="message">模式:选择使用哪种模式</view>
+  <view class="message">请选择使用哪种模式</view>
   <view class="line"></view>
   <view class="message">
     <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>

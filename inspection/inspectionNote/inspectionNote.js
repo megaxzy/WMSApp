@@ -33,10 +33,13 @@ Page({
   onLoad: function () {
     var that = this
     //获取现在时间
-    var Y=time.Y
-    var M=time.M
-    var D=time.D
-    var date=Y+'-'+M+'-'+D
+    time.newTime()
+    var Y = time.getY()
+    var M = time.getM()
+    var D = time.getD()
+    var date = Y + '-' + M + '-' + D
+    var YMDhms = time.getYMDhms()
+    console.log("当前时间：" + time.getYMDhms());
     this.setData({
       name:globaldata.user_name,  
       role:globaldata.user_role, 
@@ -169,7 +172,7 @@ Page({
     var con = condition.NewCondition();
     //
     con = condition.AddFirstCondition('barCodeNo', 'EQUAL', that.data.rescode);
-    con = condition.AddCondition('warehouseId', 'EQUAL', that.data.warehouse_id);
+    //con = condition.AddCondition('warehouseId', 'EQUAL', that.data.warehouse_id);
     wx.request({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con,
       method: 'GET',//GET为默认方法   /POST
@@ -177,6 +180,28 @@ Page({
         console.log("succeed connect")
         console.log(globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con)
         var res_temp = res
+        if (res_temp.data.length == 0) {
+          wx.showToast({
+            title: '该供货码不存在',
+            icon: 'none',
+            duration: 2000,
+          })
+          setTimeout(function () {
+            wx.hideToast()
+          }, 2000)
+        }
+        else {
+          if (res_temp.data[0].warehouseId != that.data.warehouse_id) {
+            wx.showToast({
+              title: '警告！！！该供货码不属于该仓库，请切换仓库或修改信息',//TODO此处还可以使用
+              icon: 'none',
+              duration: 2000,
+            })
+            setTimeout(function () {
+              wx.hideToast()
+            }, 2000)
+          }
+        }
         that.setData({
           supply: res_temp.data[0]
         })

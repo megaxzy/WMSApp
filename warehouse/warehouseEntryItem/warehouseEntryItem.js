@@ -35,11 +35,13 @@ Page({
   onLoad: function (query) {
     var that = this
     //获取现在时间
-    var Y=time.Y
-    var M=time.M
-    var D=time.D
-    var date=Y+'-'+M+'-'+D
-    var YMDhms=time.YMDhms
+    time.newTime()
+    var Y = time.getY()
+    var M = time.getM()
+    var D = time.getD()
+    var date = Y + '-' + M + '-' + D
+    var YMDhms=time.getYMDhms()
+    console.log("当前时间：" + time.getYMDhms());
     this.setData({
       name:globaldata.user_name,
       role:globaldata.user_role,
