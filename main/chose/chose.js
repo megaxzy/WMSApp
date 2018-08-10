@@ -22,15 +22,13 @@ Page({
     wx.navigateTo({
       url: '../../main/blueTooth/blueTooth',
       success: function () {
-        wx.showToast({
+        wx.showLoading({
           title: '正在进入 蓝牙选择',
-          icon: 'none',
-          duration: 2000,
         })
       }
     })
     setTimeout(function () {
-      wx.hideToast()
+      wx.hideLoading()
     }, 2000)
   },
   

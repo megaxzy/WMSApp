@@ -11,7 +11,7 @@
 
 <form onsubmit="update"> <!--onsubmit="create"-->
 <view class="form">
-    <view class="message" style="color:blue;">请选择备货单条目信息</view> 
+    <view class="message" style="color:blue;">请选择备要更改的备货单条目信息</view> 
 		<view class="subtitle" wx:for="{{transfer_order_item_list.data}}" wx:key="id" bindtap="choseItem" hover-class="subtitle_press" data-index="{{index}}">
       <view class="subtitle">
         <view style="color:red;display:flex;flex-direction:row;">{{index+1}}

@@ -17,14 +17,10 @@
 <form onsubmit="update"> <!--onsubmit="create"-->
 <view class="form">
 	<view class="item">
-    <view class="title" style="color:blue; 	text-align: center;">送检单条目信息</view>
+    <view class="title" style="color:blue; 	text-align: center;">备货条目信息</view>
     <view class="line"></view>
   </view>
 
-  <view class="item">
-    <view class="title" style="color:blue; 	text-align: center;">送检单条目信息)</view>
-    <view class="line"></view>
-  </view>
 
   <view class="item">
 		<view class="title" >物料系列</view>
