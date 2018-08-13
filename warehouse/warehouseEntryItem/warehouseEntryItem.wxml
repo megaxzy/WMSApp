@@ -9,6 +9,87 @@
   </view>
 
 
+
+		<view class="subtitle" wx:for="{{all_warehouse_entry_item.data}}" bindtap="choseEntryItem" hover-class="subtitle_press" data-index="{{index}}">
+      <view class="subtitle">
+        <view style="color:red;display:flex;flex-direction:row;">{{index+1}}
+        </view>
+        供应商名称：{{supplier_name}}
+        <text decode="{{true}}">\n</text>
+        物料名称：{{material_name}}
+        <text decode="{{true}}">\n</text>
+        实收数量：{{item.realAmount}}
+        <text decode="{{true}}">\n</text>
+        备注：{{item.comment}}
+      </view>
+<view class="{{hide[index] == true ?  'hide' : ''}}">
+	<view class="item">
+    <view class="title" style="color:blue; 	text-align: center;">送检单条目信息(第{{index+1}}项)</view>
+    <view class="line"></view>
+  </view>
+
+  <view class="item">
+		<view class="title" >物料系列</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="materialName" value="{{material_name}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >供货商名称</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="supplierName" value="{{supplier_name}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">实收数量</view>
+		<view class="subtitle_disabled">
+			<input type="number" name="realAmount" value="{{index}}" placeholder="" />
+      <!--warehouse_entry_item.data[index].realAmount-->
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">送检数量</view>
+		<view class="subtitle">
+			<input type="number" name="amount" value="{{supply.defaultInspectionAmount}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">送检单位</view>
+		<view class="subtitle">
+			<input type="text" name="unit" value="{{supply.defaultInspectionUnit}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">送检单位数量</view>
+		<view class="subtitle">
+			<input type="number" name="unitAmount" value="{{supply.defaultInspectionUnitAmount}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">备注</view>
+		<view class="subtitle">
+			<input type="text" name="comment" value="" placeholder="请输入备注（可空）" />
+		</view>
+	</view>
+</view>
+      <!--<view class="line"><text decode="{{true}}">&nbsp;&nbsp;</text> </view>-->
+</view>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<view class="line_long">''</view>
+
+
 <view class="line"></view>
 <form onsubmit="create"> <!--onsubmit="create"-->
 <view class="form">

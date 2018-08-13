@@ -31,6 +31,9 @@ Page({
     default_unqualified_storage_location_name: '', //默认入库不合格品库位
     default_unqualified_storage_location_no: '', //默认入库不合格品库位
     warehouse_entry:'', //选择的那个入库单
+    all_warehouse_entry_item:'', //所有的item集合
+    index:'',
+    hide:[],    
   },
   onLoad: function (query) {
     var that = this
@@ -74,7 +77,7 @@ Page({
       default_unqualified_storage_location_no: query.default_unqualified_storage_location_no, 
       warehouse_entry:warehouse_entry_json
     });
-    
+    that.showAllItem()
     console.log(that.data.supply)
   },
   
@@ -185,7 +188,7 @@ Page({
                   "comment": form.comment, //input 
                   "manufactureNo": form.manufactureNo,//input
                   //???这时间应该是哪个 两个是否需要统一
-                  "inventoryDate": time.YMDhms,//auto
+                  "inventoryDate": that.data.date_today_YMDhms,//auto
                   //"manufactureDate": form.manufactureDate,//input
                   //"expiryDate": form.expiryDate//input
                 }    
@@ -263,7 +266,7 @@ Page({
                           "createTime": that.data.warehouse_entry.createTime,
                           //更新的两项 TODO 返回的页面的all_warehouse_entry需要修改
                           "lastUpdatePersonId":globaldata.user_id,
-                          "lastUpdateTime": time.YMDhms
+                          "lastUpdateTime": that.data.date_today_YMDhms
                         }],
                         method: 'PUT',
                         success: function (res) {
@@ -316,8 +319,64 @@ Page({
   },
 
 
-
-
+  choseEntryItem: function (e) {
+    var that = this
+    var index = e.currentTarget.dataset.index;
+    that.setData({
+      index: index,
+    })
+    var hide = that.data.hide
+    if (that.data.hide[index] == true) {
+      hide[index] = false
+      that.setData({
+        hide: hide,
+      })
+    }
+    else {
+      hide[index] = true
+      that.setData({
+        hide: hide,
+      })
+    }
+  },
+  showAllItem: function (e) {
+    var that = this 
+    var con = condition.NewCondition();
+    con = condition.AddFirstCondition('warehouseEntryId', 'EQUAL',that.data.warehouse_entry.id );
+    wx.request({
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'warehouse_entry_item/' + con,
+      method: 'GET',
+      success: function (res) {
+        console.log("succeed connect1")
+        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'warehouse_entry_item/' + con)
+        var res_temp = res
+          that.setData({
+            all_warehouse_entry_item: res_temp, 
+          })
+        console.log(that.data.all_warehouse_entry_item)
+        
+      },
+      //请求失败
+      fail: function (err) {
+        console.log("false")
+        wx.showToast({
+          title: '连接失败,请检查你的网络或者服务端是否开启',
+          icon: 'none',
+          duration: 2000
+        })
+      },
+      complete: function () {
+        var hide = [];
+        for (var i = 0; i < that.data.all_warehouse_entry_item.data.length; i++) {
+          hide.push(true);//添加数组的功能
+          console.log(hide[i])
+        }
+        that.setData({
+          hide: hide
+        })
+      }
+    })
+  }
   /*
   getTheLocationNo:function(e){
     var that = this

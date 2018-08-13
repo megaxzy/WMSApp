@@ -29,12 +29,6 @@
 			<input type="text" disabled="true" name="materialName" value="{{material_name}}" placeholder="" />
 		</view>
 	</view>
-	<view class="item">
-		<view class="title" >备注</view>
-		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="comment" value="{{inspection_note_item.comment}}" placeholder="" />
-		</view>
-	</view>
   <view class="item">
 		<view class="title">送检数量</view>
 		<view class="subtitle_disabled">
@@ -69,6 +63,12 @@
 		<view class="title">送检单位数量</view>
 		<view class="subtitle">
 			<input type="text"  name="returnUnitAmount" value="{{inspection_note_item.returnUnitAmount}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >备注</view>
+		<view class="subtitle">
+			<input type="text"  name="comment" value="{{inspection_note_item.comment}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">

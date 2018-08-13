@@ -1,8 +1,8 @@
 {
   "pages":[
-    "login/logs/logs",
-    "main/blueTooth/blueTooth",
     
+    "main/blueTooth/blueTooth",
+    "login/logs/logs",
   
     
     "main/chose/chose",

@@ -94,18 +94,6 @@ Page({
         hide: hide,
       })
     }
-    /*
-    var supply = JSON.stringify(that.data.supply);
-    var warehouse_entry = JSON.stringify(that.data.warehouse_entry);
-    var warehouse_entry_item = JSON.stringify(that.data.warehouse_entry_item.data[index]);
-    var transvar =
-      'warehouse_entry=' + warehouse_entry + '&' +  //选择的warehouseEntry
-      'supply=' + supply + '&' + //供货信息
-      'supplier_name=' + that.data.supplier_name + '&' +
-      'material_name=' + that.data.material_name + '&' +
-      'index=' + index + '&' +//条目个数
-      'warehouse_entry_item=' + warehouse_entry_item 
-      */
   },
 
   showWarehouseEntryItem: function () {

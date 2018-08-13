@@ -91,7 +91,7 @@
 </view>
   <!--按钮-->
   <view class="loginBtnView" > 
-    <button class="loginBtn" type="primary" form-type="submit" >更新送检单条目</button> 
+    <button class="loginBtn" type="primary" form-type="submit" >更新备货单条目</button> 
   </view> 
 </form>
 
