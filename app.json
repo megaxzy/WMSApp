@@ -1,7 +1,9 @@
 {
   "pages":[
-    
     "main/blueTooth/blueTooth",
+    "main/blueTooth2/blueTooth",
+    
+    
     "login/logs/logs",
   
     

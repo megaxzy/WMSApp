@@ -25,7 +25,9 @@ function ab2hex(buffer) {
 Page({
   data: {
     devices: [],
+    all_devices_id:[],
     connected: false,
+    connected_devices:'',
     chs: [],
   },
   startConnect: function () {
@@ -80,10 +82,10 @@ Page({
   startBluetoothDevicesDiscovery: function () {
     var that = this;
     wx.showLoading({
-      title: '蓝牙搜索'
+      title: '蓝牙搜索中'
     });
     wx.startBluetoothDevicesDiscovery({
-      allowDuplicatesKey: true,//true???
+      allowDuplicatesKey: false,//TODOtrue???
       success: function (res) {
         if (!res.isDiscovering) {
           console.log("返回到getstate")
@@ -106,8 +108,34 @@ Page({
     var that = this;
     console.log('搜索列表onBluetoothDeviceFound');
     wx.onBluetoothDeviceFound(function (devices) {
+      var res_temp = devices
       console.log('new device list has founded')
-      console.log(devices);
+      console.log(devices); 
+      console.log(devices.devices[0].deviceId);// stupid Bluetooth
+      var all_devices_id=that.data.all_devices_id
+      var devices = that.data.devices
+      var signal=0
+      for (var i = 0; i < that.data.all_devices_id.length; i++) {
+        if (res_temp.devices[0].deviceId == all_devices_id[i]){
+          signal=1
+          break
+        }
+      }
+      if(signal==0){
+        console.log(res_temp.devices[0].deviceId);// stupid Bluetooth
+        all_devices_id.push(res_temp.devices[0].deviceId)
+        console.log(res_temp.devices[0]);
+        devices.push(res_temp.devices[0])
+        that.setData({
+          devices: devices,
+          all_devices_id: all_devices_id
+        })
+      }
+      
+      console.log(that.data.all_devices_id)
+      console.log(that.data.devices)
+      console.log(that.data.devices.length)
+      /*
       if (devices.devices[0]) {
         var name = devices.devices[0]['name'];
         if (name != '') {
@@ -119,12 +147,13 @@ Page({
           }
         }
       }
+      */
     })
   },
 
   stopBluetoothDevicesDiscovery() {
     wx.stopBluetoothDevicesDiscovery({
-      success: function (res) {
+      success: function (res) { 
         console.log("关闭扫描成功")
         console.log(res)
         wx.hideToast()
@@ -139,7 +168,67 @@ Page({
       }
     })
   },
+//TODO
+  createBLEConnection(e) {
+    var that=this
+    that.stopBluetoothDevicesDiscovery()
+    var ds = e.currentTarget.dataset
+    var deviceId = ds.deviceId
+    var name = ds.name
+    console.log(ds)
+    console.log(deviceId)
+    console.log(name)
+    setTimeout(function () {
+      wx.createBLEConnection({
+        deviceId: deviceId,
+        timeout:10000,
+        success:function(res){
+          console.log("连接成功")
+          wx.showToast({
+            title: '连接成功',
+          })
+          setTimeout(function () {
+            wx.hideToast()
+          }, 2000)
+          that.setData({
+            connected: true,
+            connected_devices:ds
+          })
+          console.log(that.data.connected)
+          console.log(that.data.connected_devices)
+          //that.getBLEDeviceServices(deviceId)
+        },
+        fail:function(res){
+          console.log(res)
+          wx.showToast({
+            title: '连接失败',
+          })
+          setTimeout(function () {
+            wx.hideToast()
+          }, 2000)
+        }
+      })
+    }, 2000)
+    
+  },
 
+
+
+
+  getBLEDeviceServices(deviceId) {
+    var that=this
+    wx.getBLEDeviceServices({
+      deviceId,
+      success: (res) => {
+        for (let i = 0; i < res.services.length; i++) {
+          if (res.services[i].isPrimary) {
+            that.getBLEDeviceCharacteristics(deviceId, res.services[i].uuid)
+            return
+          }
+        }
+      }
+    })
+  },
 
 
 
