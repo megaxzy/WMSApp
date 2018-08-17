@@ -10,84 +10,8 @@
 
 
 
-		<view class="subtitle" wx:for="{{all_warehouse_entry_item.data}}" bindtap="choseEntryItem" hover-class="subtitle_press" data-index="{{index}}">
-      <view class="subtitle">
-        <view style="color:red;display:flex;flex-direction:row;">{{index+1}}
-        </view>
-        供应商名称：{{supplier_name}}
-        <text decode="{{true}}">\n</text>
-        物料名称：{{material_name}}
-        <text decode="{{true}}">\n</text>
-        实收数量：{{item.realAmount}}
-        <text decode="{{true}}">\n</text>
-        备注：{{item.comment}}
-      </view>
-<view class="{{hide[index] == true ?  'hide' : ''}}">
-	<view class="item">
-    <view class="title" style="color:blue; 	text-align: center;">送检单条目信息(第{{index+1}}项)</view>
-    <view class="line"></view>
-  </view>
-
-  <view class="item">
-		<view class="title" >物料系列</view>
-		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="materialName" value="{{material_name}}" placeholder="" />
-		</view>
-	</view>
-  <view class="item">
-		<view class="title" >供货商名称</view>
-		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="supplierName" value="{{supplier_name}}" placeholder="" />
-		</view>
-	</view>
-  <view class="item">
-		<view class="title">实收数量</view>
-		<view class="subtitle_disabled">
-			<input type="number" name="realAmount" value="{{index}}" placeholder="" />
-      <!--warehouse_entry_item.data[index].realAmount-->
-		</view>
-	</view>
-  <view class="item">
-		<view class="title">送检数量</view>
-		<view class="subtitle">
-			<input type="number" name="amount" value="{{supply.defaultInspectionAmount}}" placeholder="" />
-		</view>
-	</view>
-  <view class="item">
-		<view class="title">送检单位</view>
-		<view class="subtitle">
-			<input type="text" name="unit" value="{{supply.defaultInspectionUnit}}" placeholder="" />
-		</view>
-	</view>
-  <view class="item">
-		<view class="title">送检单位数量</view>
-		<view class="subtitle">
-			<input type="number" name="unitAmount" value="{{supply.defaultInspectionUnitAmount}}" placeholder="" />
-		</view>
-	</view>
-  <view class="item">
-		<view class="title">备注</view>
-		<view class="subtitle">
-			<input type="text" name="comment" value="" placeholder="请输入备注（可空）" />
-		</view>
-	</view>
-</view>
-      <!--<view class="line"><text decode="{{true}}">&nbsp;&nbsp;</text> </view>-->
-</view>
 
 
-
-
-
-
-
-
-
-
-
-
-
-<view class="line_long">''</view>
 
 
 <view class="line"></view>
@@ -246,10 +170,223 @@
 	</view>
 </view>
   <!--按钮-->
-  <view class="loginBtnView"> 
+  <view class="loginBtnView" style="background-color:white;"> 
     <button class="loginBtn" type="primary" form-type="submit" >生成入库单条目</button> <!--bindtap="create"-->
   </view> 
 </form>
+
+
+
+<view class="line_long"></view>
+
+
+
+
+		<view class="subtitle" wx:for="{{all_warehouse_entry_item.data}}" bindtap="choseEntryItem" hover-class="subtitle_press" data-index="{{index}}">
+      <view class="subtitle">
+        <view style="color:red;display:flex;flex-direction:row;">{{index+1}}
+        </view>
+        供应商名称：{{supplier_name}}
+        <text decode="{{true}}">\n</text>
+        物料名称：{{material_name}}
+        <text decode="{{true}}">\n</text>
+        实收数量：{{item.realAmount}}
+        <text decode="{{true}}">\n</text>
+        备注：{{item.comment}}
+      </view>
+<view class="{{hide[index] == true ?  'hide' : ''}}">
+	<view class="item">
+    <view class="title" style="color:blue; 	text-align: center;">送检单条目信息(第{{index+1}}项)</view>
+    <view class="line"></view>
+  </view>
+
+  <view class="item">
+		<view class="title" >物料系列</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="materialName" value="{{item.materialName}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >供货商名称</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="supplierName" value="{{item.supplierName}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">实收数量</view>
+		<view class="subtitle_disabled">
+			<input type="number" name="realAmount" value="{{item.realAmount}}" placeholder="" />
+      <!--warehouse_entry_item.data[index].realAmount-->
+		</view>
+	</view>
+	<view class="item">
+		<view class="title" >物料代号</view>
+		<view class="subtitle">
+			<input type="number" disabled="true" name="materialNo" value="{{item.materialNo}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >物料名称</view>
+		<view class="subtitle">
+			<input type="text" disabled="true" name="materialName" value="{{item.materialName}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >物料系列</view>
+		<view class="subtitle">
+			<input type="text" disabled="true" name="materialProductLine" value="{{item.materialProductLine}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >供货商名称</view>
+		<view class="subtitle">
+			<input type="text" disabled="true" name="supplierName" value="{{item.supplierName}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >入库库位名称</view>
+		<view class="subtitle">
+			<input type="number" name="storageLocationName" value="{{item.storageLocationName}}" placeholder="" />
+		</view>
+	</view> 
+  <!--
+  <view class="item">
+		<view class="title" >入库库位编码</view>
+		<view class="subtitle">
+			<input type="number" name="storageLocationNo" value="{{item.storageLocationNo}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >合格品库位名称</view>
+		<view class="subtitle">
+			<input type="number" name="qualifiedLocationName" value="{{item.qualifiedLocationName}}" placeholder="" />
+		</view>
+	</view> 
+  <view class="item">
+		<view class="title" >合格品库位编码</view>
+		<view class="subtitle">
+			<input type="number" name="qualifiedLocationNo" value="{{item.qualifiedLocationNo}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >不良品库位名称</view>
+		<view class="subtitle">
+			<input type="number" name="unqualifiedLocationName" value="{{item.unqualifiedLocationName}}" placeholder="" />
+		</view>
+	</view> 
+  <view class="item">
+		<view class="title" >不良品库位编码</view>
+		<view class="subtitle">
+			<input type="number" name="unqualifiedLocationNo" value="{{item.unqualifiedLocationNo}}" placeholder="" />
+		</view>
+	</view>
+  -->
+  <view class="item">
+		<view class="title">订单数量</view>
+		<view class="subtitle"> 
+			<input type="number" name="expectedAmount" value="{{item.expectedAmount}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">实收数量</view>
+		<view class="subtitle">
+			<input type="number" name="realAmount" value="{{supply.defaultEntryAmount}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">单位</view>
+		<view class="subtitle">
+			<input type="text" name="unit" value="{{item.unit}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">单位数量</view>
+		<view class="subtitle">
+			<input type="number" name="unitAmount" value="{{item.unitAmount}}" placeholder="" />
+		</view>
+	</view>  
+    <view class="item">
+		<view class="title">拒收数量</view>
+		<view class="subtitle">
+			<input type="number" name="refuseAmount" value="{{item.refuseAmount}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">拒收单位</view>
+		<view class="subtitle">
+			<input type="text" name="refuseUnit" value="{{item.refuseUnit}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">拒收单位数量</view>
+		<view class="subtitle">
+			<input type="number" name="refuseUnitAmount" value="{{item.refuseAmount}}" placeholder="" />
+		</view>
+	</view>  
+  <view class="item">
+		<view class="title">已送检数量</view>
+		<view class="subtitle">
+			<input type="number" name="inspectionAmount" value="{{item.inspectionAmount}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">状态（0待入库 1送检中 2正品入库 3不良品入库）</view>
+		<view class="subtitle">
+			<input type="number" name="state" value="{{item.state}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">存货日期</view>
+		<view class="subtitle">
+			<input type="text" disabled="true" name="inventoryDate" value="{{item.inventoryDate}}" placeholder="" />
+		</view>
+	</view>
+  <!--TODO-->
+  <view class="item">
+		<view class="title">生产日期</view>
+		<view class="subtitle">
+			<input type="text" name="manufactureDate" value="{{item.manufactureDate}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">失效日期</view>
+		<view class="subtitle">
+			<input type="text" name="expiryDate" value="{{item.expiryDate}}" placeholder="" />
+		</view>
+	</view>
+  <!--
+  <view class="item">
+		<view class="title">作业人名称</view>
+		<view class="subtitle">
+			<input type="text" disabled="true" name="uaerName" value="{{item.name}}" placeholder="" />
+		</view>
+	</view>
+  -->
+  <view class="item">
+		<view class="title">备注</view>
+		<view class="subtitle">
+			<input type="text" name="comment" value="{{item.comment}}" placeholder="" />
+		</view>
+	</view>
+</view>
+      <!--<view class="line"><text decode="{{true}}">&nbsp;&nbsp;</text> </view>-->
+</view>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 </view>

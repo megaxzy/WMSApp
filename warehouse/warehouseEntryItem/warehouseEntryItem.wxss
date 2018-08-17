@@ -26,7 +26,7 @@ page{
 .loginBtnView { 
  width: 750rpx; 
  height: auto; 
- background-color: #f2f2f2; 
+ background-color:white; 
  margin-top: 0px; 
  margin-bottom: 0px; 
  margin-left: 0px; 
@@ -34,8 +34,8 @@ page{
 } 
   
 .loginBtn { 
+ background-color:white; 
  width: 500rpx; 
- margin-top: 10rpx; 
 }
 
 /*form*/
@@ -82,6 +82,6 @@ page{
 } 
 .line_long { 
  width: 750rpx; 
- background-color: #333333; 
+ background-color:  #cccccc; 
  margin-top: 10rpx; 
 } 

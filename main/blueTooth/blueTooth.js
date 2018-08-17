@@ -1,3 +1,4 @@
+var app = getApp()
 
 var condition = require('../../utils/condition.js');
 var globaldata = require('../../utils/globaldata.js');
@@ -111,7 +112,12 @@ Page({
       var res_temp = devices
       console.log('new device list has founded')
       console.log(devices); 
+      console.log(devices.deviceId);// stupid Bluetooth
+      console.log(devices.name);// stupid Bluetooth
+      console.log(devices.localName);// stupid Bluetooth
       console.log(devices.devices[0].deviceId);// stupid Bluetooth
+      console.log(devices.devices[0].name);// stupid Bluetooth
+      console.log(devices.devices[0].localName);// stupid Bluetooth
       var all_devices_id=that.data.all_devices_id
       var devices = that.data.devices
       var signal=0
@@ -211,8 +217,6 @@ Page({
     }, 2000)
     
   },
-
-
 
 
   getBLEDeviceServices(deviceId) {

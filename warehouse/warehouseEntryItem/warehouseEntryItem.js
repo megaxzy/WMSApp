@@ -33,7 +33,8 @@ Page({
     warehouse_entry:'', //选择的那个入库单
     all_warehouse_entry_item:'', //所有的item集合
     index:'',
-    hide:[],    
+    hide:[], 
+    user_names:[],   
   },
   onLoad: function (query) {
     var that = this

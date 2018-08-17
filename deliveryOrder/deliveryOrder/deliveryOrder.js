@@ -198,16 +198,18 @@ Page({
               wx.hideToast()
             }, 2000)
           }
+          else{
+            that.setData({
+              supply: res_temp.data[0]
+            })
+            console.log(that.data.supply)
+            console.log(res.data[0].barCodeNo)//TODO 暂时查不到barcodeno
+            that.setData({
+              supplier_id: that.data.supply.supplierId,
+              material_id: that.data.supply.materialId
+            })
+          }
         }
-        that.setData({
-          supply: res_temp.data[0]
-        })
-        console.log(that.data.supply)
-        console.log(res.data[0].barCodeNo)//TODO 暂时查不到barcodeno
-        that.setData({
-          supplier_id: that.data.supply.supplierId,
-          material_id: that.data.supply.materialId
-        })
       },
       //请求失败
       fail: function (err) {
