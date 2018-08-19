@@ -37,7 +37,7 @@
 		<view class="title" style="	text-align: center;">入库单信息</view>
     <view class="line">' '</view> 
     <!--wx:for 完了 用item表示每项-->
-		<view class="subtitle" wx:for="{{warehouseEntry_list.data}}" wx:if="{{item.supplierId==supplier_id}}" bindtap="chose" hover-class="subtitle_press" hover-stay-time="3000" data-index="{{index}}">
+		<view class="subtitle" wx:for="{{warehouseEntry_list.data}}" wx:if="{{item.supplierId==supplier_id}}" bindtap="chose" hover-class="subtitle_press"  data-index="{{index}}">
       <view class="subtitle">
         <view style="color:red;display:flex;flex-direction:row;">入库单号：
           <view style="color:black;display:flex;flex-direction:row;" >{{item.no}}</view>

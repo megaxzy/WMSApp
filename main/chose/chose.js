@@ -29,7 +29,7 @@ Page({
     })
     setTimeout(function () {
       wx.hideLoading()
-    }, 2000)
+    }, 1000)
   },
   
   enterWarehouseEntry: function () {
@@ -38,16 +38,14 @@ Page({
       //url: '../../main/scan/scan'
       url: '../../warehouse/warehouseEntry/warehouseEntry',
       success:function(){
-        wx.showToast({
+        wx.showLoading({
           title: '正在进入 入库单扫码模式',
-          icon: 'none',
-          duration: 2000,
         })
       }
     })
     setTimeout(function () {
-      wx.hideToast()
-    }, 2000)
+      wx.hideLoading()
+    }, 1000)
   },
   enterInspectionNote: function () {
     wx.navigateTo({
@@ -55,16 +53,14 @@ Page({
       //url: '../../main/scan/scan'
       url: '../../inspection/inspectionNote/inspectionNote',
       success: function () {
-        wx.showToast({
+        wx.showLoading({
           title: '正在进入 送检单扫码模式',
-          icon: 'none',
-          duration: 2000,
         })
       }
     })
     setTimeout(function () {
-      wx.hideToast()
-    }, 2000)
+      wx.hideLoading()
+    }, 1000)
   },
   enterTransferOrder: function () {
     wx.navigateTo({
@@ -72,16 +68,14 @@ Page({
       //url: '../../main/scan/scan'
       url: '../../transferOrder/transferOrder/transferOrder',
       success: function () {
-        wx.showToast({
+        wx.showLoading({
           title: '正在进入 备货单扫码模式',
-          icon: 'none',
-          duration: 2000,
         })
       }
     })
     setTimeout(function () {
-      wx.hideToast()
-    }, 2000)
+      wx.hideLoading()
+    }, 1000)
   },
   enterDeliveryOrder: function () {
     wx.navigateTo({
@@ -89,15 +83,13 @@ Page({
       //url: '../../main/scan/scan'
       url: '../../deliveryOrder/deliveryOrder/deliveryOrder',
       success: function () {
-        wx.showToast({
+        wx.showLoading({
           title: '正在进入 出库单扫码模式',
-          icon: 'none',
-          duration: 2000,
         })
       }
     })
     setTimeout(function () {
-      wx.hideToast()
-    }, 2000)
+      wx.hideLoading()
+    }, 1000)
   },
 })

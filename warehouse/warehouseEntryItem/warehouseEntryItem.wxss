@@ -68,7 +68,15 @@ page{
 	flex: 3;
   color: #333333;
 }
-
+/*这是不可修改的条目*/
+.subtitle_disabled {
+  /*font-size:40rpx;*/
+  width: 750rpx; 
+  font-size: 40rpx;
+	flex: 3;
+  color: #333333;
+  background:#ddd;
+}
 .section{
   text-align: center;
   width:750rpx;

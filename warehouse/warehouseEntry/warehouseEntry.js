@@ -111,15 +111,24 @@ Page({
     var chosen_warehouse_entry = that.data.warehouseEntry_list.data[index]
     //var entryId = that.data.warehouseEntry_list.data[index].id
     console.log(index)
-    console.log(that.data.warehouseEntry_list.data[index])
     wx.showToast({
       title: '进入【入库单条目】生成页面',
       icon: 'none',
       duration: 2000
     })
-    console.log(that.data.default_qualified_storage_location_name)
+    console.log(that.data.warehouseEntry_list.data[index])
     var supply = JSON.stringify(that.data.supply);
     var warehouse_entry =JSON.stringify(chosen_warehouse_entry);
+    /*
+    var str = 'abcadeacf';
+    var str1 = str.replace('a', 'o');
+    console.log(str1); 
+    */
+    warehouse_entry = warehouse_entry.replace(/&/g, "%26");
+    /*
+    var warehouse_entry = '"id":110,"warehouseId":36,"supplierId":166,"no":"R201806260102-2","description":"gln测试合格和不合格能否瞬间同步","state":2,"deliverOrderNoSrm":"5%5%26%43","inboundDeliveryOrderNo":" hkihifa ***","outboundDeliveryOrderNo":"1","purchaseOrderNo":"1","createPersonId":68,"createTime":"2018-06-26 01:02:54","lastUpdatePersonId":68,"lastUpdateTime":"2018-06-26 06:53:56","supplierNo":"gln","supplierName":"gln","warehouseName":"gln","createPersonName":"2","lastUpdatePersonName":"2"'
+    */
+    console.log('发过去的：'+warehouse_entry)
     var transvar = 
       'warehouse_entry=' + warehouse_entry + '&' +
       'supply=' +  supply + '&' +
@@ -167,7 +176,7 @@ Page({
       //test begin
       that.setData({
         //TODO此处应该是res 仅作测试
-        rescode: '1234567'
+        rescode: '23456'
       });
       console.log(that.data.rescode)
       that.getSupply()
