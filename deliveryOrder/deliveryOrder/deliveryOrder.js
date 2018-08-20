@@ -54,7 +54,8 @@ Page({
   //用来保证在退回entry界面的时候入库单信息改变
   onShow:function(){
     var that=this
-    //that.showDeliveryOrderItem();
+    that.showDeliveryOrderItem();
+    
   },
   bindDateChange: function (e) {
     var that=this

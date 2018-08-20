@@ -35,6 +35,7 @@ Page({
     default_qualified_storage_location_no: '', //默认入库合格品库位
     default_unqualified_storage_location_name: '', //默认入库不合格品库位
     default_unqualified_storage_location_no: '', //默认入库不合格品库位
+    scan_success:'0',
   },
   onLoad: function () {
     var that = this
@@ -209,7 +210,7 @@ Page({
         console.log("succeed connect")
         console.log(globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con)
         var res_temp = res
-        if (res_temp.data.length ==0){
+        if (res_temp.data.length == 0){
           wx.showToast({
             title: '该供货码不存在',
             icon: 'none',
@@ -231,14 +232,6 @@ Page({
             }, 2000)
           }
           else{
-            wx.showToast({
-              title: '扫码成功',//TODO此处还可以使用
-              icon: 'none',
-              duration: 2000,
-            })
-            setTimeout(function () {
-              wx.hideToast()
-            }, 2000)
             that.setData({
               supply: res_temp.data[0]
             })
@@ -247,6 +240,12 @@ Page({
             that.setData({
               supplier_id: that.data.supply.supplierId,
               material_id: that.data.supply.materialId
+            })
+            that.getThreeOfDefaultEntryStroageLocationMessages()
+            that.getSupplierName()
+            that.getMaterialName()
+            that.setData({
+              scan_success: 1
             })
           }
         }
@@ -262,9 +261,31 @@ Page({
         })
       },
       complete:function(){
-        that.getThreeOfDefaultEntryStroageLocationMessages()
-        that.getSupplierName()
-        that.getMaterialName()
+        if(that.data.scan_success==1){
+          wx.showToast({
+            title: '扫码成功',//TODO此处还可以使用
+            icon: 'success',
+            duration: 2000,
+          })
+          setTimeout(function () {
+            wx.hideToast()
+          }, 2000)
+          that.setData({
+            scan_success:0
+          })
+        }
+        else{
+          /*
+          wx.showToast({
+            title: '扫码失败',//TODO此处还可以使用
+            icon: 'none',
+            duration: 2000,
+          })
+          setTimeout(function () {
+            wx.hideToast()
+          }, 2000)
+          */
+        }
       }
     })
   },

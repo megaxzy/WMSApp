@@ -23,6 +23,8 @@ Page({
     all_storage_location:'', //所有库位信息
     transfer_order_item_source_storage_location_array:[],
     transfer_order_item_target_storage_location_array:[],
+    transfer_order_item_source_storage_location_no_array: [],
+    transfer_order_item_target_storage_location_no_array: [],
     chosen_transfer_order:'',
     transfer_order_item_list: '',
     index: '',//选择的条目顺序
@@ -63,11 +65,17 @@ Page({
       material_name: query.material_name,
       material_no: query.material_no,
       material_product_line: query.material_product_line
-    });
+    }); 
     that.getTransferOrderItem()
     //that.getStorageLocation()
   },
  
+ 
+  onShow: function () {
+    var that = this
+    that.getTransferOrderItem()
+  },
+
   getTransferOrderItem: function () {
     var that = this
     var con = condition.NewCondition();
@@ -97,24 +105,30 @@ Page({
       complete:function(){
         var hide = [];
         var transfer_order_item_source_storage_location_array=[];
+        var transfer_order_item_source_storage_location_no_array=[];
         var transfer_order_item_target_storage_location_array = [];
+        var transfer_order_item_target_storage_location_no_array=[];
         for (var i = 0; i < that.data.transfer_order_item_list.data.length; i++) {
-          hide.push(true);//添加数组的功能
+          //hide.push(true);//添加数组的功能
           var id_s = that.data.transfer_order_item_list.data[i].sourceStorageLocationId
           var id_t = that.data.transfer_order_item_list.data[i].targetStorageLocationId
           for (var j = 0; j < that.data.all_storage_location.data.length; j++) {
             if (that.data.all_storage_location.data[j].id==id_s){
               transfer_order_item_source_storage_location_array.push(that.data.all_storage_location.data[j].name)
+              transfer_order_item_source_storage_location_no_array.push(that.data.all_storage_location.data[j].no)
             }
             if (that.data.all_storage_location.data[j].id == id_t) {
               transfer_order_item_target_storage_location_array.push(that.data.all_storage_location.data[j].name)
+              transfer_order_item_target_storage_location_no_array.push(that.data.all_storage_location.data[j].no)
             }
           }
         }
         that.setData({
           hide: hide,
           transfer_order_item_source_storage_location_array: transfer_order_item_source_storage_location_array,
-          transfer_order_item_target_storage_location_array: transfer_order_item_target_storage_location_array
+          transfer_order_item_target_storage_location_array: transfer_order_item_target_storage_location_array,
+          transfer_order_item_source_storage_location_no_array: transfer_order_item_source_storage_location_no_array,
+          transfer_order_item_target_storage_location_no_array: transfer_order_item_target_storage_location_no_array
         })
         console.log(transfer_order_item_source_storage_location_array)
         console.log(transfer_order_item_target_storage_location_array)
@@ -133,6 +147,7 @@ Page({
     console.log(chosen_transfer_order_item)
     var chosen_transfer_order_item = JSON.stringify(chosen_transfer_order_item);
     console.log(chosen_transfer_order_item)
+    
     var transvar =
       'chosen_transfer_order=' + chosen_transfer_order + '&' +  //选择的 
       'chosen_transfer_order_item=' + chosen_transfer_order_item + '&' +  //选择的 item
@@ -142,7 +157,9 @@ Page({
       'material_id=' + that.data.material_id + '&' +
       'material_name=' + that.data.material_name + '&' +
       'source_storage_location_name=' + that.data.transfer_order_item_source_storage_location_array[index] + '&' +
-      'target_storage_location_name=' + that.data.transfer_order_item_target_storage_location_array[index] 
+      'target_storage_location_name=' + that.data.transfer_order_item_target_storage_location_array[index] + '&' +
+      'source_storage_location_no=' + that.data.transfer_order_item_source_storage_location_no_array[index] + '&' +
+      'target_storage_location_no=' + that.data.transfer_order_item_target_storage_location_no_array[index] 
     wx.navigateTo({
       url: '../../transferOrder/transferOrderItemChange/transferOrderItemChange' + '?' + transvar
     })

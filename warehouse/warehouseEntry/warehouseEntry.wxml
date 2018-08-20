@@ -34,7 +34,7 @@
 <form > <!--onsubmit="add"-->
 <view class="form">
 	<view class="item">
-		<view class="title" style="	text-align: center;">入库单信息</view>
+		<view class="title" style="	text-align: center;">请选择 入库单信息</view>
     <view class="line">' '</view> 
     <!--wx:for 完了 用item表示每项-->
 		<view class="subtitle" wx:for="{{warehouseEntry_list.data}}" wx:if="{{item.supplierId==supplier_id}}" bindtap="chose" hover-class="subtitle_press"  data-index="{{index}}">

@@ -152,14 +152,14 @@ Page({
       "id": that.data.inspection_note_item.id,
       "inspectionNoteId": that.data.inspection_note_item.inspectionNoteId,//auto
       "warehouseEntryItemId": that.data.inspection_note_item.warehouseEntryItemId, //auto 
-      "state": that.data.inspection_note_item.state,
       "amount": that.data.inspection_note_item.amount,
       "unit": that.data.inspection_note_item.unit,
       "unitAmount": that.data.inspection_note_item.unitAmount,
       "returnAmount":form.returnAmount,
       "returnUnit":form.returnUnit,
       "returnUnitAmount":form.returnUnitAmount,
-      "comment": that.data.inspection_note_item.comment,
+      "state": form.state,
+      "comment": form.comment,
       "personId":that.data.user_id
     }
     console.log(object_output_inspection_note_item)
@@ -190,14 +190,14 @@ Page({
           "warehouseEntryId": that.data.inspection_note.warehouseEntryId,//auto
           "warehouseId": that.data.inspection_note.warehouseId, //auto 
           "no": that.data.inspection_note.no,
-          "state": that.data.inspection_note.state,
+          "state": that.data.inspection_note.state,//TODO
           "description": that.data.inspection_note.description,
           "SAPNo": that.data.inspection_note.SAPNo,
           "inspectionTime": that.data.inspection_note.inspectionTime,
           "createPersonId": that.data.inspection_note.createPersonId,
           "createTime": that.data.inspection_note.createTime,
-          "lastUpdatePersonId": that.data.user_id,
-          "lastUpdateTime": that.data.date_today_YMDhms
+          "lastUpdatePersonId": that.data.user_id, //update
+          "lastUpdateTime": that.data.date_today_YMDhms //update
         }
         console.log(object_output_inspection_note)
         console.log(that.data.inspection_note.createTime)
@@ -212,6 +212,17 @@ Page({
           success: function (res) {
             console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note/')
             console.log(res)
+            wx.showToast({
+              title: '存入成功',
+              icon: 'success',
+              duration: 1500,
+              success: function () {
+                setTimeout(function () {
+                  //要延时执行的代码
+                  wx.navigateBack();
+                }, 1500)
+              }
+            })
           },
           //请求失败
           fail: function (err) {

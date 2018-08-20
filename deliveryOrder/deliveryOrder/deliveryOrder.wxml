@@ -35,7 +35,7 @@
 <form > <!--onsubmit="add"-->
 <view class="form">
 	<view class="item">
-		<view class="title" style="	text-align: center;">选择要修改的出库单条目信息</view>
+		<view class="title" style="	text-align: center;">选择要修改的 出库单条目信息</view>
     <view class="line">' '</view> 
     <!--wx:for 完了 用item表示每项-->
     <!--这个地方是不是应该待入库的显示???-->
@@ -56,7 +56,7 @@
         <text decode="{{true}}">\n</text>
         单位数量：{{item.unitAmount}}
         <text decode="{{true}}">\n</text>
-        状态：{{item.state==0 ?'待装车':'部分装车'}}{{item.state}}
+        状态：{{item.state==0 ?'待装车':'' + item.state==1 ?'部分装车完成':'' + item.state==2 ?'全部装车完成':''}}
         <text decode="{{true}}">\n</text>
         备注：{{item.comment}} 
       </view>

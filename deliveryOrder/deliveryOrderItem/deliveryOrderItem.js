@@ -165,7 +165,7 @@ Page({
   update: function (e) {
     var that = this 
     var form = e.detail.value
-
+    var res_temp
     console.log("chosen_delivery_order_item:")
     var object_output_delivery_order_item= {
       "id": that.data.chosen_delivery_order_item.id,
@@ -190,6 +190,8 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        res_temp=res
+        
         console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/')
         console.log(res)
       },
@@ -212,58 +214,74 @@ Page({
       
       complete: function () {
         console.log("delivery order:")
-        var object_output_delivery_order = {
-          "id": that.data.delivery_order.id,
-          "warehouseId": that.data.delivery_order.warehouseId, //auto 
-          "no": that.data.delivery_order.no,
-          "state": that.data.delivery_order.state,
-          "description": that.data.delivery_order.description,
-          "driverName":that.data.delivery_order.driverName,
-          "liscensePlateNumber": that.data.delivery_order.liscensePlateNumber,
-          "deliverTime": that.data.delivery_order.deliverTime,
-          "returnNoteNo":that.data.delivery_order.returnNoteNo,
-          "returnNoteTime": that.data.delivery_order.returnNoteTime,
-          "createPersonId": that.data.delivery_order.createPersonId,
-          "createTime": that.data.delivery_order.createTime,
-          "lastUpdatePersonId": that.data.user_id,
-          "lastUpdateTime": that.data.YMDhms
+        if (res_temp.statusCode==400){
+          wx.showToast({
+            title: ''+res_temp.data,
+            icon: 'none',
+            duration: 4000,
+            success: function () {
+              setTimeout(function () {
+                //要延时执行的代码
+                wx.hideToast()
+              }, 4000)
+            }
+          })
         }
-        console.log(object_output_delivery_order)
-        wx.request({
-          url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/',
-          data: [object_output_delivery_order],
-          method: 'PUT',
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: function (res) {
-            console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/')
-            console.log(res)
-            wx.showToast({
-              title: '修改成功',
-              icon: 'none',
-              duration: 2500,
-              success: function () {
-                setTimeout(function () {
-                  //要延时执行的代码
-                  wx.navigateBack();
-                }, 1500)
-              }
-            })
-          },
-          //请求失败
-          fail: function (err) {
-            console.log("false")
-            wx.showToast({
-              title: '连接失败,请检查你的网络或者服务端是否开启',
-              icon: 'none',
-              duration: 2000
-            })
-          },
-          complete: function () {
-
+        else{
+          var object_output_delivery_order = {
+            "id": that.data.delivery_order.id,
+            "warehouseId": that.data.delivery_order.warehouseId, //auto 
+            "no": that.data.delivery_order.no,
+            "state": that.data.delivery_order.state,
+            "description": that.data.delivery_order.description,
+            "driverName": that.data.delivery_order.driverName,
+            "liscensePlateNumber": that.data.delivery_order.liscensePlateNumber,
+            "deliverTime": that.data.delivery_order.deliverTime,
+            "returnNoteNo": that.data.delivery_order.returnNoteNo,
+            "returnNoteTime": that.data.delivery_order.returnNoteTime,
+            "createPersonId": that.data.delivery_order.createPersonId,
+            "createTime": that.data.delivery_order.createTime,
+            "lastUpdatePersonId": that.data.user_id,
+            "lastUpdateTime": that.data.YMDhms
           }
-        })   
+          console.log(object_output_delivery_order)
+          wx.request({
+            url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/',
+            data: [object_output_delivery_order],
+            method: 'PUT',
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+              console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/')
+              console.log(res)
+              wx.showToast({
+                title: '修改成功',
+                icon: 'none',
+                duration: 2500,
+                success: function () {
+                  setTimeout(function () {
+                    //要延时执行的代码
+                    wx.navigateBack();
+                  }, 1500)
+                }
+              })
+            },
+            //请求失败
+            fail: function (err) {
+              console.log("false")
+              wx.showToast({
+                title: '连接失败,请检查你的网络或者服务端是否开启',
+                icon: 'none',
+                duration: 2000
+              })
+            },
+            complete: function () {
+
+            }
+          })   
+        }
+        
       }
 
     })

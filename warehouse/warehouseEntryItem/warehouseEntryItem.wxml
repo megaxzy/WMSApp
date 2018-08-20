@@ -201,19 +201,6 @@
     <view class="title" style="color:blue; 	text-align: center;">送检单条目信息(第{{index+1}}项)</view>
     <view class="line"></view>
   </view>
-
-  <view class="item">
-		<view class="title" >物料系列</view>
-		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="materialName" value="{{item.materialName}}" placeholder="" />
-		</view>
-	</view>
-  <view class="item">
-		<view class="title" >供货商名称</view>
-		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="supplierName" value="{{item.supplierName}}" placeholder="" />
-		</view>
-	</view>
   <view class="item">
 		<view class="title">实收数量</view>
 		<view class="subtitle_disabled">
@@ -221,30 +208,7 @@
       <!--warehouse_entry_item.data[index].realAmount-->
 		</view>
 	</view>
-	<view class="item">
-		<view class="title" >物料代号</view>
-		<view class="subtitle">
-			<input type="number" disabled="true" name="materialNo" value="{{item.materialNo}}" placeholder="" />
-		</view>
-	</view>
-  <view class="item">
-		<view class="title" >物料名称</view>
-		<view class="subtitle">
-			<input type="text" disabled="true" name="materialName" value="{{item.materialName}}" placeholder="" />
-		</view>
-	</view>
-  <view class="item">
-		<view class="title" >物料系列</view>
-		<view class="subtitle">
-			<input type="text" disabled="true" name="materialProductLine" value="{{item.materialProductLine}}" placeholder="" />
-		</view>
-	</view>
-  <view class="item">
-		<view class="title" >供货商名称</view>
-		<view class="subtitle">
-			<input type="text" disabled="true" name="supplierName" value="{{item.supplierName}}" placeholder="" />
-		</view>
-	</view>
+
   <view class="item">
 		<view class="title" >入库库位名称</view>
 		<view class="subtitle">

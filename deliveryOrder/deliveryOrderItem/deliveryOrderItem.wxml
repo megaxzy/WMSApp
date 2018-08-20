@@ -54,11 +54,18 @@
 		</view>
 	</view>
   <view class="item">
-		<view class="title" >备注</view>
+		<view class="title">单位</view>
 		<view class="subtitle">
-			<input type="text"  name="comment" value="{{chosen_delivery_order_item.comment}}" placeholder="" />
+			<input type="text"  name="unit" value="{{chosen_delivery_order_item.unit}}" placeholder="" />
 		</view>
 	</view>
+  <view class="item">
+		<view class="title">单位数量</view>
+		<view class="subtitle">
+			<input type="number"  name="unitAmount" value="{{chosen_delivery_order_item.unitAmount}}" placeholder="" />
+		</view>
+	</view>
+
   <view class="item">
 		<view class="title">装车时间(默认为现在时间)</view>
 		<view class="subtitle">
@@ -66,15 +73,9 @@
 		</view>
 	</view>
   <view class="item">
-		<view class="title">单位</view>
+		<view class="title" >备注</view>
 		<view class="subtitle">
-			<input type="number"  name="unit" value="{{chosen_delivery_order_item.unit}}" placeholder="" />
-		</view>
-	</view>
-  <view class="item">
-		<view class="title">单位数量</view>
-		<view class="subtitle">
-			<input type="number"  name="unitAmount" value="{{chosen_delivery_order_item.unitAmount}}" placeholder="" />
+			<input type="text"  name="comment" value="{{chosen_delivery_order_item.comment}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">

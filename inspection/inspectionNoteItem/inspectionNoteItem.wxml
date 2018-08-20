@@ -65,6 +65,13 @@
 			<input type="text"  name="returnUnitAmount" value="{{inspection_note_item.returnUnitAmount}}" placeholder="" />
 		</view>
 	</view>
+	<view class="item">
+		<view class="title" >状态（0待检 1全部合格 2不合格）</view>
+		<view class="subtitle">
+			<input type="text" name="state" value="{{inspection_note_item.state}}" placeholder="" />
+      <!--inspection_note_item.state==0 ? '待检':'' + inspection_note_item.state==1 ? '全部合格':'' + inspection_note_item.state==2 ? '不合格':''-->
+		</view>
+	</view>
   <view class="item">
 		<view class="title" >备注</view>
 		<view class="subtitle">

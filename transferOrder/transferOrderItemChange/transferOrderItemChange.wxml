@@ -35,6 +35,30 @@
 		</view>
 	</view>
   <view class="item">
+		<view class="title" >源库位编码</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="sourceStorageLocationNo" value="{{source_storage_location_no}}" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >目标库位名称</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="targetStorageLocationName" value="{{target_storage_location_name}}" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >目标库位编码</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="targetStorageLocationNo" value="{{target_storage_location_no}}" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">状态（0移库中 1部分移库完成 2全部移库完成）</view>
+		<view class="subtitle_disabled">
+			<input type="number" disabled="true" name="state" value="{{chosen_transfer_order_item.state}}" placeholder="必填信息" /> 
+		</view>
+	</view>
+  <view class="item">
 		<view class="title">源单位</view>
 		<view class="subtitle_disabled">
 			<input type="text" disabled="true" name="sourceUnit" value="{{chosen_transfer_order_item.sourceUnit}}"  />
@@ -47,33 +71,35 @@
 		</view>
 	</view>
   <view class="item">
-		<view class="title" >源库位名称</view>
-		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="targetStorageLocationName" value="{{target_storage_location_name}}" />
-		</view>
-	</view>
-  <view class="item">
 		<view class="title">计划移位数量</view>
 		<view class="subtitle_disabled">
 			<input type="number" disabled="true" name="scheduledAmount" value="{{chosen_transfer_order_item.scheduledAmount}}" /> 
 		</view>
 	</view>
+
+  <view class="item">
+		<view class="title">单位</view>
+		<view class="subtitle">
+			<input type="number" name="unit" value="{{chosen_transfer_order_item.unit}}" placeholder="必填信息" /> 
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">单位数量</view>
+		<view class="subtitle">
+			<input type="number"  name="unitAmount" value="{{chosen_transfer_order_item.unitAmount}}" placeholder="必填信息" /> 
+		</view>
+	</view>
   <view class="item">
 		<view class="title">实际移位数量</view>
 		<view class="subtitle">
-			<input type="number"  name="realAmount" value="{{}}" placeholder="必填信息" /> 
+			<input type="number"  name="realAmount" value="{{chosen_transfer_order_item.realAmount}}" placeholder="必填信息" /> 
 		</view>
 	</view>
+
   <view class="item">
-		<view class="title">单位(默认相同)</view>
+		<view class="title">备注</view>
 		<view class="subtitle">
-			<input type="number" name="unit" value="{{chosen_transfer_order_item.sourceUnit}}" placeholder="" /> 
-		</view>
-	</view>
-  <view class="item">
-		<view class="title">单位数量(默认相同)</view>
-		<view class="subtitle">
-			<input type="number"  name="unitAmount" value="{{chosen_transfer_order_item.sourceUnitAmount}}" placeholder="" /> 
+			<input type="text"  name="comment" value="{{chosen_transfer_order_item.comment}}" placeholder="" /> 
 		</view>
 	</view>
   <view class="item">

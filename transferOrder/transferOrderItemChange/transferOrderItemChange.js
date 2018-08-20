@@ -23,6 +23,8 @@ Page({
     all_storage_location:'', //所有库位信息
     source_storage_location_name:'',
     target_storage_location_name:'',
+    source_storage_location_no: '',
+    target_storage_location_no: '',
     chosen_transfer_order:'',
     chosen_transfer_order_item:'',
     transfer_order_item_list: '',
@@ -63,10 +65,12 @@ Page({
       material_id: query.material_id,
       material_name: query.material_name,
       source_storage_location_name: query.source_storage_location_name,
-      target_storage_location_name: query.target_storage_location_name
+      target_storage_location_name: query.target_storage_location_name,
+      source_storage_location_no: query.source_storage_location_no,
+      target_storage_location_no: query.target_storage_location_no
     });
   },
-  
+
   update: function (e) {
     var that = this
     var form = e.detail.value
@@ -80,11 +84,11 @@ Page({
       "sourceUnitAmount": that.data.chosen_transfer_order_item.sourceUnitAmount,
       "targetStorageLocationId": that.data.chosen_transfer_order_item.targetStorageLocationId,
       "scheduledAmount": that.data.chosen_transfer_order_item.scheduledAmount,
-      "state": that.data.chosen_transfer_order_item.state,
+      "state": form.state,
       "realAmount": form.realAmount,
       "unit": form.unit,
       "unitAmount":form.unitAmount,
-      "comment": that.data.chosen_transfer_order_item.comment,
+      "comment": form.comment,
       "operateTime": form.operateTime,
       "personId": that.data.user_id
     }
