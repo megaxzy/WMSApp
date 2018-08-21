@@ -2,7 +2,11 @@ page{
  height: 100%; 
  background-color: #f2f2f2
 } 
-  
+
+.hide{
+  display:none
+}
+
 .container { 
  height: 75rpx; 
  display: flex; 
@@ -11,7 +15,6 @@ page{
  box-sizing: border-box; 
  background-color: #f2f2f2
 } 
-
 /*接收到的数据*/
 .message {
 	width: 750rpx;
@@ -23,14 +26,13 @@ page{
  
 /*按钮*/
 .loginBtnView { 
- width: 600rpx; 
+ width: 750rpx; 
  height: auto; 
  background-color: #f2f2f2; 
  margin-top: 0px; 
  margin-bottom: 0px; 
  margin-left: 0px; 
  padding-bottom: 0px; 
- 
 } 
   
 .loginBtn { 
@@ -41,7 +43,7 @@ page{
 /*form*/
 .form{
   display: flex;
-  flex-direction:row; 
+  flex-direction:column; 
 }
 
 /*每行*/
@@ -52,7 +54,7 @@ page{
 	margin-left: 0;
 }
 
-/*选择form*/
+/*标题与文本框 下面的选择*/
 .title {
   width: 750rpx;
   font-size: 40rpx;
@@ -64,9 +66,18 @@ page{
 .subtitle {
   /*font-size:40rpx;*/
   width: 750rpx; 
-  font-size: 35rpx;
+  font-size: 40rpx;
 	flex: 3;
   color: #333333;
+}
+/*这是不可修改的条目*/
+.subtitle_disabled {
+  /*font-size:40rpx;*/
+  width: 750rpx; 
+  font-size: 40rpx;
+	flex: 3;
+  color: #333333;
+  background:#ddd;
 }
 .subtitle_press {
   /*font-size:40rpx;*/
@@ -74,9 +85,8 @@ page{
   font-size: 40rpx;
 	flex: 3;
   color: #333333;
-  background-color:	#eeeeee;
+  background-color:	#7FFF00;
 }
-/*入库单的日期*/
 .section{
   text-align: center;
   width:750rpx;
@@ -86,6 +96,5 @@ page{
 .line { 
  width: 750rpx; 
  background-color: #cccccc; 
- height: 3rpx; 
- font-size:3rpx;
+ margin-top: 3rpx; 
 } 

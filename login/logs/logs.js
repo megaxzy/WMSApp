@@ -212,6 +212,13 @@ Page({
         //console.log(res)
         //console.log(res.data.length)
         var res_temp = res
+        if (res_temp.statusCode == 500) {
+          wx.showToast({
+            title: '网络连接超时，请检查网络是否可用',
+            icon: 'none',
+            duration: 2000
+          })
+        }
         that.setData({
           all_storage_location: res
         })
@@ -226,6 +233,7 @@ Page({
         })
       },
       complete: function () {
+
         globaldata.all_storage_location = that.data.all_storage_location
         //test
         console.log('all_storage_location：')

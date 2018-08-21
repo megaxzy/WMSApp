@@ -167,19 +167,6 @@ Page({
     var form = e.detail.value
     var res_temp
     console.log("chosen_delivery_order_item:")
-
-
-    var loadingTime = form.loadingTime
-    if (loadingTime == '') {
-      loadingTime = null
-    }
-    //TODO 正则表达式  空格
-    else if (loadingTime.indexOf(":") == -1) {
-      loadingTime = loadingTime + ' ' + '00:00:00'
-    }
-
-
-
     var object_output_delivery_order_item= {
       "id": that.data.chosen_delivery_order_item.id,
       "deliveryOrderId": that.data.chosen_delivery_order_item.deliveryOrderId,
@@ -188,7 +175,7 @@ Page({
       "state":0,//0:待装车 1:装车中 2:装车完成   这个好像是后台自动改变的
       "scheduledAmount": that.data.chosen_delivery_order_item.scheduledAmount,
       "realAmount":form.realAmount,
-      "loadingTime": loadingTime,
+      "loadingTime":form.loadingTime,
       "unit": form.unit,
       "unitAmount": form.unitAmount,
       "comment": that.data.chosen_delivery_order_item.comment,

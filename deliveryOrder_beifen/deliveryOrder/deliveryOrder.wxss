@@ -64,7 +64,7 @@ page{
 .subtitle {
   /*font-size:40rpx;*/
   width: 750rpx; 
-  font-size: 35rpx;
+  font-size: 40rpx;
 	flex: 3;
   color: #333333;
 }
@@ -74,7 +74,7 @@ page{
   font-size: 40rpx;
 	flex: 3;
   color: #333333;
-  background-color:	#eeeeee;
+  background-color:	#7FFF00;
 }
 /*入库单的日期*/
 .section{

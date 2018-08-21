@@ -1,0 +1,95 @@
+<view class="container"> 
+
+  
+  <!--decode="{{true}}" 后面的&nbsp才能用-->
+  <view class="message">模式:出库扫码模式</view>
+<view class="line"></view>
+  <view class="message">
+    <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>
+  </view>
+
+
+
+<form onsubmit="update"> <!--onsubmit="create"-->
+<view class="form">
+	<view class="item">
+    <view class="title" style="color:blue; 	text-align: center;">出库单条目信息</view>
+    <view class="line"></view>
+  </view>
+
+  <view class="item">
+		<view class="title">供应商名称</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="supplierName" value="{{supplier_name}}" placeholder="" />
+		</view>
+	</view>
+	<view class="item">
+		<view class="title" >物料名称</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="materialName" value="{{material_name}}" placeholder="" />
+		</view>
+	</view>
+	<view class="item">
+		<view class="title" >库位名称</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="storageLocationName" value="{{storage_location.name}}" placeholder="" />
+		</view>
+	</view>
+	<view class="item">
+		<view class="title" >库位编码</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="storageLocationNo" value="{{storage_location.no}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">计划装车数量（个）</view>
+		<view class="subtitle_disabled">
+			<input type="number" disabled="true" name="scheduledAmount" value="{{chosen_delivery_order_item.scheduledAmount}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">实际装车数量（个）</view>
+		<view class="subtitle">
+			<input type="number"  name="realAmount" value="{{chosen_delivery_order_item.realAmount}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">单位</view>
+		<view class="subtitle">
+			<input type="text"  name="unit" value="{{chosen_delivery_order_item.unit}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">单位数量</view>
+		<view class="subtitle">
+			<input type="number"  name="unitAmount" value="{{chosen_delivery_order_item.unitAmount}}" placeholder="" />
+		</view>
+	</view>
+
+  <view class="item">
+		<view class="title">装车时间(默认为现在时间)</view>
+		<view class="subtitle">
+			<input type="text"  name="loadingTime" value="{{date_today_YMDhms}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >备注</view>
+		<view class="subtitle">
+			<input type="text"  name="comment" value="{{chosen_delivery_order_item.comment}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">作业人姓名</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="uaerName" value="{{name}}" placeholder="" />
+		</view>
+	</view>
+</view>
+  <!--按钮-->
+  <view class="loginBtnView" > 
+    <button class="loginBtn" type="primary" form-type="submit" >更新出库单条目</button> 
+  </view> 
+</form>
+
+
+</view>
