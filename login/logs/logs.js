@@ -14,7 +14,10 @@ Page({
     all_warehouse_array: [], //仓库姓名合集
     index:2,  //选择的哪项  默认为2
     chosen_warehouse:'',
-    all_storage_location:''
+    all_storage_location:'',
+    all_material:'',
+    all_supplier: '',
+    all_supply:'',
   },
 
   onShow: function () {
@@ -61,6 +64,9 @@ Page({
         that.setData({
           all_warehouse_array:all_warehouse_array
         })
+        that.getAllStorageLocation()
+        that.getAllMaterial()
+        that.getAllSupplier()
       }
     })
   },
@@ -178,8 +184,8 @@ Page({
             globaldata.user_name=that.data.requiredata.data[0].name
             globaldata.user_role =that.data.requiredata.data[0].role
             globaldata.all_user_messages=that.data.requiredata.data[0]
-            //获得所有库位信息
-            that.getAllStorageLocation()
+            that.getAllSupply()
+
             wx.showToast({
               title: '登录成功',
               icon: 'success',
@@ -238,6 +244,135 @@ Page({
         //test
         console.log('all_storage_location：')
         console.log(that.data.all_storage_location)
+        //testend
+      }
+    })
+  },
+
+
+  getAllMaterial: function () {
+    var that = this
+    var con = condition.NewCondition();
+    wx.request({
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'material/' + con,
+      success: function (res) {
+        var res_temp = res
+        if (res_temp.statusCode == 500) {
+          wx.showToast({
+            title: '网络连接超时，请检查网络是否可用',
+            icon: 'none',
+            duration: 2000
+          })
+        }
+        that.setData({
+          all_material: res
+        })
+      },
+      //请求失败
+      fail: function (err) {
+        console.log("false")
+        wx.showToast({
+          title: '连接失败,请检查你的网络或者服务端是否开启',
+          icon: 'none',
+          duration: 2000
+        })
+      },
+      complete: function () {
+
+        globaldata.all_material = that.data.all_material
+        //test
+        console.log('all_material：')
+        console.log(that.data.all_material)
+        //testend
+      }
+    })
+  },
+  
+  getAllSupplier: function () {
+    var that = this
+    var con = condition.NewCondition();
+    wx.request({
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'supplier/' + con,
+      success: function (res) {
+        var res_temp = res
+        if (res_temp.statusCode == 500) {
+          wx.showToast({
+            title: '网络连接超时，请检查网络是否可用',
+            icon: 'none',
+            duration: 2000
+          })
+        }
+        that.setData({
+          all_supplier: res
+        })
+      },
+      //请求失败
+      fail: function (err) {
+        console.log("false")
+        wx.showToast({
+          title: '连接失败,请检查你的网络或者服务端是否开启',
+          icon: 'none',
+          duration: 2000
+        })
+      },
+      complete: function () {
+
+        globaldata.all_supplier = that.data.all_supplier
+        //test
+        console.log('all_supplier：')
+        console.log(that.data.all_supplier)
+        //testend
+      }
+    })
+  },
+
+  getAllSupply: function () {
+    var that = this
+    var con = condition.NewCondition();
+    con = condition.AddFirstCondition('enabled', 'EQUAL',1);
+    con = condition.AddCondition('warehouseId', 'EQUAL', globaldata.chosen_warehouse.id);
+    wx.request({
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con,
+      success: function (res) {
+        var res_temp = res
+        if (res_temp.statusCode == 500) {
+          wx.showToast({
+            title: '网络连接超时，请检查网络是否可用',
+            icon: 'none',
+            duration: 2000
+          })
+        }
+        /*
+        var x = JSON.stringify(res_temp)
+        console.log(x)
+        var list = res.data.object.list;
+        list.forEach(function (item, index, array) {
+          array[index] = {
+            firstImage: item.imageList[0].url,
+            name: item.name,
+            productId: item.productId
+          }
+        });
+        */
+        that.setData({
+          all_supply: res
+        })
+      },
+      //请求失败
+      fail: function (err) {
+        console.log("false")
+        wx.showToast({
+          title: '连接失败,请检查你的网络或者服务端是否开启',
+          icon: 'none',
+          duration: 2000
+        })
+      },
+      complete: function () {
+
+        globaldata.all_supply = that.data.all_supply
+        //test
+        console.log('all_supply：')
+        console.log(that.data.all_supply)
         //testend
       }
     })

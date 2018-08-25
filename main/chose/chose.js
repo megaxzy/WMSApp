@@ -18,6 +18,8 @@ Page({
     console.log(this.data.role)
   },
 
+
+
   link:function(){
     wx.navigateTo({
       url: '../../main/blueTooth/blueTooth',

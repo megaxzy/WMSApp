@@ -26,6 +26,7 @@
 
     "warehouse/warehouseEntry/warehouseEntry",
     "warehouse/warehouseEntryItem/warehouseEntryItem",  
+    "warehouse/warehouseEntryItemAdd/warehouseEntryItemAdd",
 
     "inspection/inspectionNote/inspectionNote",
     "inspection/inspectionNoteItem/inspectionNoteItem",

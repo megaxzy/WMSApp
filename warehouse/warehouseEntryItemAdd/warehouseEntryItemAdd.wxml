@@ -1,0 +1,203 @@
+<view class="container"> 
+
+  
+  <!--decode="{{true}}" 后面的&nbsp才能用-->
+  <view class="message">模式:入库扫码模式</view>
+  <view class="line"></view>
+  <view class="message">
+    <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>
+  </view>
+
+
+
+
+
+
+
+<view class="line"></view>
+<form onsubmit="create"> <!--onsubmit="create"-->
+<view class="form">
+	<view class="item">
+    <view class="title" style="color:blue; 	text-align: center;">请填入入库单条目信息</view>
+    <view class="line"></view>
+  </view>
+
+	<view class="item">
+		<view class="title" >物料代号</view>
+		<view class="subtitle_disabled">
+			<input type="number" disabled="true" name="materialNo" value="{{material_no}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >物料名称</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="materialName" value="{{material_name}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >物料系列</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="materialProductLine" value="{{material_product_line}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >供货商名称</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="supplierName" value="{{supplier_name}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >入库库位名称</view>
+		<view class="subtitle">
+			<input type="text" name="storageLocationName" value="{{default_entry_storage_location_name}}" placeholder="请输入入库库位名称" />
+		</view>
+	</view> 
+  <!--TODO 联想 输入name获得no-->
+  <view class="item">
+		<view class="title" >入库库位编码</view>
+		<view class="subtitle">
+			<input type="number" name="storageLocationNo" value="{{default_entry_storage_location_no}}" placeholder="请输入入库库位编码" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >合格品库位名称</view>
+		<view class="subtitle">
+			<input type="text" name="qualifiedLocationName" value="{{default_qualified_storage_location_name}}" placeholder="请输入合格库位名称" />
+		</view>
+	</view> 
+  <view class="item">
+		<view class="title" >合格品库位编码</view>
+		<view class="subtitle">
+			<input type="text" name="qualifiedLocationNo" value="{{default_qualified_storage_location_no}}" placeholder="请输入合格库位编码" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >不良品库位名称</view>
+		<view class="subtitle">
+			<input type="text" name="unqualifiedLocationName" value="{{default_unqualified_storage_location_name}}" placeholder="请输入不良品库位名称" />
+		</view>
+	</view> 
+  <view class="item">
+		<view class="title" >不良品库位编码</view>
+		<view class="subtitle">
+			<input type="text" name="unqualifiedLocationNo" value="{{default_unqualified_storage_location_no}}" placeholder="请输入不良品库位编码" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">订单数量</view>
+		<view class="subtitle"> 
+			<input type="number" name="expectedAmount" value="{{supply.defaultEntryAmount}}" placeholder="请输入订单数量" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">实收数量(默认为全部)</view>
+		<view class="subtitle">
+			<input type="number" name="realAmount" value="{{supply.defaultEntryAmount}}" placeholder="请输入实收数量" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">单位</view>
+		<view class="subtitle">
+			<input type="text" name="unit" value="{{supply.defaultEntryUnit}}" placeholder="请输入单位" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">单位数量</view>
+		<view class="subtitle">
+			<input type="number" name="unitAmount" value="{{supply.defaultEntryUnitAmount}}" placeholder="请输入单位数量" />
+		</view>
+	</view>  
+    <view class="item">
+		<view class="title">拒收数量(默认为0)</view>
+		<view class="subtitle">
+			<input type="number" name="refuseAmount" value="0" placeholder="请输入拒收数量" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">拒收单位(默认相同)</view>
+		<view class="subtitle">
+			<input type="text" name="refuseUnit" value="{{supply.defaultEntryUnit}}" placeholder="请输入拒收单位" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">拒收单位数量(默认为0)</view>
+		<view class="subtitle">
+			<input type="number"  name="refuseUnitAmount" value="0" placeholder="请输入拒收单位数量" />
+		</view>
+	</view>  
+  <view class="item">
+		<view class="title">已送检数量</view>
+		<view class="subtitle_disabled">
+			<input type="number" disabled="true" name="inspectionAmount" value="0" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">状态（0待入库 1送检中 2正品入库 3不良品入库）</view>
+		<view class="subtitle_disabled">
+			<input type="number" disabled="true" name="state" value="0" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">存货日期</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="inventoryDate" value="{{date_today_YMDhms}}" placeholder="" />
+		</view>
+	</view>
+  <!--TODO-->
+  <view class="item">
+		<view class="title">生产日期</view>
+		<view class="subtitle">
+			<input type="text" name="manufactureDate" value="" placeholder="年-月-日 (时:分:秒 可选)" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">失效日期</view>
+		<view class="subtitle">
+			<input type="text" name="expiryDate" value="" placeholder="年-月-日 (时:分:秒 可选)" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">作业人名称</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="uaerName" value="{{name}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">备注</view>
+		<view class="subtitle">
+			<input type="text" name="comment" value="" placeholder="请输入备注（可空）" />
+		</view>
+	</view>
+</view>
+  <!--按钮-->
+  <view class="loginBtnView" style="background-color:white;"> 
+    <button class="loginBtn" type="primary" form-type="submit" >生成入库单条目</button> <!--bindtap="create"-->
+  </view> 
+</form>
+
+
+
+<view class="line_long"></view>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</view>
