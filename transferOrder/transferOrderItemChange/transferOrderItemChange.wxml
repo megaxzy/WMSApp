@@ -23,33 +23,45 @@
 
 
   <view class="item">
+		<view class="title" >物料名称</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="materialName" value="{{chosen_transfer_order_item.materialName}}" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >物料代号</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="materialNo" value="{{chosen_transfer_order_item.materialNo}}" />
+		</view>
+	</view>
+  <view class="item">
 		<view class="title" >物料系列</view>
 		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="materialName" value="{{material_name}}" placeholder="" />
+			<input type="text" disabled="true" name="materialName" value="{{chosen_transfer_order_item.materialProductLine}}" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title" >源库位名称</view>
 		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="sourceStorageLocationName" value="{{source_storage_location_name}}" />
+			<input type="text" disabled="true" name="sourceStorageLocationName" value="{{chosen_transfer_order_item.sourceStorageLocationName}}" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title" >源库位编码</view>
 		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="sourceStorageLocationNo" value="{{source_storage_location_no}}" />
+			<input type="text" disabled="true" name="sourceStorageLocationNo" value="{{chosen_transfer_order_item.sourceStorageLocationNo}}" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title" >目标库位名称</view>
 		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="targetStorageLocationName" value="{{target_storage_location_name}}" />
+			<input type="text" disabled="true" name="targetStorageLocationName" value="{{chosen_transfer_order_item.targetStorageLocationName}}" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title" >目标库位编码</view>
 		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="targetStorageLocationNo" value="{{target_storage_location_no}}" />
+			<input type="text" disabled="true" name="targetStorageLocationNo" value="{{chosen_transfer_order_item.targetStorageLocationNo}}" />
 		</view>
 	</view>
   <view class="item">

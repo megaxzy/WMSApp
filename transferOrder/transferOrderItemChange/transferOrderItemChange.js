@@ -13,23 +13,11 @@ Page({
     date: '',//选择的时间
     date_today: '',//今天的时间
     date_today_YMDhms:'',
-    supplier_id: '', //supplier message
-    supplier_name: '',
-    material_id: '', //material message
-    material_name: '',
-    material_no: '',
-    material_product_line: '',
     supply:'', //供货信息
-    all_storage_location:'', //所有库位信息
-    source_storage_location_name:'',
-    target_storage_location_name:'',
-    source_storage_location_no: '',
-    target_storage_location_no: '',
     chosen_transfer_order:'',
     chosen_transfer_order_item:'',
     transfer_order_item_list: '',
     index: '',//选择的条目顺序
-    //storage_location:'',
   },
   onLoad: function (query) {
     var that = this
@@ -48,26 +36,13 @@ Page({
       warehouse_id:globaldata.chosen_warehouse.id,
       date:date,
       date_today:date,
-      date_today_YMDhms: YMDhms,
-      all_storage_location: globaldata.all_storage_location
+      date_today_YMDhms: YMDhms
     })
-    //传递上个页面给的参数
-    //json数据用wx.navigateTo需要先用JSON.stringify转码再用JSON.parse转码
-    var supply_json = JSON.parse(query.supply)
     var chosen_transfer_order_json = JSON.parse(query.chosen_transfer_order)
     var chosen_transfer_order_item_json = JSON.parse(query.chosen_transfer_order_item)
     this.setData({
-      supply: supply_json,
       chosen_transfer_order: chosen_transfer_order_json,
       chosen_transfer_order_item:chosen_transfer_order_item_json,
-      supplier_id: query.supplier_id,
-      supplier_name: query.supplier_name,
-      material_id: query.material_id,
-      material_name: query.material_name,
-      source_storage_location_name: query.source_storage_location_name,
-      target_storage_location_name: query.target_storage_location_name,
-      source_storage_location_no: query.source_storage_location_no,
-      target_storage_location_no: query.target_storage_location_no
     });
   },
 
@@ -137,6 +112,17 @@ Page({
           success: function (res) {
             console.log(globaldata.url + 'warehouse/' + globaldata.account + 'transfer_order/')
             console.log(res)
+            wx.showToast({
+              title: '存入成功',
+              icon: 'success',
+              duration: 1000,
+              success: function () {
+                setTimeout(function () {
+                  //要延时执行的代码
+                  wx.navigateBack();
+                }, 1000)
+              }
+            })
           },
           //请求失败
           fail: function (err) {
@@ -148,9 +134,6 @@ Page({
             })
           },
           complete: function () {
-            wx.navigateBack({
-              delta: 1,
-            })
           }
         })
       }

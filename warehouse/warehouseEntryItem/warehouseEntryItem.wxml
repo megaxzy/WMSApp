@@ -18,7 +18,7 @@
 <form > <!--onsubmit="add"-->
 <view class="form">
 	<view class="item">
-		<view class="title" style="	text-align: center;">入库单条目信息</view>
+		<view class="title" style="	text-align: center;">【入库单条目】 信息</view>
     <view class="line">' '</view> 
     <!--wx:for 完了 用item表示每项-->
 		<view class="subtitle" wx:for="{{warehouseEntry_list.data}}" wx:if="{{item.supplierId==supplier_id}}" bindtap="chose" hover-class="subtitle_press"  data-index="{{index}}">
@@ -28,7 +28,7 @@
         </view>
         创建时间：{{item.createTime}}
         <text decode="{{true}}">\n</text>
-        供应商名称：{{supplier_name}}
+        供应商名称：{{item.supplierName}}
         <text decode="{{true}}">\n</text>
         最后修改时间：{{item.lastUpdateTime}}
         <text decode="{{true}}">\n</text>
@@ -78,8 +78,8 @@
 
   <view class="item">
 		<view class="title" >合格品库位名称</view>
-		<view class="subtitle">
-			<input type="number" name="qualifiedLocationName" value="{{warehouse_entry_item_mapped_qualified_storage_location_name[index]}}" placeholder="" />
+		<view class="subtitle"><!--warehouse_entry_item_mapped_qualified_storage_location_name[index]-->
+			<input type="number" name="qualifiedLocationName" value="{{item.qualifiedStorageLocationName}}" placeholder="" />
 		</view>
 	</view> 
 

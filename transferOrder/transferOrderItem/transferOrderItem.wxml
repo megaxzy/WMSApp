@@ -8,29 +8,28 @@
     <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>
   </view>
 
+  <!--按钮-->
+  <view class="loginBtnView"> 
+    <button class="loginBtn" type="primary" bindtap="scan">扫码</button> 
+  </view> 
+
 
 <form onsubmit="update"> <!--onsubmit="create"-->
 <view class="form">
-    <view class="message" style="color:blue;">请选择备要更改的备货单条目信息</view> 
+    <view class="message" style="color:blue;">【备货单条目】 信息</view> 
 		<view class="subtitle" wx:for="{{transfer_order_item_list.data}}" wx:key="id" bindtap="choseItem" hover-class="subtitle_press" data-index="{{index}}">
       <view class="subtitle">
         <view style="color:red;display:flex;flex-direction:row;">{{index+1}}
         </view>
-        物料系列：{{material_name}}
+        物料系列：{{item.materialName}}
         <text decode="{{true}}">\n</text>
-        供货商名称：{{supplier_name}}
+        供货商名称：{{item.supplierName}}
         <text decode="{{true}}">\n</text>
-        源库位名称：{{transfer_order_item_source_storage_location_array[index]}}
+        源库位名称：{{item.sourceStorageLocationName}}
         <text decode="{{true}}">\n</text>
-        目标库位名称：{{transfer_order_item_target_storage_location_array[index]}}
-        <text decode="{{true}}">\n</text>
-        计划移位数量：{{item.scheduledAmount}}
-        <text decode="{{true}}">\n</text>
-        实际移位数量：{{item.realAmount}}
+        目标库位名称：{{item.targetStorageLocationName}}
         <text decode="{{true}}">\n</text>
         备注：{{item.comment}}
-        <text decode="{{true}}">\n</text>
-        作业时间：{{item.operateTime}}
       </view>
       
 <view class="{{hide[index] ==false ?  '' : 'hide'}}">
@@ -93,5 +92,6 @@
 
 </form>
 
+<view class="line_white"><text decode="{{true}}">\n</text></view>
 
 </view>
