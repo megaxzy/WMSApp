@@ -1,0 +1,69 @@
+
+<view class="container"> 
+  <!--decode="{{true}}" 后面的&nbsp才能用-->
+  <view class="message">模式:出库扫码模式</view>
+  <view class="line">' '</view>
+  <view class="message">
+    <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>
+  </view>
+
+  <view class="line">' '</view>
+  <!--入库单时间-->
+  <!--
+  <view class="section">
+  
+  <picker mode="date" value="{{date}}" start="2016-09-01" end="{{date_today}}" bindchange="bindDateChange">
+    <view class="picker">
+      选择要送检的入库单起始日期: {{date}}
+    </view>
+  </picker>
+  </view>-->
+
+  <view class="line">' '</view>
+<!--收到信息--> 
+  <view class="message" style="color:red;">{{rescode.result==null ? '未接收到数据':'接收到的数据：'+rescode.result}}
+  </view>       
+
+  <view class="line">' '</view>
+
+  <!--按钮-->
+  <view class="loginBtnView"> 
+    <button class="loginBtn" type="primary" bindtap="scan">扫码</button> 
+  </view> 
+
+
+<form > <!--onsubmit="add"-->
+<view class="form">
+	<view class="item">
+		<view class="title" style="	text-align: center;">选择要修改的 出库单条目信息</view>
+    <view class="line">' '</view> 
+		<view class="title" style="color:red;display:flex;flex-direction:row;" >供应商名称：<view style="color:black;">{{supplier_name==null ? '暂无信息':''+supplier_name}}</view></view>
+		<view class="title" style="color:red;display:flex;flex-direction:row;">物料名称：<view style="color:black;">{{material_name==null ? '暂无信息':''+material_name}}</view></view>
+    <view class="line">' '</view> 
+    <!--wx:for 完了 用item表示每项-->
+    <!--这个地方是不是应该待入库的显示???-->
+		<view class="subtitle" wx:for="{{delivery_order_item_list.data}}" wx:if="{{item.supplyId==supply.id && (item.state==2 ||item.state==1 || item.state==0)}}" bindtap="chose" hover-class="subtitle_press"  data-index="{{index}}">
+      <view class="subtitle">
+        计划装车数量（个）：{{item.scheduledAmount  == null ? '':'' + item.scheduledAmount}}
+        <text decode="{{true}}">\n</text>
+        实际装车数量（个）：{{item.realAmount  == null ? '':'' + item.realAmount}}
+        <text decode="{{true}}">\n</text>
+        装车时间：{{item.loadingTime == null ? '':'' + item.loadingTime}}
+        <text decode="{{true}}">\n</text>
+        状态：{{item.state==0 ?'待装车':'' + item.state==1 ?'部分装车完成':'' + item.state==2 ?'全部装车完成':''}}
+        <text decode="{{true}}">\n</text>
+        备注：{{item.comment== null ? '':'' + item.comment}} 
+        <text decode="{{true}}">\n</text>
+        <view style="background:#eeeeee;">出库单单号：{{all_delivery_order.data[delivery_order_mapped_num[index]].no}} </view>
+        <view style="background:#eeeeee;">车牌号：{{all_delivery_order.data[delivery_order_mapped_num[index]].liscensePlateNumber == null ? '':'' + all_delivery_order.data[delivery_order_mapped_num[index]].liscensePlateNumber}} </view>
+        <view style="background:#eeeeee;">发运时间：{{all_delivery_order.data[delivery_order_mapped_num[index]].deliverTime == null ? '':'' + all_delivery_order.data[delivery_order_mapped_num[index]].deliverTime}} </view>
+        <view style="background:#eeeeee;">出库单描述：{{all_delivery_order.data[delivery_order_mapped_num[index]].description == null ? '':'' + all_delivery_order.data[delivery_order_mapped_num[index]].description}} </view>
+      </view>
+      <view class="line" style="background:black;display:flex;flex-direction:row;">' '</view>
+    </view>
+	</view>
+</view>
+</form>
+
+
+</view>

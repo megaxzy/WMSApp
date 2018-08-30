@@ -37,7 +37,7 @@
 
     "deliveryOrder/deliveryOrder/deliveryOrder",
     "deliveryOrder/deliveryOrderItem/deliveryOrderItem",
-
+    "deliveryOrder/deliveryOrderItemChange/deliveryOrderItemChange",
 
     "inspection_abandon/choseWarehouseEntry/choseWarehouseEntry",
     "inspection_abandon/choseWarehouseEntryItem/choseWarehouseEntryItem",

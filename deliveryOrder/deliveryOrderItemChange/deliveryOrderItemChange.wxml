@@ -20,31 +20,25 @@
   <view class="item">
 		<view class="title">供应商名称</view>
 		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="supplierName" value="{{supplier_name}}" placeholder="" />
+			<input type="text" disabled="true" name="supplierName" value="{{chosen_delivery_order_item.supplierName}}" placeholder="" />
 		</view>
 	</view>
 	<view class="item">
 		<view class="title" >物料名称</view>
 		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="materialName" value="{{material_name}}" placeholder="" />
-		</view>
-	</view>
-	<view class="item">
-		<view class="title" >备注</view>
-		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="comment" value="{{chosen_delivery_order_item.comment}}" placeholder="" />
+			<input type="text" disabled="true" name="materialName" value="{{chosen_delivery_order_item.materialName}}" placeholder="" />
 		</view>
 	</view>
 	<view class="item">
 		<view class="title" >库位名称</view>
 		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="storageLocationName" value="{{storage_location.name}}" placeholder="" />
+			<input type="text" disabled="true" name="storageLocationName" value="{{chosen_delivery_order_item.sourceStorageLocationName}}" />
 		</view>
 	</view>
 	<view class="item">
 		<view class="title" >库位编码</view>
 		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="storageLocationNo" value="{{storage_location.no}}" placeholder="" />
+			<input type="text" disabled="true" name="storageLocationNo" value="{{chosen_delivery_order_item.sourceStorageLocationNo}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
@@ -60,21 +54,28 @@
 		</view>
 	</view>
   <view class="item">
-		<view class="title">装车时间(默认为现在时间)</view>
-		<view class="subtitle">
-			<input type="text"  name="loadingTime" value="{{date_today_YMDhms}}" placeholder="" />
-		</view>
-	</view>
-  <view class="item">
 		<view class="title">单位</view>
 		<view class="subtitle">
-			<input type="number"  name="unit" value="{{chosen_delivery_order_item.unit}}" placeholder="" />
+			<input type="text"  name="unit" value="{{chosen_delivery_order_item.unit}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title">单位数量</view>
 		<view class="subtitle">
 			<input type="number"  name="unitAmount" value="{{chosen_delivery_order_item.unitAmount}}" placeholder="" />
+		</view>
+	</view>
+
+  <view class="item">
+		<view class="title">装车时间(默认为现在时间)</view>
+		<view class="subtitle">
+			<input type="text"  name="loadingTime" value="{{date_today_YMDhms}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >备注</view>
+		<view class="subtitle">
+			<input type="text"  name="comment" value="{{chosen_delivery_order_item.comment}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">

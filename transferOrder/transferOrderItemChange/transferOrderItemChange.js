@@ -16,7 +16,6 @@ Page({
     supply:'', //供货信息
     chosen_transfer_order:'',
     chosen_transfer_order_item:'',
-    transfer_order_item_list: '',
     index: '',//选择的条目顺序
   },
   onLoad: function (query) {

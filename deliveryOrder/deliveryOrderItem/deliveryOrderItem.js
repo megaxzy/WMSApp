@@ -8,25 +8,15 @@ Page({
     role:'',
     authority:'',
     user_id:'',
-    warehouse_list:'',
     warehouse_id:'',
     date: '',//选择的时间
     date_today: '',//今天的时间
-    date_today_YMDhms:'',
-    supplier_id: '', //supplier message
-    supplier_name: '',
-    material_id: '', //material message
-    material_name: '',
-    material_no: '',
-    material_product_line: '',
+    date_today_YMDhms: '',//今天的时间
     supply:'', //供货信息
-    all_storage_location:'', //所有库位信息
-    warehouse_entry:'', //选择的那个入库单
-    warehouse_entry_item:'', //条目信息
-    index:'',//选择的条目顺序
-    chosen_delivery_order_item:'',
-    delivery_order:'',
-    storage_location:'',
+    chosen_delivery_order:'',
+    delivery_order_item_list: '',
+    index: '',//选择的条目顺序
+    hide: [],
   },
   onLoad: function (query) {
     var that = this
@@ -45,102 +35,42 @@ Page({
       warehouse_id:globaldata.chosen_warehouse.id,
       date:date,
       date_today:date,
-      date_today_YMDhms: YMDhms,
-      all_storage_location: globaldata.all_storage_location
+      date_today_YMDhms: YMDhms
     })
-    //传递上个页面给的参数
-    //json数据用wx.navigateTo需要先用JSON.stringify转码再用JSON.parse转码
-    var supply_json = JSON.parse(query.supply)
-    console.log(query.chosen_delivery_order_item)
-    var chosen_delivery_order_item_json = JSON.parse(query.chosen_delivery_order_item)
+    console.log(query.chosen_delivery_order)
+    var chosen_delivery_order_json = JSON.parse(query.chosen_delivery_order)
     this.setData({
-      supply: supply_json,
-      chosen_delivery_order_item: chosen_delivery_order_item_json,
-      supplier_id: query.supplier_id,
-      supplier_name: query.supplier_name,
-      material_id: query.material_id,
-      material_name: query.material_name,
-      material_no: query.material_no,
-      material_product_line: query.material_product_line
-    });
-    //TODO get the stroageLocation
-    that.getDeliveryOrder()
-    that.getStorageLocation()
+      chosen_delivery_order: chosen_delivery_order_json
+    }); 
+    that.getDeliveryOrderItem()
+  },
+ 
+ 
+  onShow: function () {
+    var that = this
+    that.getDeliveryOrderItem()
+    that.setData({
+      supply:''
+    }); 
   },
 
-  getStorageLocation: function () {
+  getDeliveryOrderItem: function () {
     var that = this
     var con = condition.NewCondition();
-    con = condition.AddFirstCondition('id', 'EQUAL', that.data.chosen_delivery_order_item.sourceStorageLocationId);
+    con = condition.AddFirstCondition('deliveryOrderId', 'EQUAL', that.data.chosen_delivery_order.id);
+    if(that.data.supply!=''){
+      con = condition.AddCondition('supplyId', 'EQUAL', that.data.supply.id);
+    }
     wx.request({
-      url: globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con,
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/' + con,
       method: 'GET',
       success: function (res) {
-        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con)
+        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/' + con)
         var res_temp = res
         that.setData({
-          storage_location: res_temp.data[0]
+          delivery_order_item_list: res_temp
         })
-        console.log('送检单 信息：')
-        console.log(that.data.storage_location)
-      },
-      //请求失败
-      fail: function (err) {
-        console.log("false")
-        wx.showToast({
-          title: '连接失败,请检查你的网络或者服务端是否开启',
-          icon: 'none',
-          duration: 2000
-        })
-      },
-    })
-  },
-
-  getDeliveryOrder:function(){
-    var that = this
-    var con = condition.NewCondition();
-    console.log("noteid test test")
-    console.log(that.data.chosen_delivery_order_item)
-    con = condition.AddFirstCondition('id', 'EQUAL', that.data.chosen_delivery_order_item.deliveryOrderId);
-    wx.request({
-      url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/' + con,
-      method: 'GET',
-      success: function (res) {
-        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/' + con)
-        var res_temp = res
-        that.setData({
-          delivery_order: res_temp.data[0]
-        })
-        console.log('送检单 信息：')
-        console.log(that.data.delivery_order)
-      },
-      //请求失败
-      fail: function (err) {
-        console.log("false")
-        wx.showToast({
-          title: '连接失败,请检查你的网络或者服务端是否开启',
-          icon: 'none',
-          duration: 2000
-        })
-      },
-    })
-  },
-/*
-  showDeliveryOrderItem: function () {
-    var that = this
-    var con = condition.NewCondition();
-    con = condition.AddFirstCondition('warehouseEntryItemId', 'EQUAL', that.data.chosen_warehouse_entry_item.id );
-    wx.request({
-      url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/' + con,
-      method: 'GET',//GET为默认方法   /POST
-      success: function (res) {
-        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/' + con)
-        var res_temp = res
-        that.setData({
-          inspection_note_item: res_temp.data[0]
-        })
-        console.log('送检单条目信息：')
-        console.log(that.data.inspection_note_item)
+        console.log('delivery 信息：', that.data.delivery_order_item_list)
       },
       //请求失败
       fail: function (err) {
@@ -152,61 +82,120 @@ Page({
         })
       },
       complete:function(){
-        that.getInspectionNote() //如果这个要显示则放在下一条的完成部分
       }
     })
   },
-*/
+
+  choseItem: function (e) {
+    var that = this
+    var index = e.currentTarget.dataset.index;
+
+    var chosen_delivery_order = JSON.stringify(that.data.chosen_delivery_order);    
+    var chosen_delivery_order_item = that.data.delivery_order_item_list.data[index]
+    var chosen_delivery_order_item = JSON.stringify(chosen_delivery_order_item)
+  
+    var transvar =
+      'chosen_delivery_order=' + chosen_delivery_order + '&' +  
+      'chosen_delivery_order_item=' + chosen_delivery_order_item 
+    wx.navigateTo({
+      url: '../../deliveryOrder/deliveryOrderItemChange/deliveryOrderItemChange' + '?' + transvar
+    })
+  },
+ 
 
 
-
-
-
-  update: function (e) {
-    var that = this 
-    var form = e.detail.value
-    var res_temp
-    console.log("chosen_delivery_order_item:")
-
-
-    var loadingTime = form.loadingTime
-    if (loadingTime == '') {
-      loadingTime = null
-    }
-    //TODO 正则表达式  空格
-    else if (loadingTime.indexOf(":") == -1) {
-      loadingTime = loadingTime + ' ' + '00:00:00'
-    }
-
-
-
-    var object_output_delivery_order_item= {
-      "id": that.data.chosen_delivery_order_item.id,
-      "deliveryOrderId": that.data.chosen_delivery_order_item.deliveryOrderId,
-      "supplyId":that.data.chosen_delivery_order_item.supplyId,
-      "sourceStorageLocationId": that.data.chosen_delivery_order_item.sourceStorageLocationId,
-      "state":0,//0:待装车 1:装车中 2:装车完成   这个好像是后台自动改变的
-      "scheduledAmount": that.data.chosen_delivery_order_item.scheduledAmount,
-      "realAmount":form.realAmount,
-      "loadingTime": loadingTime,
-      "unit": form.unit,
-      "unitAmount": form.unitAmount,
-      "comment": that.data.chosen_delivery_order_item.comment,
-      "personId": that.data.user_id
-    }
-    console.log(object_output_delivery_order_item)
-    wx.request({
-      url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/',
-      data: [object_output_delivery_order_item],
-      method: 'PUT',
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        res_temp=res
-        
-        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/')
+  scan: function () {
+    var that = this
+    //扫码
+    wx.scanCode({
+      scanType: 'barCode',
+      success: (res) => {
         console.log(res)
+        /*
+        that.setData({
+          //TODO此处应该是res 仅作测试
+          rescode: '1234567'
+        });
+        console.log(that.data.rescode)
+        that.getSupply()
+        //根据扫码内容获得 供应商id和物料id
+        //TODO 此处应该是获得  test程序中用来索取
+        that.setData({
+          supplier_id: that.data.supply.supplier_id,
+          material_id: that.data.supply.material_id
+        })*/
+      },
+      complete: function () {
+        //test begin
+        that.setData({
+          //TODO此处应该是res 仅作测试
+          rescode: '1234567'
+        });
+        console.log(that.data.rescode)
+        that.getSupply()
+        //根据扫码内容获得 供应商id和物料id
+        //TODO 此处应该是获得  test程序中用来索取
+        //根据供应商id获得供应商名称 物料id和物料名称
+        //更新表单
+
+      }
+    })
+  },
+  getSupply: function () {
+    //获得供货信息
+    var that = this
+    var con = condition.NewCondition();
+    con = condition.AddFirstCondition('barCodeNo', 'EQUAL', that.data.rescode);
+    wx.request({
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con,
+      method: 'GET',//GET为默认方法   /POST
+      success: function (res) {
+        console.log("succeed connect")
+        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con)
+        var res_temp = res
+        if (res_temp.data.length == 0) {
+          wx.showToast({
+            title: '该供货码不存在',
+            icon: 'none',
+            duration: 2000,
+          })
+          setTimeout(function () {
+            wx.hideToast()
+          }, 2000)
+        }
+        else {
+          if (that.data.chosen_delivery_order.supplierId != res_temp.data[0].supplierId) {
+            wx.showToast({
+              title: '警告！！！该供货码不属于该供货商，请切换入库单或修改信息',
+              icon: 'none',
+              duration: 4000,
+            })
+            setTimeout(function () {
+              wx.hideToast()
+            }, 4000)
+          }
+          else {
+            if (res_temp.data[0].warehouseId != that.data.warehouse_id) {
+              wx.showToast({
+                title: '警告！！！该供货码不属于该仓库，请切换仓库或修改信息',//TODO此处还可以使用
+                icon: 'none',
+                duration: 4000,
+              })
+              setTimeout(function () {
+                wx.hideToast()
+              }, 4000)
+            }
+            else {
+              that.setData({
+                supply: res_temp.data[0]
+              })
+              console.log(that.data.supply)
+              console.log(res.data[0].barCodeNo)//TODO 暂时查不到barcodeno
+            }
+
+          }
+        }
+
       },
       //请求失败
       fail: function (err) {
@@ -217,86 +206,9 @@ Page({
           duration: 2000
         })
       },
-                /*     
-                case 0: return "待装车";
-                case 1: return "装车中";
-                case 2: return "整单装车";
-                case 3: return "发运在途";
-                case 4: return "核减完成";
-                 */
-      
       complete: function () {
-        console.log("delivery order:")
-        if (res_temp.statusCode==400){
-          wx.showToast({
-            title: ''+res_temp.data,
-            icon: 'none',
-            duration: 4000,
-            success: function () {
-              setTimeout(function () {
-                //要延时执行的代码
-                wx.hideToast()
-              }, 4000)
-            }
-          })
-        }
-        else{
-          var object_output_delivery_order = {
-            "id": that.data.delivery_order.id,
-            "warehouseId": that.data.delivery_order.warehouseId, //auto 
-            "no": that.data.delivery_order.no,
-            "state": that.data.delivery_order.state,
-            "description": that.data.delivery_order.description,
-            "driverName": that.data.delivery_order.driverName,
-            "liscensePlateNumber": that.data.delivery_order.liscensePlateNumber,
-            "deliverTime": that.data.delivery_order.deliverTime,
-            "returnNoteNo": that.data.delivery_order.returnNoteNo,
-            "returnNoteTime": that.data.delivery_order.returnNoteTime,
-            "createPersonId": that.data.delivery_order.createPersonId,
-            "createTime": that.data.delivery_order.createTime,
-            "lastUpdatePersonId": that.data.user_id,
-            "lastUpdateTime": that.data.YMDhms
-          }
-          console.log(object_output_delivery_order)
-          wx.request({
-            url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/',
-            data: [object_output_delivery_order],
-            method: 'PUT',
-            header: {
-              'content-type': 'application/json' // 默认值
-            },
-            success: function (res) {
-              console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/')
-              console.log(res)
-              wx.showToast({
-                title: '修改成功',
-                icon: 'none',
-                duration: 2500,
-                success: function () {
-                  setTimeout(function () {
-                    //要延时执行的代码
-                    wx.navigateBack();
-                  }, 1500)
-                }
-              })
-            },
-            //请求失败
-            fail: function (err) {
-              console.log("false")
-              wx.showToast({
-                title: '连接失败,请检查你的网络或者服务端是否开启',
-                icon: 'none',
-                duration: 2000
-              })
-            },
-            complete: function () {
-
-            }
-          })   
-        }
-        
+        that.getDeliveryOrderItem()
       }
-
     })
   },
 })

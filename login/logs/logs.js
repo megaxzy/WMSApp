@@ -18,6 +18,7 @@ Page({
     all_material:'',
     all_supplier: '',
     all_supply:'',
+    is_logining:'0'
   },
 
   onShow: function () {
@@ -100,6 +101,14 @@ Page({
   login: function () {
     //var that=this  子类函数中必须使用that.data...的形式来调用data{}中的内容
     var that=this
+    if(that.data.is_logining==0){
+      that.setData({
+        is_logining:1
+      })
+    }
+    else{
+      return
+    }
     if (this.data.name.length == 0 || this.data.password.length == 0) {
       wx.showToast({
         title: '账号或密码不能为空',
@@ -195,6 +204,9 @@ Page({
             setTimeout(function () {
               wx.hideToast()
             }, 1500)
+            that.setData({
+              is_logining: 0
+            })
             wx.navigateTo({
               //这个url不能是tabBar中的页面
               //url: '../../main/scan/scan'

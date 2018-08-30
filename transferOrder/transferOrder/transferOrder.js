@@ -20,15 +20,8 @@ Page({
     date: '',//选择的时间
     date_today: '',//今天的时间 
     supply:'', //供货信息
-
-
     transfer_order_list: '',
     chosen_transfer_order: '',
-
-    transfer_order_item_list: '',
-    transfer_order:'', //用来判断是不是 备货单
-    transfer_order_item_array: [],
-    chosen_transfer_order_item:''
   },
   onLoad: function () {
     var that = this
