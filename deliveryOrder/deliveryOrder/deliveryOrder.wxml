@@ -26,7 +26,7 @@
     <view class="line">' '</view> 
     <!--wx:for 完了 用item表示每项-->
     <!--这个地方是不是应该待入库的显示???-->
-		<view class="subtitle" wx:for="{{delivery_order_list.data}}" bindtap="chose" hover-class="subtitle_press"  data-index="{{index}}">
+		<view class="subtitle" wx:for="{{delivery_order_list.data}}" wx:if="{{item.state==0||item.state==1}}" bindtap="chose" hover-class="subtitle_press"  data-index="{{index}}">
       <view class="subtitle">
         <view style="color:red;display:flex;flex-direction:row;">出库单号：
           <view style="color:black;display:flex;flex-direction:row;">{{item.no}}</view>

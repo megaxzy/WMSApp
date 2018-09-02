@@ -55,9 +55,7 @@ Page({
 
     var con = condition.NewCondition();
     con = condition.AddFirstCondition('warehouseId', 'EQUAL', that.data.warehouse_id);
-    if (that.data.supply.length!=''){
-      con = condition.AddCondition('supplierId', 'EQUAL', that.data.supply.supplierId);
-    }
+
     wx.request({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/' + con,
       method: 'GET',

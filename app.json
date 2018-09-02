@@ -30,6 +30,7 @@
 
     "inspection/inspectionNote/inspectionNote",
     "inspection/inspectionNoteItem/inspectionNoteItem",
+    "inspection/inspectionNoteItemChange/inspectionNoteItemChange",
 
     "transferOrder/transferOrder/transferOrder",
     "transferOrder/transferOrderItem/transferOrderItem",
