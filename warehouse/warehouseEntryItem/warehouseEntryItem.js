@@ -20,7 +20,8 @@ Page({
     warehouse_id:'',
     date: '',//选择的时间
     date_today: '',//今天的时间 
-    date_yesterday:'',//昨天的时间
+    date_yesterday:'',//过去的时间
+    
     warehouse_entry:'', //选择的入库单
     warehouse_entry_item: '', //选择的入库单的item集合
     hide:[], //隐藏item用
@@ -306,11 +307,11 @@ Page({
             wx.showToast({
               title: '警告！！！该供货码不属于该供货商，请切换入库单或修改信息',
               icon: 'none',
-              duration: 2000,
+              duration: 4000,
             })
             setTimeout(function () {
               wx.hideToast()
-            }, 2000)
+            }, 4000)
           }
           else
           {
@@ -318,11 +319,11 @@ Page({
               wx.showToast({
                 title: '警告！！！该供货码不属于该仓库，请切换仓库或修改信息',//TODO此处还可以使用
                 icon: 'none',
-                duration: 2000,
+                duration: 4000,
               })
               setTimeout(function () {
                 wx.hideToast()
-              }, 2000)
+              }, 4000)
             }
             else{
               that.setData({

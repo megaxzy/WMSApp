@@ -22,6 +22,15 @@ var M_yesterday
 var D_yesterday
 var YMD_yesterday
 
+
+var n_tom = n - 24 * 60 * 60
+var date_tom = new Date(n_tom)
+var Y_tom
+var M_tom
+var D_tom
+var YMD_tom
+
+
 function newTime() {
   timestamp = Date.parse(new Date());
   timestamp = timestamp / 1000;
@@ -29,11 +38,11 @@ function newTime() {
   n = timestamp * 1000;
   date = new Date(n);
 
-  n_yesterday = n - 24 * 60 * 60 * 1000 * 100 //这是*几就是几天 *7
+  n_yesterday = n - 24 * 60 * 60 * 1000 * 60 //这是*几就是几天 *7
   date_yesterday = new Date(n_yesterday)
   
-  console.log(n)
-  console.log(n_yesterday)
+  n_tom = n + 24 * 60 * 60 * 1000 * 3 //这是*几就是几天 *7
+  date_tom = new Date(n_tom)
   
   Y = date.getFullYear();
   M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
@@ -45,6 +54,10 @@ function newTime() {
   Y_yesterday = date_yesterday.getFullYear();
   M_yesterday = (date_yesterday.getMonth() + 1 < 10 ? '0' + (date_yesterday.getMonth() + 1) : date_yesterday.getMonth() + 1);
   D_yesterday = date_yesterday.getDate() < 10 ? '0' + date_yesterday.getDate() : date_yesterday.getDate();
+
+  Y_tom = date_tom .getFullYear();
+  M_tom = (date_tom.getMonth() + 1 < 10 ? '0' + (date_tom.getMonth() + 1) : date_tom .getMonth() + 1);
+  D_tom = date_tom.getDate() < 10 ? '0' + date_tom .getDate() : date_tom .getDate();
 
   YMD = Y + "-" + M + "-" + D
   YMDhms = Y + "-" + M + "-" + D + " " + h + ":" + m + ":" + s
@@ -89,11 +102,20 @@ function gets() {
 }
 
 function getYMD() {
+  Y = date.getFullYear();
+  M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+  D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
   YMD = Y + "-" + M + "-" + D
   return YMD
 }
 
 function getYMDhms() {
+  Y = date.getFullYear();
+  M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+  D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+  h = date.getHours();
+  m = date.getMinutes();
+  s = date.getSeconds();
   YMDhms = Y + "-" + M + "-" + D + " " + h + ":" + m + ":" + s
   return YMDhms
 }
@@ -117,8 +139,38 @@ function getYesterdayD() {
 }
 
 function getYesterdayYMD() {
+  Y_yesterday = date_yesterday.getFullYear();
+  M_yesterday = (date_yesterday.getMonth() + 1 < 10 ? '0' + (date_yesterday.getMonth() + 1) : date_yesterday.getMonth() + 1);
+  D_yesterday = date_yesterday.getDate() < 10 ? '0' + date_yesterday.getDate() : date_yesterday.getDate();
   YMD_yesterday = Y_yesterday + "-" + M_yesterday + "-" + D_yesterday
   return YMD_yesterday
+}
+
+
+function getTomorrowY() {
+  //年  
+  Y_tom = date_tom.getFullYear();
+  return Y_tom
+}
+
+function getTomorrowM() {
+  //月  
+  M_tom = (date_tom.getMonth() + 1 < 10 ? '0' + (date_tom.getMonth() + 1) : date_tom.getMonth() + 1);
+  return M_tom
+}
+
+function getTomorrowD() {
+  //日  
+  D_tom = date_tom.getDate() < 10 ? '0' + date_tom.getDate() : date_tom.getDate();
+  return D_tom
+}
+
+function getTomorrowYMD() {
+  Y_tom = date_tom.getFullYear();
+  M_tom = (date_tom.getMonth() + 1 < 10 ? '0' + (date_tom.getMonth() + 1) : date_tom.getMonth() + 1);
+  D_tom = date_tom.getDate() < 10 ? '0' + date_tom.getDate() : date_tom.getDate();
+  YMD_tom = Y_tom + "-" + M_tom + "-" + D_tom
+  return YMD_tom
 }
 
 module.exports = {
@@ -148,6 +200,12 @@ module.exports = {
   getYesterdayM: getYesterdayM,
   getYesterdayD: getYesterdayD,
   getYesterdayYMD: getYesterdayYMD,
+
+  getTomorrowY: getTomorrowY,
+  getTomorrowM: getTomorrowM,
+  getTomorrowD: getTomorrowD,
+  getTomorrowYMD: getTomorrowYMD,
+
   newTime: newTime
 }
 

@@ -53,7 +53,7 @@ Page({
     wx.navigateTo({
       //这个url不能是tabBar中的页面
       //url: '../../main/scan/scan'
-      url: '../../inspection/inspectionNote/inspectionNote',
+      url: '../../inspectionNote/inspectionNote/inspectionNote',
       success: function () {
         wx.showLoading({
           title: '正在进入 送检单扫码模式',

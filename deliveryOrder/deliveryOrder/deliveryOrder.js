@@ -65,7 +65,8 @@ Page({
         that.setData({
           delivery_order_list: res_temp
         })
-        console.log("由barcodeno获得的供货信息获得的条目"+res)
+        console.log("由barcodeno获得的供货信息获得的条目")
+        console.log(res_temp)
       },
       fail: function (err) {
         console.log("false")
@@ -130,7 +131,6 @@ Page({
         //TODO此处应该是res 仅作测试
         rescode: '1234567'
       });
-      console.log(that.data.rescode)
       that.getSupply()
       //根据扫码内容获得 供应商id和物料id
       //TODO 此处应该是获得  test程序中用来索取

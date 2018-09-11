@@ -59,7 +59,7 @@ Page({
     var con = condition.NewCondition();
     con = condition.AddFirstCondition('deliveryOrderId', 'EQUAL', that.data.chosen_delivery_order.id);
     if(that.data.supply!=''){
-      con = condition.AddCondition('supplyId', 'EQUAL', that.data.supply.id);
+      con = condition.AddCondition('supplyId', 'EQUAL', that.data.supply.id);F
     }
     wx.request({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/' + con,
@@ -164,17 +164,9 @@ Page({
           }, 2000)
         }
         else {
-          if (that.data.chosen_delivery_order.supplierId != res_temp.data[0].supplierId) {
-            wx.showToast({
-              title: '警告！！！该供货码不属于该供货商，请切换入库单或修改信息',
-              icon: 'none',
-              duration: 4000,
-            })
-            setTimeout(function () {
-              wx.hideToast()
-            }, 4000)
-          }
-          else {
+          console.log("123456")
+          console.log(that.data.chosen_delivery_order)
+          console.log(res_temp.data[0].supplierId)
             if (res_temp.data[0].warehouseId != that.data.warehouse_id) {
               wx.showToast({
                 title: '警告！！！该供货码不属于该仓库，请切换仓库或修改信息',//TODO此处还可以使用
@@ -192,8 +184,6 @@ Page({
               console.log(that.data.supply)
               console.log(res.data[0].barCodeNo)//TODO 暂时查不到barcodeno
             }
-
-          }
         }
 
       },

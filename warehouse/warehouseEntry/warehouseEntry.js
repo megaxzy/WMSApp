@@ -21,20 +21,24 @@ Page({
     date: '', //选择的时间
     date_today: '', //今天的时间 
     date_yesterday:'', //昨天的时间
+    date_tomorrow: '',//以后的时间
   },
   onLoad: function () {
     var that = this
     //获取现在时间
-    time.newTime() 
+    time.newTime()
     var Y = time.getY()
     var M = time.getM()
     var D = time.getD()
     var Y_yesterday = time.getYesterdayY()
     var M_yesterday = time.getYesterdayM()
     var D_yesterday = time.getYesterdayD()
-    console.log(D_yesterday)
-    var date_today=Y+'-'+M+'-'+D
-    var date_yesterday = Y_yesterday + '-' + M_yesterday+ '-' + D_yesterday  
+    var Y_tomorrow = time.getTomorrowY()
+    var M_tomorrow = time.getTomorrowM()
+    var D_tomorrow = time.getTomorrowD()
+    var date_today = Y + '-' + M + '-' + D
+    var date_yesterday = Y_yesterday + '-' + M_yesterday + '-' + D_yesterday
+    var date_tomorrow = Y_tomorrow + '-' + M_tomorrow + '-' + D_tomorrow
     console.log("时间:");
     console.log(date_today)
     console.log(date_yesterday)
@@ -44,7 +48,8 @@ Page({
       warehouse_id:globaldata.chosen_warehouse.id, 
       date: date_yesterday,       
       date_today:date_today,
-      date_yesterday:date_yesterday
+      date_yesterday:date_yesterday,
+      date_tomorrow: date_tomorrow,
     })
     that.showWarehouseEntry();
   },
@@ -67,7 +72,7 @@ Page({
     var con = condition.NewCondition();
     var dates=[]
     dates.push(that.data.date)
-    dates.push(that.data.date_today)
+    dates.push(that.data.date_tomorrow)
     con = condition.AddFirstConditions('createTime', 'BETWEEN', dates);
     con = condition.AddCondition('warehouseId', 'EQUAL', that.data.warehouse_id);
     //con = condition.AddFirstOrder('createTime',' ASC');//???DESC和ASC没有区别

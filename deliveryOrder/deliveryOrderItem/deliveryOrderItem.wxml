@@ -27,7 +27,7 @@
         <text decode="{{true}}">\n</text>
         状态：{{item.state==0 ?'待装车':'' + item.state==1 ?'部分装车完成':'' + item.state==2 ?'全部装车完成':''}}
         <text decode="{{true}}">\n</text>
-        备注：{{item.comment}}
+        备注：{{item.comment==null ?'':'' + item.comment}}
       </view>
       
 <view class="{{hide[index] ==false ?  '' : 'hide'}}">

@@ -1,2 +1,46 @@
-<!--inspectionNote/inspectionNote/inspectionNote.wxml-->
-<text>inspectionNote/inspectionNote/inspectionNote.wxml</text>
+
+<view class="container"> 
+  <!--decode="{{true}}" 后面的&nbsp才能用-->
+  <view class="message">模式:送检扫码模式</view>
+
+  <view class="line">' '</view>
+
+  <view class="message">
+    <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>
+  </view>
+
+  <view class="line">' '</view>
+
+
+
+<form > <!--onsubmit="add"-->
+<view class="form">
+	<view class="item">
+		<view class="title" style="	text-align: center;">请选择 【送检单】</view>
+    <view class="line">' '</view> 
+    <!--wx:for 完了 用item表示每项-->
+    <!--这个地方是不是应该待入库的显示???-->
+		<view class="subtitle" wx:for="{{inspection_note_list.data}}" wx:if="{{item.state==0 ||item.state==1}}" bindtap="chose" hover-class="subtitle_press" data-index="{{index}}">
+      <view class="subtitle">
+        <view style="color:red;display:flex;flex-direction:row;">送检单单号：
+          <view style="color:black;display:flex;flex-direction:row;" >{{item.no}}</view>
+        </view>
+        供应商名称：{{item.supplierName}}
+        <text decode="{{true}}">\n</text>
+        状态：{{item.state==0 ?'送检中':'' + item.state==1 ?'部分送检完成':'' + item.state==2 ?'全部送检完成':''}}
+        <text decode="{{true}}">\n</text>
+        描述：{{item.description==null ? '':''+item.description}} 
+        <text decode="{{true}}">\n</text>
+        送检时间：{{item.inspectionTime==null ? '':'' + item.inspectionTime}}
+        <text decode="{{true}}">\n</text>
+        创建时间：{{item.createTime}}
+
+      </view>
+      <view class="line">' '</view>
+    </view>
+	</view>
+</view>
+</form>
+
+
+</view>

@@ -15,39 +15,23 @@
   </view> 
 
 
-<form > <!--onsubmit="add"-->
-<view class="form">
+
+
 	<view class="item">
 		<view class="title" style="	text-align: center;">【入库单条目】 信息</view>
     <view class="line">' '</view> 
-    <!--wx:for 完了 用item表示每项-->
-		<view class="subtitle" wx:for="{{warehouseEntry_list.data}}" wx:if="{{item.supplierId==supplier_id}}" bindtap="chose" hover-class="subtitle_press"  data-index="{{index}}">
-      <view class="subtitle">
-        <view style="color:red;display:flex;flex-direction:row;">入库单号：
-          <view style="color:black;display:flex;flex-direction:row;" >{{item.no}}</view>
-        </view>
-        创建时间：{{item.createTime}}
-        <text decode="{{true}}">\n</text>
-        供应商名称：{{item.supplierName}}
-        <text decode="{{true}}">\n</text>
-        最后修改时间：{{item.lastUpdateTime}}
-        <text decode="{{true}}">\n</text>
-        状态：{{item.state}}（0待入库  1送检中  2.全部入库  3.部分入库）
-      </view>
-      <view class="line">' '</view>
-    </view>
 	</view>
-</view>
-</form>
+
+
 
 
 		<view class="subtitle" wx:for="{{warehouse_entry_item.data}}" bindtap="choseEntryItem" hover-class="subtitle_press" data-index="{{index}}">
       <view class="subtitle">
         <view style="color:red;display:flex;flex-direction:row;">{{index+1}}
         </view>
-        供应商名称：{{warehouse_entry_item_mapped_supplier[index]}}
+        供应商名称：{{item.supplierName}}
         <text decode="{{true}}">\n</text>
-        物料名称：{{warehouse_entry_item_mapped_material[index]}}
+        物料名称：{{item.materialName}}
         <text decode="{{true}}">\n</text>
         存货日期：{{item.inventoryDate}}
         <text decode="{{true}}">\n</text>
@@ -72,24 +56,39 @@
   <view class="item">
 		<view class="title" >入库库位名称</view>
 		<view class="subtitle">
-			<input type="number" name="storageLocationName" value="{{warehouse_entry_item_mapped_entry_storage_location_name[index]}}" placeholder="" />
+			<input type="number" name="storageLocationName" value="{{item.storageLocationName}}" />
 		</view>
 	</view> 
-
+  <view class="item">
+		<view class="title" >入库库位系列</view>
+		<view class="subtitle">
+			<input type="number" name="storageLocationNo" value="{{item.storageLocationNo}}" />
+		</view>
+	</view> 
   <view class="item">
 		<view class="title" >合格品库位名称</view>
-		<view class="subtitle"><!--warehouse_entry_item_mapped_qualified_storage_location_name[index]-->
-			<input type="number" name="qualifiedLocationName" value="{{item.qualifiedStorageLocationName}}" placeholder="" />
+		<view class="subtitle">
+			<input type="number" name="qualifiedStorageLocationName" value="{{item.qualifiedStorageLocationName}}"  />
 		</view>
 	</view> 
-
+  <view class="item">
+		<view class="title" >合格品库位系列</view>
+		<view class="subtitle">
+			<input type="number" name="qualifiedStorageLocationNo" value="{{item.qualifiedStorageLocationNo}}"  />
+		</view>
+	</view> 
   <view class="item">
 		<view class="title" >不良品库位名称</view>
 		<view class="subtitle">
-			<input type="number" name="unqualifiedLocationName" value="{{warehouse_entry_item_mapped_unqualified_storage_location_name[index]}}" placeholder="" />
+			<input type="number" name="unqualifiedStorageLocationName" value="{{item.unqualifiedStorageLocationName}}"  />
 		</view>
 	</view> 
-
+  <view class="item">
+		<view class="title" >不良品库位系列</view>
+		<view class="subtitle">
+			<input type="number" name="unqualifiedStorageLocationNo" value="{{item.unqualifiedStorageLocationNo}}"  />
+		</view>
+	</view> 
   <view class="item">
 		<view class="title">订单数量</view>
 		<view class="subtitle"> 
