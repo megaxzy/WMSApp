@@ -106,10 +106,15 @@ Page({
         is_logining:1
       })
     }
+    /*
     else{
       return
     }
+    */
     if (this.data.name.length == 0 || this.data.password.length == 0) {
+      that.setData({
+        is_logining: 1
+      })
       wx.showToast({
         title: '账号或密码不能为空',
         icon: 'none',
@@ -117,6 +122,7 @@ Page({
       })
     } 
      else {
+       
       var con=condition.NewCondition();
       con = condition.AddFirstCondition('name', 'EQUAL', this.data.name);
       con = condition.AddCondition('password', 'EQUAL', this.data.password);
@@ -201,12 +207,12 @@ Page({
               duration: 1500,
 
             })
+
+
             setTimeout(function () {
               wx.hideToast()
             }, 1500)
-            that.setData({
-              is_logining: 0
-            })
+
             wx.navigateTo({
               //这个url不能是tabBar中的页面
               //url: '../../main/scan/scan'

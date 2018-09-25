@@ -50,6 +50,8 @@ Page({
     default_unqualified_storage_location_no: '', //默认入库不合格品库位
 
     scan_success:'0',
+    time:'',
+    first_num:'1',
   },
   onLoad: function (query) {
     var that = this
@@ -77,7 +79,7 @@ Page({
     })
     query.warehouse_entry = query.warehouse_entry.replace(/%26/g, "&");
     var warehouse_entry_json = JSON.parse(query.warehouse_entry)
-    this.setData({
+    that.setData({
       warehouse_entry: warehouse_entry_json
     })
     that.showWarehouseEntryItem();
@@ -86,6 +88,10 @@ Page({
   //用来保证在退回entry界面的时候入库单信息改变
   onShow:function(){
     var that=this
+
+    that.setData({
+      rescode:''
+    })
     that.showWarehouseEntryItem();
   },
 
@@ -223,22 +229,66 @@ Page({
     console.log('发过去的：'+warehouse_entry)
     var transvar = 
       'warehouse_entry=' + warehouse_entry + '&' +
-      'supply=' +  supply + '&' +
-      'supplier_id=' + that.data.supplier_id +'&'+
-      'supplier_name=' + that.data.supplier_name + '&'+
-      'material_id=' + that.data.material_id + '&'+
-      'material_name=' + that.data.material_name + '&' +
-      'material_no=' + that.data.material_no + '&' +
-      'material_product_line=' + that.data.material_product_line + '&' +
-      'default_entry_storage_location_name=' + that.data.default_entry_storage_location_name + '&' + 
-      'default_entry_storage_location_no=' + that.data.default_entry_storage_location_no + '&' + 
-      'default_qualified_storage_location_name=' + that.data.default_qualified_storage_location_name + '&' +
-      'default_qualified_storage_location_no=' + that.data.default_qualified_storage_location_no + '&' +
-      'default_unqualified_storage_location_name=' + that.data.default_unqualified_storage_location_name + '&' +
-      'default_unqualified_storage_location_no=' + that.data.default_unqualified_storage_location_no
+      'supply=' +  supply 
     wx.navigateTo({url: '../../warehouse/warehouseEntryItemAdd/warehouseEntryItemAdd' + '?'+transvar})
   },
   
+  scan_gun: function (e) {
+    var that=this
+    var value = e.detail.value
+    console.log(value)
+    if (!(/^[0-9]*$/.test(value))) {
+      that.setData({
+        //TODO此处应该是res 仅作测试
+        rescode: ''
+      });
+    }
+    else{
+      if ((/^[0-9]{7}$/.test(value))) {
+        that.setData({
+          //TODO此处应该是res 仅作测试
+          rescode: value
+        });
+        console.log(that.data.rescode)
+        that.getSupply()
+        //根据扫码内容获得 供应商id和物料id
+        //TODO 此处应该是获得  test程序中用来索取
+        //test end
+        that.showWarehouseEntryItem()
+      }
+      else{
+        if ((/^[0-9]{8,9,10,11,12,13,14,15,16,17}$/.test(value))) {
+
+        }
+      }
+    }
+
+
+    /*
+    setTimeout(function () {
+      // 放在最后--
+      total_micro_second += 1;
+    }, 1)
+    
+    console.log(timer)
+    if(that.data.first_num==1){
+      that.setData({
+        first_num:0
+      })
+    }
+    else{
+      if(that.data.first_num<=10){
+        that.setData({
+        })
+      }
+      else{
+        that.setData({
+          rescode:''
+        })
+      }
+    }*/
+  },
+
   scan: function () {
     var that=this
     //扫码

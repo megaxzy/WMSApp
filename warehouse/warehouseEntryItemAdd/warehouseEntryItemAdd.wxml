@@ -25,62 +25,62 @@
 	<view class="item">
 		<view class="title" >物料代号</view>
 		<view class="subtitle_disabled">
-			<input type="number" disabled="true" name="materialNo" value="{{material_no}}" placeholder="" />
+			<input type="number" disabled="true" name="materialNo" value="{{supply.materialNo}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title" >物料名称</view>
 		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="materialName" value="{{material_name}}" placeholder="" />
+			<input type="text" disabled="true" name="materialName" value="{{supply.materialName}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title" >物料系列</view>
 		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="materialProductLine" value="{{material_product_line}}" placeholder="" />
+			<input type="text" disabled="true" name="materialProductLine" value="{{supply.materialProductLine}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title" >供货商名称</view>
 		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="supplierName" value="{{supplier_name}}" placeholder="" />
+			<input type="text" disabled="true" name="supplierName" value="{{supply.supplierName}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title" >入库库位名称</view>
 		<view class="subtitle">
-			<input type="text" name="storageLocationName" value="{{default_entry_storage_location_name}}" placeholder="请输入入库库位名称" />
+			<input type="text" name="storageLocationName" value="{{supply.defaultEntryStorageLocationName}}" placeholder="请输入入库库位名称" />
 		</view>
 	</view> 
   <!--TODO 联想 输入name获得no-->
   <view class="item">
 		<view class="title" >入库库位编码</view>
 		<view class="subtitle">
-			<input type="number" name="storageLocationNo" value="{{default_entry_storage_location_no}}" placeholder="请输入入库库位编码" />
+			<input type="number" name="storageLocationNo" value="{{supply.defaultEntryStorageLocationNo}}" placeholder="请输入入库库位编码" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title" >合格品库位名称</view>
 		<view class="subtitle">
-			<input type="text" name="qualifiedLocationName" value="{{default_qualified_storage_location_name}}" placeholder="请输入合格库位名称" />
+			<input type="text" name="qualifiedLocationName" value="{{supply.defaultQualifiedStorageLocationName}}" placeholder="请输入合格库位名称" />
 		</view>
 	</view> 
   <view class="item">
 		<view class="title" >合格品库位编码</view>
 		<view class="subtitle">
-			<input type="text" name="qualifiedLocationNo" value="{{default_qualified_storage_location_no}}" placeholder="请输入合格库位编码" />
+			<input type="text" name="qualifiedLocationNo" value="{{supply.defaultQualifiedStorageLocationNo}}" placeholder="请输入合格库位编码" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title" >不良品库位名称</view>
 		<view class="subtitle">
-			<input type="text" name="unqualifiedLocationName" value="{{default_unqualified_storage_location_name}}" placeholder="请输入不良品库位名称" />
+			<input type="text" name="unqualifiedLocationName" value="{{supply.defaultUnqualifiedStorageLocationName}}" placeholder="请输入不良品库位名称" />
 		</view>
 	</view> 
   <view class="item">
 		<view class="title" >不良品库位编码</view>
 		<view class="subtitle">
-			<input type="text" name="unqualifiedLocationNo" value="{{default_unqualified_storage_location_no}}" placeholder="请输入不良品库位编码" />
+			<input type="text" name="unqualifiedLocationNo" value="{{supply.defaultUnqualifiedStorageLocationNo}}" placeholder="请输入不良品库位编码" />
 		</view>
 	</view>
   <view class="item">

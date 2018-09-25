@@ -1,7 +1,8 @@
 
 var timestamp = Date.parse(new Date());
-timestamp = timestamp / 1000;
 console.log("当前时间戳为：" + timestamp);
+timestamp = timestamp / 1000;
+
 //获取当前时间  
 var n = timestamp * 1000;
 var date = new Date(n);
@@ -33,8 +34,9 @@ var YMD_tom
 
 function newTime() {
   timestamp = Date.parse(new Date());
+  var ts=timestamp
   timestamp = timestamp / 1000;
-
+  
   n = timestamp * 1000;
   date = new Date(n);
 
@@ -62,6 +64,7 @@ function newTime() {
   YMD = Y + "-" + M + "-" + D
   YMDhms = Y + "-" + M + "-" + D + " " + h + ":" + m + ":" + s
   YMD_yesterday = Y_yesterday + "-" + M_yesterday + "-" + D_yesterday
+  return ts
 }
 
 function getY() {

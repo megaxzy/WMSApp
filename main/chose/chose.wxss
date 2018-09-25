@@ -55,3 +55,37 @@ background-color: #f2f2f2
  width: 100%; 
  margin-top: 35px; 
 }
+
+.state_chosen {
+  display:flex;
+  flex-direction: row; 
+  width: 375rpx; 
+  font-size: 50rpx;
+	flex: 3;
+  color: #333333;
+  background-color: #00eeee; 
+}
+.state_unchosen {
+  display:flex;
+  flex-direction: row; 
+  width:375rpx; 
+  font-size: 50rpx;
+	flex: 3;
+  color: #333333;
+  background-color: #ffffff; 
+}
+.subtitle_press {
+  /*font-size:40rpx;*/
+
+  font-size:50rpx;
+  background-color:  #00eeee;
+  text-align: center;
+}
+/*登录图片*/
+.login-icon{ 
+ flex: none; 
+} 
+.login-img{ 
+ width:350rpx; 
+ height: 300rpx; 
+} 

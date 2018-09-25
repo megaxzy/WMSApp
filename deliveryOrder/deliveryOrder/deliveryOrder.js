@@ -44,10 +44,11 @@ Page({
   },
   onShow:function(){
     var that=this
-    that.showDeliveryOrder();
+
     that.setData({
       supply: ''
     })
+    that.showDeliveryOrder();
   },
 
   showDeliveryOrder:function(){

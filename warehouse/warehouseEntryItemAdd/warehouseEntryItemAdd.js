@@ -13,25 +13,8 @@ Page({
     date: '',//选择的时间
     date_today: '',//今天的时间
     date_today_YMDhms:'',
-    supplier_id: '', //supplier message
-    supplier_name: '',
-    material_id: '', //material message
-    material_name: '',
-    material_no: '',
-    material_product_line: '',
     supply:'', //供货信息
-    all_storage_location:'', //所有库位信息
-    default_entry_storage_location_id: '', //默认入库目标库位
-    default_entry_storage_location_name: '', //默认入库目标库位
-    default_entry_storage_location_no: '', //默认入库目标库位
-    default_qualified_storage_location_id: '', //默认入库合格品库位
-    default_qualified_storage_location_name: '', //默认入库合格品库位
-    default_qualified_storage_location_no: '', //默认入库合格品库位
-    default_unqualified_storage_location_id: '', //默认入库不合格品库位
-    default_unqualified_storage_location_name: '', //默认入库不合格品库位
-    default_unqualified_storage_location_no: '', //默认入库不合格品库位
     warehouse_entry:'', //选择的那个入库单
-    all_warehouse_entry_item:'', //所有的item集合
     index:'',
     hide:[], 
     user_names:[],   
@@ -54,7 +37,6 @@ Page({
       date:date,
       date_today:date,
       date_today_YMDhms: YMDhms,
-      all_storage_location: globaldata.all_storage_location
     })
     //传递上个页面给的参数
     //json数据用wx.navigateTo需要先用JSON.stringify转码再用JSON.parse转码
@@ -67,21 +49,9 @@ Page({
     console.log(query.default_qualified_storage_location_no)
     this.setData({
       supply: supply_json,
-      supplier_id: query.supplier_id,
-      supplier_name: query.supplier_name,
-      material_id: query.material_id,
-      material_name: query.material_name,
-      material_no: query.material_no,
-      material_product_line: query.material_product_line,
-      default_entry_storage_location_name: query.default_entry_storage_location_name, 
-      default_entry_storage_location_no: query.default_entry_storage_location_no, 
-      default_qualified_storage_location_name: query.default_qualified_storage_location_name, 
-      default_qualified_storage_location_no: query.default_qualified_storage_location_no, 
-      default_unqualified_storage_location_name: query.default_unqualified_storage_location_name,
-      default_unqualified_storage_location_no: query.default_unqualified_storage_location_no, 
       warehouse_entry:warehouse_entry_json
     });
-    that.showAllItem()
+    //that.showAllItem()
     console.log(that.data.supply)
   },
   

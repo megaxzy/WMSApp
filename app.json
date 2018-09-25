@@ -1,5 +1,7 @@
 {
   "pages":[
+    
+    
     "login/logs/logs",
 
 
@@ -15,7 +17,7 @@
     
 
     "warehouse/warehouseEntry/warehouseEntry",
-    "warehouse/warehouseEntryItem/warehouseEntryItem",  
+    "warehouse/warehouseEntryItem/warehouseEntryItem",
     "warehouse/warehouseEntryItemAdd/warehouseEntryItemAdd",
 
     "inspectionNote/inspectionNote/inspectionNote",

@@ -42,6 +42,7 @@ Page({
     this.setData({
       chosen_inspection_note: chosen_inspection_note_json
     });
+    console.log(that.data.chosen_inspection_note)
     that.getInspectionNoteItem()
   },
 
@@ -54,13 +55,11 @@ Page({
     });
   },
 
+
   getInspectionNoteItem: function () {
     var that = this
     var con = condition.NewCondition();
     con = condition.AddFirstCondition('inspectionNoteId', 'EQUAL', that.data.chosen_inspection_note.id);
-    if (that.data.supply != '') {
-      con = condition.AddCondition('supplyId', 'EQUAL', that.data.supply.id);
-    }
     wx.request({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/' + con,
       method: 'GET',
@@ -164,7 +163,9 @@ Page({
           }, 2000)
         }
         else {
-          if (that.data.chosen_inspection_note.supplierId != res_temp.data[0].supplierId) {
+          console.log(that.data.chosen_inspection_note.supplierName)
+          console.log(res_temp.data[0].supplierName) //TODO
+          if (that.data.chosen_inspection_note.supplierName != res_temp.data[0].supplierName) {
             wx.showToast({
               title: '警告！！！该供货码不属于该供货商，请切换入库单或修改信息',
               icon: 'none',

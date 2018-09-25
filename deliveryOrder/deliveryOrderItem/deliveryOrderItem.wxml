@@ -8,6 +8,15 @@
     <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>
   </view>
 
+<view class="line"></view>
+  <view class="item">
+    <view style="width: 750rpx; ;display:flex;flex-direction: row;" >
+      <view class="message">
+        <input  adjust-position="true" bindinput="scan_gun" type="text"  name="res" value="{{rescode}}" placeholder="点击启用扫码枪扫码" />
+      </view>
+    </view>
+	</view>
+
   <!--按钮-->
   <view class="loginBtnView"> 
     <button class="loginBtn" type="primary" bindtap="scan">扫码</button> 

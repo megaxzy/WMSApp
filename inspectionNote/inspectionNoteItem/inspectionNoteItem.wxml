@@ -8,10 +8,6 @@
     <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>
   </view>
 
-  <!--按钮-->
-  <view class="loginBtnView"> 
-    <button class="loginBtn" type="primary" bindtap="scan">扫码</button> 
-  </view> 
 
 
 <form onsubmit="update"> <!--onsubmit="create"-->
@@ -32,60 +28,9 @@
       </view>
       
 <view class="{{hide[index] ==false ?  '' : 'hide'}}">
-	<view class="item">
-    <view class="title" style="color:blue; 	text-align: center;">送检单条目信息(第{{index+1}}项)</view>
-    <view class="line"></view>
-  </view>
 
-  <view class="item">
-		<view class="title" >物料系列</view>
-		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="materialName" value="{{material_name}}" placeholder="" />
-		</view>
-	</view>
-  <view class="item">
-		<view class="title" >供货商名称</view>
-		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="supplierName" value="{{supplier_name}}" placeholder="" />
-		</view>
-	</view>
-  <view class="item">
-		<view class="title">源单位</view>
-		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="sourceUnit{{index}}" value="{{transfer_order_item_list.data[index].sourceUnit}}" placeholder="" />
-		</view>
-	</view>
-  <view class="item">
-		<view class="title">源单位数量</view>
-		<view class="subtitle_disabled">
-			<input type="number" disabled="true" name="sourceUnitAmount[+{{index}}+]" value="{{transfer_order_item_list.data[index].sourceUnitAmount}}" placeholder="" /> 
-		</view>
-	</view>
-  <view class="item">
-		<view class="title">计划移位数量</view>
-		<view class="subtitle_disabled">
-			<input type="number" disabled="true" name="scheduledAmount[+{{index}}+]" value="{{transfer_order_item_list.data[index].scheduledAmount}}" placeholder="" /> 
-		</view>
-	</view>
-  <view class="item">
-		<view class="title">实际移位数量</view>
-		<view class="subtitle">
-			<input type="number"  name="realAmount[+{{index}}+]" value="{{transfer_order_item_list.data[index].realAmount}}" placeholder="" /> 
-		</view>
-	</view>
-  <view class="item">
-		<view class="title">单位</view>
-		<view class="subtitle">
-			<input type="number" name="unit[+{{index}}+]" value="{{transfer_order_item_list.data[index].sourceUnit}}" placeholder="" /> 
-		</view>
-	</view>
-  <view class="item">
-		<view class="title">单位数量</view>
-		<view class="subtitle">
-			<input type="number"  name="unitAmount[+{{index}}+]" value="{{transfer_order_item_list.data[index].unitAmount}}" placeholder="" /> 
-		</view>
-	</view>
-  </view>
+
+</view>
 </view>
 </view>
 
