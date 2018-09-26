@@ -170,27 +170,12 @@ Page({
       scanType: 'barCode',
       success: (res) => {
         console.log(res)
-        /*
         that.setData({
-          //TODO此处应该是res 仅作测试
-          rescode: '1234567'
+          rescode: res.result
         });
-        console.log(that.data.rescode)
-        that.getSupply()
-        //根据扫码内容获得 供应商id和物料id
-        //TODO 此处应该是获得  test程序中用来索取
-        that.setData({
-          supplier_id: that.data.supply.supplier_id,
-          material_id: that.data.supply.material_id
-        })*/
       },
       complete: function () {
-        //test begin
-        that.setData({
-          //TODO此处应该是res 仅作测试
-          rescode: '1234567'
-        });
-        console.log(that.data.rescode)
+
         that.getSupply()
         //根据扫码内容获得 供应商id和物料id
         //TODO 此处应该是获得  test程序中用来索取

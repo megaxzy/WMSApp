@@ -65,9 +65,9 @@ Page({
         that.setData({
           all_warehouse_array:all_warehouse_array
         })
-        that.getAllStorageLocation()
-        that.getAllMaterial()
-        that.getAllSupplier()
+        //that.getAllStorageLocation()
+        //that.getAllMaterial()
+        //that.getAllSupplier()
       }
     })
   },

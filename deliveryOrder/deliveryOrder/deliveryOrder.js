@@ -92,7 +92,7 @@ Page({
     console.log(index)
     console.log(that.data.delivery_order_list.data[index])
     wx.showToast({
-      title: '进入【送检单条目】生成页面',
+      title: '进入【出库单条目】生成页面',
       icon: 'none',
       duration: 2000
     })

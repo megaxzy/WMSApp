@@ -26,7 +26,7 @@ Page({
     warehouse_entry_item: '', //选择的入库单的item集合
     hide:[], //隐藏item用
     all_material:'', //所有物料信息
-    all_supply: '', //所有supply
+    //all_supply: '', //所有supply
     all_storage_location: '', //所有库位信息
     warehouse_entry_item_mapped_material:[],//匹配的material name
     warehouse_entry_item_mapped_supplier: [],//匹配的supplier name
@@ -73,7 +73,7 @@ Page({
       date_today:date_today,
       date_yesterday:date_yesterday,
       all_material:globaldata.all_material,
-      all_supplier: globaldata.all_supplier,
+      //all_supplier: globaldata.all_supplier,
       all_supply: globaldata.all_supply,
       all_storage_location: globaldata.all_storage_location
     })
@@ -127,7 +127,7 @@ Page({
         that.setData({
           hide: hide
         })
-
+        /*
         var warehouse_entry_item_mapped_material = [];
         var warehouse_entry_item_mapped_supplier = [];
         var warehouse_entry_item_mapped_entry_storage_location_name = [];
@@ -185,7 +185,7 @@ Page({
           warehouse_entry_item_mapped_qualified_storage_location_name :warehouse_entry_item_mapped_qualified_storage_location_name,
           warehouse_entry_item_mapped_unqualified_storage_location_name :warehouse_entry_item_mapped_unqualified_storage_location_name
         })
-        
+        */
       }
     })
   },
@@ -296,11 +296,10 @@ Page({
         scanType: 'barCode',
         success: (res) => {
           console.log(res)
-          /*
           that.setData({
-            //TODO此处应该是res 仅作测试
-            rescode: '1234567'
+            rescode:res.result
           });
+          /*
           console.log(that.data.rescode)
           that.getSupply()
           //根据扫码内容获得 供应商id和物料id
@@ -311,11 +310,6 @@ Page({
           })*/
         },
       complete: function () {
-        //test begin
-        that.setData({
-          //TODO此处应该是res 仅作测试
-          rescode: '1234567'
-        });
         console.log(that.data.rescode)
         that.getSupply()
         //根据扫码内容获得 供应商id和物料id
