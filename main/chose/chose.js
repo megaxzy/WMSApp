@@ -7,12 +7,14 @@ Page({
     name: '',
     role:'',
     authority:'',
-    rescode: ''
+    rescode: '',
+    warehouse:''
   },
   onShow: function () {
     this.setData({
       name:globaldata.user_name,
-      role:globaldata.user_role
+      role:globaldata.user_role,
+      warehouse: globaldata.chosen_warehouse.name
     })
     console.log(this.data.name)
     console.log(this.data.role)

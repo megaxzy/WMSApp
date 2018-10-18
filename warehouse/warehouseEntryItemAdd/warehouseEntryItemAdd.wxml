@@ -12,8 +12,6 @@
 
 
 
-
-
 <view class="line"></view>
 <form onsubmit="create"> <!--onsubmit="create"-->
 <view class="form">
@@ -25,7 +23,7 @@
 	<view class="item">
 		<view class="title" >物料代号</view>
 		<view class="subtitle_disabled">
-			<input type="number" disabled="true" name="materialNo" value="{{supply.materialNo}}" placeholder="" />
+			<input type="text" disabled="true" name="materialNo" value="{{supply.materialNo}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
@@ -49,50 +47,66 @@
   <view class="item">
 		<view class="title" >入库库位名称</view>
 		<view class="subtitle">
-			<input type="text" name="storageLocationName" value="{{supply.defaultEntryStorageLocationName}}" placeholder="请输入入库库位名称" />
+			<input type="text"  bindinput="changeEntryName" bindfocus="showEntryName" bindblur="hideEntryName"  name="storageLocationName" value="{{entry_storage_location_name}}" placeholder="请输入入库库位名称" />
 		</view>
 	</view> 
   <!--TODO 联想 输入name获得no-->
   <view class="item">
 		<view class="title" >入库库位编码</view>
 		<view class="subtitle">
-			<input type="number" name="storageLocationNo" value="{{supply.defaultEntryStorageLocationNo}}" placeholder="请输入入库库位编码" />
+			<input type="text" bindinput="changeEntryNo" bindfocus="showEntryNo" bindblur="hideEntryNo"  name="storageLocationNo" name="storageLocationNo" value="{{entry_storage_location_no}}" placeholder="请输入入库库位编码" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title" >合格品库位名称</view>
 		<view class="subtitle">
-			<input type="text" name="qualifiedLocationName" value="{{supply.defaultQualifiedStorageLocationName}}" placeholder="请输入合格库位名称" />
+			<input type="text" bindinput="changeQualifiedName" bindfocus="showQualifiedName" bindblur="hideQualifiedName"  name="qualifiedLocationName" value="{{qualified_storage_location_name}}" placeholder="请输入合格库位名称" />
 		</view>
 	</view> 
   <view class="item">
 		<view class="title" >合格品库位编码</view>
 		<view class="subtitle">
-			<input type="text" name="qualifiedLocationNo" value="{{supply.defaultQualifiedStorageLocationNo}}" placeholder="请输入合格库位编码" />
+			<input type="text" bindinput="changeQualifiedNo" bindfocus="showQualifiedNo" bindblur="hideQualifiedNo"  name="qualifiedLocationNo" value="{{qualified_storage_location_no}}" placeholder="请输入合格库位编码" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title" >不良品库位名称</view>
 		<view class="subtitle">
-			<input type="text" name="unqualifiedLocationName" value="{{supply.defaultUnqualifiedStorageLocationName}}" placeholder="请输入不良品库位名称" />
+			<input type="text" bindinput="changeUnqualifiedName" bindfocus="showUnqualifiedName" bindblur="hideUnqualifiedName"name="unqualifiedLocationName" value="{{unqualified_storage_location_name}}" placeholder="请输入不良品库位名称" />
 		</view>
 	</view> 
+  <!--
+  <view class="{{show_unqualified_name == true ?  'hide' : ''}}">
+    <view  wx:for="{{vague_unqualified_name}}">
+      <view  class="{{show_unqualified_name == true ?  'hide' : ''}}">{{item}}</view>
+      <view class="line"></view>
+    </view>
+  </view>
+  -->
   <view class="item">
 		<view class="title" >不良品库位编码</view>
 		<view class="subtitle">
-			<input type="text" name="unqualifiedLocationNo" value="{{supply.defaultUnqualifiedStorageLocationNo}}" placeholder="请输入不良品库位编码" />
+			<input type="text" bindinput="changeUnqualifiedNo" bindfocus="showUnqualifiedNo" bindblur="hideUnqualifiedNo" name="unqualifiedLocationNo" value="{{unqualified_storage_location_no}}" placeholder="请输入不良品库位编码" />
 		</view>
 	</view>
+  <!--
+  <view class="{{show_unqualified_no == true ?  'hide' : ''}}">
+    <view  wx:for="{{vague_unqualified_no}}">
+      <view  class="{{show_unqualified_no == true ?  'hide' : ''}}">{{item}}</view>
+      <view class="line"></view>
+    </view>
+  </view>
+  -->
   <view class="item">
 		<view class="title">订单数量</view>
 		<view class="subtitle"> 
-			<input type="number" name="expectedAmount" value="{{supply.defaultEntryAmount}}" placeholder="请输入订单数量" />
+			<input type="digital" name="expectedAmount" value="{{supply.defaultEntryAmount}}" placeholder="请输入订单数量" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title">实收数量(默认为全部)</view>
 		<view class="subtitle">
-			<input type="number" name="realAmount" value="{{supply.defaultEntryAmount}}" placeholder="请输入实收数量" />
+			<input type="digital" name="realAmount" value="{{supply.defaultEntryAmount}}" placeholder="请输入实收数量" />
 		</view>
 	</view>
   <view class="item">
@@ -104,13 +118,13 @@
   <view class="item">
 		<view class="title">单位数量</view>
 		<view class="subtitle">
-			<input type="number" name="unitAmount" value="{{supply.defaultEntryUnitAmount}}" placeholder="请输入单位数量" />
+			<input type="digital" name="unitAmount" value="{{supply.defaultEntryUnitAmount}}" placeholder="请输入单位数量" />
 		</view>
 	</view>  
     <view class="item">
 		<view class="title">拒收数量(默认为0)</view>
 		<view class="subtitle">
-			<input type="number" name="refuseAmount" value="0" placeholder="请输入拒收数量" />
+			<input type="digital" name="refuseAmount" value="0" placeholder="请输入拒收数量" />
 		</view>
 	</view>
   <view class="item">
@@ -122,21 +136,23 @@
   <view class="item">
 		<view class="title">拒收单位数量(默认为0)</view>
 		<view class="subtitle">
-			<input type="number"  name="refuseUnitAmount" value="0" placeholder="请输入拒收单位数量" />
+			<input type="digital"  name="refuseUnitAmount" value="0" placeholder="请输入拒收单位数量" />
 		</view>
 	</view>  
   <view class="item">
 		<view class="title">已送检数量</view>
 		<view class="subtitle_disabled">
-			<input type="number" disabled="true" name="inspectionAmount" value="0" placeholder="" />
+			<input type="digital" disabled="true" name="inspectionAmount" value="0" placeholder="" />
 		</view>
 	</view>
+  <!--
   <view class="item">
 		<view class="title">状态（0待入库 1送检中 2正品入库 3不良品入库）</view>
 		<view class="subtitle_disabled">
 			<input type="number" disabled="true" name="state" value="0" placeholder="" />
 		</view>
 	</view>
+  -->
   <view class="item">
 		<view class="title">存货日期</view>
 		<view class="subtitle_disabled">

@@ -6,7 +6,10 @@
   <view class="message" >
     <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>
   </view>
- 
+  <view class="line"></view>
+  <view class="message" >
+    <text decode="{{true}}">仓库名称：{{warehouse}} </text>
+  </view>
   
   <view ><text decode="{{true}}">&nbsp;&nbsp;</text></view>
   

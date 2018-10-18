@@ -22,6 +22,7 @@ Page({
     supply: '', //供货信息
     inspection_note_list: '',
     chosen_inspection_note: '',
+    qualified:'2',
   },
   onLoad: function () {
     var that = this
@@ -49,12 +50,37 @@ Page({
       supply: ''
     })
   },
-
+  change_state_1: function (e) {
+    var that = this
+    var form = e.detail.value
+    if (that.data.qualified == 2) {
+      that.setData({
+        qualified: '1'
+      });
+    }
+    that.showInspectionNote();
+  },
+  change_state_2: function (e) {
+    var that = this
+    var form = e.detail.value
+    if (that.data.qualified == 1) {
+      that.setData({
+        qualified: '2'
+      });
+    }
+    that.showInspectionNote();
+  },
   showInspectionNote: function () {
     var that = this
 
     var con = condition.NewCondition();
     con = condition.AddFirstCondition('warehouseId', 'EQUAL', that.data.warehouse_id);
+    if (that.data.qualified == 2) {
+      con = condition.AddCondition('state', 'NOT_EQUAL', 2)
+    }
+    if (that.data.qualified == 1) {
+      con = condition.AddCondition('state', 'EQUAL', 2)
+    }
     wx.request({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note/' + con,
       method: 'GET',

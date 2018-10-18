@@ -22,6 +22,7 @@ Page({
     date_today: '', //今天的时间 
     date_yesterday:'', //昨天的时间
     date_tomorrow: '',//以后的时间
+    qualified: '2',
   },
   onLoad: function () {
     var that = this
@@ -66,7 +67,26 @@ Page({
     })
     that.showWarehouseEntry();
   },
-
+  change_state_1: function (e) {
+    var that = this
+    var form = e.detail.value
+    if (that.data.qualified == 2) {
+      that.setData({
+        qualified: '1'
+      });
+    }
+    that.showWarehouseEntry();
+  },
+  change_state_2: function (e) {
+    var that = this
+    var form = e.detail.value
+    if (that.data.qualified == 1) {
+      that.setData({
+        qualified: '2'
+      });
+    }
+    that.showWarehouseEntry();
+  },
   showWarehouseEntry:function(){
     var that=this
     var con = condition.NewCondition();
@@ -75,6 +95,12 @@ Page({
     dates.push(that.data.date_tomorrow)
     con = condition.AddFirstConditions('createTime', 'BETWEEN', dates);
     con = condition.AddCondition('warehouseId', 'EQUAL', that.data.warehouse_id);
+    if (that.data.qualified == 2) {
+      con = condition.AddCondition('state', 'NOT_EQUAL', 2)
+    }
+    if (that.data.qualified == 1) {
+      con = condition.AddCondition('state', 'EQUAL', 2)
+    }
     //con = condition.AddFirstOrder('createTime',' ASC');//???DESC和ASC没有区别
     wx.request({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'warehouse_entry/' + con,

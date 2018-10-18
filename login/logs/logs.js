@@ -22,6 +22,11 @@ Page({
   },
 
   onShow: function () {
+    /*
+    var x = "###112121"
+    var y = "12"
+    console.log(x.indexOf(y))
+    */
     var that=this
     //获得仓库的所有内容
     var con = condition.NewCondition();
@@ -65,7 +70,7 @@ Page({
         that.setData({
           all_warehouse_array:all_warehouse_array
         })
-        //that.getAllStorageLocation()
+        that.getAllStorageLocation()
         //that.getAllMaterial()
         //that.getAllSupplier()
       }

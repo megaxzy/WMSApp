@@ -15,10 +15,10 @@
     
     "main/chose/chose",
     
-
+    "warehouse/warehouseEntryItemAdd/warehouseEntryItemAdd",
     "warehouse/warehouseEntry/warehouseEntry",
     "warehouse/warehouseEntryItem/warehouseEntryItem",
-    "warehouse/warehouseEntryItemAdd/warehouseEntryItemAdd",
+    
 
     "inspectionNote/inspectionNote/inspectionNote",
     "inspectionNote/inspectionNoteItem/inspectionNoteItem",

@@ -44,6 +44,34 @@ function AddFirstConditions(key, relation, value) {
   con += '],"orders":[]}';
   return con;
 }
+function AddConditions(key, relation, value) {
+  con = con.substr(0, con.length - 14);
+  var v = value.shift()
+  var conitem = ',{"key":"' + key + '","relation":"' + relation + '","values":["' + v + '"';
+  con += conitem;
+  while (value.length != 0) {
+    v = value.shift()
+    conitem = ', "' + v + '"'
+    con += conitem;
+  }
+  con += ']}'
+  con += '],"orders":[]}';
+  return con;
+}
+function AddFirstConditions(key, relation, value) {
+  con = con.substr(0, con.length - 14);
+  var v=value.shift()
+  var conitem = '{"key":"' + key + '","relation":"' + relation + '","values":["' + v +'"' ;
+  con += conitem;
+  while(value.length!=0){
+    v = value.shift()
+    conitem =', "'+v+'"'
+    con += conitem;
+  }
+  con += ']}'
+  con += '],"orders":[]}';
+  return con;
+}
 function AddFirstOrder(key,value) {
   con = con.substr(0, con.length - 2);
   var conitem = '{"key":"' + key + '","values":"' + value + '"}';
@@ -60,4 +88,5 @@ module.exports = {
   AddCondition:AddCondition,
   AddFirstOrder: AddFirstOrder,
   AddFirstConditions: AddFirstConditions,
+  AddConditions: AddConditions,
 }

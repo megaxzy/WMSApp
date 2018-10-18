@@ -17,6 +17,7 @@ Page({
     transfer_order_item_list: '',
     index: '',//选择的条目顺序
     hide: [],
+    scan_success:'0',
   },
   onLoad: function (query) {
     var that = this
@@ -119,6 +120,7 @@ Page({
     var con = condition.NewCondition();
     con = condition.AddFirstCondition('transferOrderId', 'EQUAL', that.data.chosen_transfer_order.id);
     if(that.data.supply!=''){
+      console.log("successfully be added")
       con = condition.AddCondition('supplyId', 'EQUAL', that.data.supply.id);
     }
     wx.request({
@@ -190,6 +192,9 @@ Page({
   getSupply: function () {
     //获得供货信息
     var that = this
+    that.setData({
+      scan_success:'0'
+    })
     var con = condition.NewCondition();
     con = condition.AddFirstCondition('barCodeNo', 'EQUAL', that.data.rescode);
     wx.request({
@@ -199,6 +204,8 @@ Page({
         console.log("succeed connect")
         console.log(globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con)
         var res_temp = res
+        console.log(res)
+        console.log(res_temp.data.length)
         if (res_temp.data.length == 0) {
           wx.showToast({
             title: '该供货码不存在',
@@ -210,7 +217,10 @@ Page({
           }, 2000)
         }
         else {
+          console.log(that.data.chosen_transfer_order.supplierId)
+          console.log(res_temp.data[0].supplierId)
           if (that.data.chosen_transfer_order.supplierId != res_temp.data[0].supplierId) {
+            console.log("123456712345679898")
             wx.showToast({
               title: '警告！！！该供货码不属于该供货商，请切换入库单或修改信息',
               icon: 'none',
@@ -221,6 +231,7 @@ Page({
             }, 4000)
           }
           else {
+            
             if (res_temp.data[0].warehouseId != that.data.warehouse_id) {
               wx.showToast({
                 title: '警告！！！该供货码不属于该仓库，请切换仓库或修改信息',//TODO此处还可以使用
@@ -235,8 +246,11 @@ Page({
               that.setData({
                 supply: res_temp.data[0]
               })
+              console.log("supply 是什么")
               console.log(that.data.supply)
-              console.log(res.data[0].barCodeNo)//TODO 暂时查不到barcodeno
+              that.setData({
+                scan_success: '1'
+              })
             }
 
           }
@@ -253,16 +267,30 @@ Page({
         })
       },
       complete: function () {
-        wx.showToast({
-          title: '扫码成功',//TODO此处还可以使用
-          icon: 'success',
-          duration: 2000,
-        })
-        setTimeout(function () {
-          wx.hideToast()
-        }, 2000)
+        if(that.data.scan_gun=='1'){
+          wx.showToast({
+            title: '扫码成功',//TODO此处还可以使用
+            icon: 'success',
+            duration: 2000,
+          })
+          setTimeout(function () {
+            wx.hideToast()
+          }, 2000)
+          that.setData({
+            scan_success: '0'
+          })
+        }
         that.getTransferOrderItem()
       }
     })
+  },
+  recover: function () {
+    var that = this
+    that.data
+    that.setData({
+      supply: '',
+      rescode: '',
+    })
+    that.getTransferOrderItem()
   },
 })

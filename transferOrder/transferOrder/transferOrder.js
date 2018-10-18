@@ -22,6 +22,7 @@ Page({
     supply:'', //供货信息
     transfer_order_list: '',
     chosen_transfer_order: '',
+    qualified:'2',
   },
   onLoad: function () {
     var that = this
@@ -52,7 +53,26 @@ Page({
     that.showTransferOrder();
   },
 
-
+  change_state_1: function (e) {
+    var that = this
+    var form = e.detail.value
+    if (that.data.qualified == 2) {
+      that.setData({
+        qualified: '1'
+      });
+    }
+    that.showTransferOrder();
+  },
+  change_state_2: function (e) {
+    var that = this
+    var form = e.detail.value
+    if (that.data.qualified == 1) {
+      that.setData({
+        qualified: '2'
+      });
+    }
+    that.showTransferOrder();
+  },
 
 
   scan_gun: function (e) {
@@ -130,6 +150,12 @@ Page({
     if (that.data.supply.length!=''){
       con = condition.AddCondition('supplierId', 'EQUAL', that.data.supply.supplierId);
     }
+    if (that.data.qualified == 2) {
+      con = condition.AddCondition('state', 'NOT_EQUAL', 2)
+    }
+    if (that.data.qualified == 1) {
+      con = condition.AddCondition('state', 'EQUAL', 2)
+    }
     wx.request({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'transfer_order/' + con,
       method: 'GET',
@@ -200,6 +226,17 @@ Page({
     }
     })
   },
+
+  recover: function () {
+    var that = this
+    that.data
+    that.setData({
+      supply: '',
+      rescode: '',
+    })
+    that.showTransferOrder()
+  },
+
   getSupply: function () {
     //获得供货信息
     var that=this
@@ -214,6 +251,7 @@ Page({
         console.log("succeed connect")
         console.log(globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con)
         var res_temp = res
+
         if (res_temp.data.length == 0) {
           wx.showToast({
             title: '该供货码不存在',
@@ -260,14 +298,27 @@ Page({
         })
       },
       complete:function(){
-        wx.showToast({
-          title: '扫码成功',//TODO此处还可以使用
-          icon: 'success',
-          duration: 2000,
-        })
-        setTimeout(function () {
-          wx.hideToast()
-        }, 2000)
+        if (that.data.rescode == 0) {
+          wx.showToast({
+            title: '扫码失败',
+            icon: 'none',
+            duration: 2000,
+          })
+          setTimeout(function () {
+            wx.hideToast()
+          }, 2000)
+        }
+        else{
+          wx.showToast({
+            title: '扫码成功',//TODO此处还可以使用
+            icon: 'success',
+            duration: 2000,
+          })
+          setTimeout(function () {
+            wx.hideToast()
+          }, 2000)
+        }
+
         that.showTransferOrder()
       }
     })

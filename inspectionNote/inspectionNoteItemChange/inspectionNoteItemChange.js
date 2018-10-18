@@ -67,97 +67,111 @@ Page({
     var that = this 
     var form = e.detail.value
 
-
-    console.log("inspection note item:")
-    var object_output_inspection_note_item= {
-      "id": that.data.inspection_note_item.id,
-      "inspectionNoteId": that.data.inspection_note_item.inspectionNoteId,//auto
-      "warehouseEntryItemId": that.data.inspection_note_item.warehouseEntryItemId, //auto 
-      "amount": that.data.inspection_note_item.amount,
-      "unit": that.data.inspection_note_item.unit,
-      "unitAmount": that.data.inspection_note_item.unitAmount,
-      "returnAmount":form.returnAmount,
-      "returnUnit":form.returnUnit,
-      "returnUnitAmount":form.returnUnitAmount,
-      "state": that.data.qualified,
-      "comment": form.comment,
-      "personId":that.data.user_id
-    }
-    console.log(object_output_inspection_note_item)
-    wx.request({
-      url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/',
-      data: [object_output_inspection_note_item],
-      method: 'PUT',
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/')
-        console.log(res)
-      },
-      //请求失败
-      fail: function (err) {
-        console.log("false")
-        wx.showToast({
-          title: '连接失败,请检查你的网络或者服务端是否开启',
-          icon: 'none',
-          duration: 2000
-        })
-      },
-      complete: function () {
-        console.log("inspection note:")
-        var object_output_inspection_note = {
-          "id": that.data.inspection_note.id,
-          "warehouseEntryId": that.data.inspection_note.warehouseEntryId,//auto
-          "warehouseId": that.data.inspection_note.warehouseId, //auto 
-          "no": that.data.inspection_note.no,
-          "state": that.data.inspection_note.state,//TODO
-          "description": that.data.inspection_note.description,
-          "SAPNo": that.data.inspection_note.SAPNo,
-          "inspectionTime": that.data.inspection_note.inspectionTime,
-          "createPersonId": that.data.inspection_note.createPersonId,
-          "createTime": that.data.inspection_note.createTime,
-          "lastUpdatePersonId": that.data.user_id, //update
-          "lastUpdateTime": that.data.date_today_YMDhms //update
+    if (form.returnAmount > that.data.inspection_note_item.amount){
+      wx.showToast({
+        title: '返回数量不能大于送检数量',
+        icon: 'none',
+        duration: 2000,
+        success: function () {
+          setTimeout(function () {
+            //要延时执行的代码
+          }, 2000)
         }
-        console.log(object_output_inspection_note)
-        console.log(that.data.inspection_note.createTime)
-        console.log(that.data.inspection_note)
-        wx.request({
-          url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note/',
-          data: [object_output_inspection_note],
-          method: 'PUT',
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: function (res) {
-            console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note/')
-            console.log(res)
-            wx.showToast({
-              title: '存入成功',
-              icon: 'success',
-              duration: 1500,
-              success: function () {
-                setTimeout(function () {
-                  //要延时执行的代码
-                  wx.navigateBack();
-                }, 1500)
-              }
-            })
-          },
-          //请求失败
-          fail: function (err) {
-            console.log("false")
-            wx.showToast({
-              title: '连接失败,请检查你的网络或者服务端是否开启',
-              icon: 'none',
-              duration: 2000
-            })
-          },
-          complete: function () {
-          }
-        })   
+      })
+    }
+    else{       
+      console.log("inspection note item:")
+      var object_output_inspection_note_item = {
+        "id": that.data.inspection_note_item.id,
+        "inspectionNoteId": that.data.inspection_note_item.inspectionNoteId,//auto
+        "warehouseEntryItemId": that.data.inspection_note_item.warehouseEntryItemId, //auto 
+        "amount": that.data.inspection_note_item.amount,
+        "unit": that.data.inspection_note_item.unit,
+        "unitAmount": that.data.inspection_note_item.unitAmount,
+        "returnAmount": form.returnAmount,
+        "returnUnit": form.returnUnit,
+        "returnUnitAmount": form.returnUnitAmount,
+        "state": that.data.qualified,
+        "comment": form.comment,
+        "personId": that.data.user_id
       }
-    })
+      console.log(object_output_inspection_note_item)
+      wx.request({
+        url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/',
+        data: [object_output_inspection_note_item],
+        method: 'PUT',
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/')
+          console.log(res)
+        },
+        //请求失败
+        fail: function (err) {
+          console.log("false")
+          wx.showToast({
+            title: '连接失败,请检查你的网络或者服务端是否开启',
+            icon: 'none',
+            duration: 2000
+          })
+        },
+        complete: function () {
+          console.log("inspection note:")
+          var object_output_inspection_note = {
+            "id": that.data.inspection_note.id,
+            "warehouseEntryId": that.data.inspection_note.warehouseEntryId,//auto
+            "warehouseId": that.data.inspection_note.warehouseId, //auto 
+            "no": that.data.inspection_note.no,
+            "state": that.data.inspection_note.state,//TODO
+            "description": that.data.inspection_note.description,
+            "SAPNo": that.data.inspection_note.SAPNo,
+            "inspectionTime": that.data.inspection_note.inspectionTime,
+            "createPersonId": that.data.inspection_note.createPersonId,
+            "createTime": that.data.inspection_note.createTime,
+            "lastUpdatePersonId": that.data.user_id, //update
+            "lastUpdateTime": that.data.date_today_YMDhms //update
+          }
+          console.log(object_output_inspection_note)
+          console.log(that.data.inspection_note.createTime)
+          console.log(that.data.inspection_note)
+          wx.request({
+            url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note/',
+            data: [object_output_inspection_note],
+            method: 'PUT',
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+              console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note/')
+              console.log(res)
+              wx.showToast({
+                title: '存入成功',
+                icon: 'success',
+                duration: 1500,
+                success: function () {
+                  setTimeout(function () {
+                    //要延时执行的代码
+                    wx.navigateBack();
+                  }, 1500)
+                }
+              })
+            },
+            //请求失败
+            fail: function (err) {
+              console.log("false")
+              wx.showToast({
+                title: '连接失败,请检查你的网络或者服务端是否开启',
+                icon: 'none',
+                duration: 2000
+              })
+            },
+            complete: function () {
+            }
+          })
+        }
+      })
+    }
+
   },
 })

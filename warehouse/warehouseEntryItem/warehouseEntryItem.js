@@ -77,6 +77,8 @@ Page({
       all_supply: globaldata.all_supply,
       all_storage_location: globaldata.all_storage_location
     })
+    console.log("all_storage_location")
+    console.log(that.data.all_storage_location)
     query.warehouse_entry = query.warehouse_entry.replace(/%26/g, "&");
     var warehouse_entry_json = JSON.parse(query.warehouse_entry)
     that.setData({
@@ -94,7 +96,15 @@ Page({
     })
     that.showWarehouseEntryItem();
   },
-
+  recover: function () {
+    var that = this
+    that.data
+    that.setData({
+      supply: '',
+      rescode: '',
+    })
+    that.showWarehouseEntryItem();
+  },
   showWarehouseEntryItem:function(){
     var that=this
     var con = condition.NewCondition();

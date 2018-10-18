@@ -89,3 +89,21 @@ page{
  height: 3rpx; 
  font-size:3rpx;
 } 
+.state_chosen {
+  display:flex;
+  flex-direction: row; 
+  width: 250rpx; 
+  font-size: 48rpx;
+	flex: 3;
+  color: #333333;
+  background-color: #00eeee; 
+}
+.state_unchosen {
+  display:flex;
+  flex-direction: row; 
+  width:250rpx; 
+  font-size: 48rpx;
+	flex: 3;
+  color: #333333;
+  background-color: #ffffff; 
+}

@@ -22,6 +22,7 @@ Page({
     supply:'', //供货信息
     delivery_order_list: '',
     chosen_delivery_order: '',
+    qualified:'2',
   },
   onLoad: function () {
     var that = this
@@ -44,19 +45,42 @@ Page({
   },
   onShow:function(){
     var that=this
-
     that.setData({
       supply: ''
     })
     that.showDeliveryOrder();
   },
-
+  change_state_1: function (e) {
+    var that = this
+    var form = e.detail.value
+    if (that.data.qualified == 2) {
+      that.setData({
+        qualified: '1'
+      });
+    }
+    that.showDeliveryOrder();
+  },
+  change_state_2: function (e) {
+    var that = this
+    var form = e.detail.value
+    if (that.data.qualified == 1) {
+      that.setData({
+        qualified: '2'
+      });
+    }
+    that.showDeliveryOrder();
+  },
   showDeliveryOrder:function(){
     var that=this
 
     var con = condition.NewCondition();
     con = condition.AddFirstCondition('warehouseId', 'EQUAL', that.data.warehouse_id);
-
+    if (that.data.qualified == 2){
+      con=condition.AddCondition('state','NOT_EQUAL',2)
+    }
+    if (that.data.qualified == 1) {
+      con = condition.AddCondition('state', 'EQUAL', 2)
+    }
     wx.request({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/' + con,
       method: 'GET',

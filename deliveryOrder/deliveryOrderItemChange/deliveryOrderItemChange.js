@@ -16,6 +16,7 @@ Page({
     supply: '', //供货信息
     chosen_delivery_order: '',
     chosen_delivery_order_item: '',
+    
   },
   onLoad: function (query) {
     var that = this
@@ -48,12 +49,11 @@ Page({
     var res_temp
     console.log("chosen_delivery_order_item:")
 
-
+    //时间判断
     var loadingTime = form.loadingTime
     if (loadingTime == '') {
       loadingTime = null
     }
-    //TODO 正则表达式  空格
     else if (loadingTime.indexOf(":") == -1) {
       loadingTime = loadingTime + ' ' + '00:00:00'
     }
@@ -83,10 +83,9 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        res_temp = res
-
         console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/')
         console.log(res)
+        res_temp = res
       },
       //请求失败
       fail: function (err) {
@@ -103,24 +102,10 @@ Page({
       case 2: return "整单装车";
       case 3: return "发运在途";
       case 4: return "核减完成";
-       */
-
+      */
       complete: function () {
         console.log("delivery order:")
-        if (res_temp.statusCode == 400) {
-          wx.showToast({
-            title: '' + res_temp.data,
-            icon: 'none',
-            duration: 4000,
-            success: function () {
-              setTimeout(function () {
-                //要延时执行的代码
-                wx.hideToast()
-              }, 4000)
-            }
-          })
-        }
-        else {
+        if (res_temp.statusCode == 200) {
           var object_output_delivery_order = {
             "id": that.data.chosen_delivery_order.id,
             "warehouseId": that.data.chosen_delivery_order.warehouseId, //auto 
@@ -148,17 +133,32 @@ Page({
             success: function (res) {
               console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/')
               console.log(res)
-              wx.showToast({
-                title: '修改成功',
-                icon: 'success',
-                duration: 2500,
-                success: function () {
-                  setTimeout(function () {
-                    //要延时执行的代码
-                    wx.navigateBack();
-                  }, 1500)
-                }
-              })
+              if (res_temp.statusCode == 200) {
+                wx.showToast({
+                  title: '修改成功',
+                  icon: 'success',
+                  duration: 2500,
+                  success: function () {
+                    setTimeout(function () {
+                      //要延时执行的代码
+                      wx.navigateBack();
+                    }, 1500)
+                  }
+                })
+              }
+              else{
+                wx.showToast({
+                  title: '' + res_temp.data,
+                  icon: 'none',
+                  duration: 4000,
+                  success: function () {
+                    setTimeout(function () {
+                      //要延时执行的代码
+                      wx.hideToast()
+                    }, 4000)
+                  }
+                })
+              }
             },
             //请求失败
             fail: function (err) {
@@ -169,14 +169,23 @@ Page({
                 duration: 2000
               })
             },
-            complete: function () {
-
+            complete: function () {}
+          })
+        }
+        else {
+          wx.showToast({
+            title: '' + res_temp.data,
+            icon: 'none',
+            duration: 4000,
+            success: function () {
+              setTimeout(function () {
+                //要延时执行的代码
+                wx.hideToast()
+              }, 4000)
             }
           })
         }
-
       }
-
     })
   },
 })

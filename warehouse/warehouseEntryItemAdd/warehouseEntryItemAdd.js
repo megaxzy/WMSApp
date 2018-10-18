@@ -8,7 +8,7 @@ Page({
     role:'',
     authority:'',
     user_id:'',
-    warehouse_list:'',
+    warehouse_list:'',  
     warehouse_id:'',
     date: '',//选择的时间
     date_today: '',//今天的时间
@@ -17,7 +17,26 @@ Page({
     warehouse_entry:'', //选择的那个入库单
     index:'',
     hide:[], 
-    user_names:[],   
+    //user_names:[],   
+    entry_storage_location_name:'',
+    qualified_storage_location_name:'',
+    unqualified_storage_location_name:'',
+    entry_storage_location_no: '',
+    qualified_storage_location_no: '',
+    unqualified_storage_location_no: '',
+    all_storage_location: '', //所有库位信息
+    show_unqualified_no:'false',
+    vague_unqualified_no:[],
+    show_unqualified_name: 'false',
+    vague_unqualified_name: [],
+    show_qualified_no: 'false',
+    vague_qualified_no: [],
+    show_qualified_name: 'false',
+    vague_qualified_name: [],
+    show_entry_no: 'false',
+    vague_entry_no: [],
+    show_entry_name: 'false',
+    vague_entry_name: [],
   },
   onLoad: function (query) {
     var that = this
@@ -33,10 +52,11 @@ Page({
       name:globaldata.user_name,
       role:globaldata.user_role,
       user_id:globaldata.user_id,
-      warehouse_id:globaldata.chosen_warehouse.id,
+      warehouse_id:globaldata.chosen_warehouse.id,  
       date:date,
       date_today:date,
       date_today_YMDhms: YMDhms,
+      all_storage_location: globaldata.all_storage_location,
     })
     //传递上个页面给的参数
     //json数据用wx.navigateTo需要先用JSON.stringify转码再用JSON.parse转码
@@ -45,21 +65,94 @@ Page({
     query.warehouse_entry = query.warehouse_entry.replace(/%26/g, "&");
     var warehouse_entry_json=JSON.parse(query.warehouse_entry)
     console.log(warehouse_entry_json)
-    console.log(query.default_qualified_storage_location_name)
-    console.log(query.default_qualified_storage_location_no)
     this.setData({
       supply: supply_json,
       warehouse_entry:warehouse_entry_json
     });
-    //that.showAllItem()
     console.log(that.data.supply)
+
+
+    var entry_storage_location_name = ''
+    var qualified_storage_location_name = ''
+    var unqualified_storage_location_name = ''
+
+    console.log(that.data.all_storage_location)
+    console.log(that.data.supply)
+    for (var h = 0; h < that.data.all_storage_location.data.length; h++) {
+      if (that.data.supply.defaultEntryStorageLocationNo == that.data.all_storage_location.data[h].no) {
+        entry_storage_location_name = that.data.all_storage_location.data[h].name
+      }
+      //console.log(that.data.all_storage_location.data[h].no)
+      if (that.data.supply.defaultQualifiedStorageLocationNo==that.data.all_storage_location.data[h].no) {
+        qualified_storage_location_name = that.data.all_storage_location.data[h].name
+        
+      }
+      if (that.data.supply.defaultUnqualifiedStorageLocationNo == that.data.all_storage_location.data[h].no) {
+        unqualified_storage_location_name = that.data.all_storage_location.data[h].name
+      }
+    }
+    that.setData({
+      entry_storage_location_name: entry_storage_location_name,
+      qualified_storage_location_name: qualified_storage_location_name,
+      unqualified_storage_location_name: unqualified_storage_location_name,
+      entry_storage_location_no:that.data.supply.defaultEntryStorageLocationNo,
+      qualified_storage_location_no:that.data.supply.defaultQualifiedStorageLocationNo,
+      unqualified_storage_location_no: that.data.supply.defaultUnqualifiedStorageLocationNo,
+    })
+    console.log("three location")
+    console.log(that.data.entry_storage_location_name)
+    console.log(that.data.qualified_storage_location_name)
+    console.log(that.data.unqualified_storage_location_name)
   },
-  
+  onShow: function () {
+
+  },
+
+
+
   create: function (e) {
     var that = this 
     var form = e.detail.value
+
+    
+      var entry_storage_location_id=''
+      var qualified_storage_location_id=''
+      var unqualified_storage_location_id=''
+
+      for (var h = 0; h < that.data.all_storage_location.data.length; h++) {
+        if (form.storageLocationNo == that.data.all_storage_location.data[h].no && form.storageLocationName == that.data.all_storage_location.data[h].name) {
+          entry_storage_location_id = that.data.all_storage_location.data[h].id
+        }
+        if (form.qualifiedLocationNo == that.data.all_storage_location.data[h].no && form.qualifiedLocationName == that.data.all_storage_location.data[h].name) {
+          qualified_storage_location_id = that.data.all_storage_location.data[h].id
+        }
+        if (form.unqualifiedLocationNo == that.data.all_storage_location.data[h].no && form.unqualifiedLocationName == that.data.all_storage_location.data[h].name) {
+          unqualified_storage_location_id = that.data.all_storage_location.data[h].id
+        }
+      }
+
+    
+
     //^匹配输入字符串开始的位置 $结束
-    if (form.storageLocationName.length == 0) {
+    if (entry_storage_location_id == '') {
+      wx.showModal({
+        title: '入库库位信息有误',
+        showCancel: false
+      });
+    }
+    else if (qualified_storage_location_id == ''&&form.qualifiedLocationNo != '' && form.qualifiedLocationName!='') {
+      wx.showModal({
+        title: '合格品库位信息有误',
+        showCancel: false
+      });
+    }
+    else if (unqualified_storage_location_id == ''&&form.unqualifiedLocationNo != '' && form.unqualifiedLocationName != '') {
+      wx.showModal({
+        title: '不良品库位信息有误',
+        showCancel: false
+      });
+    }
+    else if (form.storageLocationName.length == 0) {
       wx.showModal({
         title: '入库库位名称不能为空',
         showCancel: false
@@ -163,6 +256,7 @@ Page({
       });
     }
     */
+
     else{
       var con = condition.NewCondition();
       con = condition.AddFirstCondition('name', 'EQUAL', form.storageLocationName);
@@ -267,12 +361,22 @@ Page({
                     expiryDate = expiryDate + ' ' + '00:00:00'
                   }
 
+                  /*
+                  var state
+                  if (form.expectedAmount == form.realAmount){
+                    state=0
+                  }
+                  */
                   var object_output = {
                     "warehouseEntryId": that.data.warehouse_entry.id,//auto
                     "supplyId": that.data.supply.id, //auto 
-                    "storageLocationId": that.data.default_entry_storage_location_id,//input-get
-                    "qualifiedStorageLocationId": that.data.default_qualified_storage_location_id, //input-get
-                    "unqualifiedStorageLocationId": that.data.default_unqualified_storage_location_id, //input-get
+
+                    //TODO
+                    "storageLocationId": entry_storage_location_id,//input-get
+                    "qualifiedStorageLocationId":qualified_storage_location_id, //input-get
+                    "unqualifiedStorageLocationId":unqualified_storage_location_id, //input-get
+                    //
+                    
                     "expectedAmount": form.expectedAmount, //auto/input
                     "realAmount": form.realAmount, //auto/input
                     "unit": form.unit, //auto/input
@@ -386,6 +490,364 @@ Page({
   },
 
 
+
+
+  //entryName
+  changeEntryName: function (e) {
+    var that = this
+    var value = e.detail.value
+    var entry_storage_location_no = ''
+
+    for (var h = 0; h < that.data.all_storage_location.data.length; h++) {
+      if (value == that.data.all_storage_location.data[h].name) {
+        entry_storage_location_no = that.data.all_storage_location.data[h].no
+      }
+    }
+    that.setData({
+      entry_storage_location_no: entry_storage_location_no,
+    })
+
+    var vague_entry_name = []
+    
+    var i = 0
+    console.log("value", value)
+    if (value != '') {
+      for (var h = 0; h < that.data.all_storage_location.data.length; h++) {
+        var temp = that.data.all_storage_location.data[h].name
+        if (temp.indexOf(value, 0) == 0) {
+          vague_entry_name[i] = that.data.all_storage_location.data[h].name
+          i++
+        }
+      }
+    }
+    that.setData({
+      vague_entry_name: vague_entry_name,
+    })
+  },
+  showEntryName: function (e) {
+    var that = this
+    that.changeEntryName(e)
+    console.log("聚焦")
+    console.log("that.data.show_entry_name", that.data.show_entry_name)
+    that.setData({
+      show_entry_no: 'true',
+    })
+    console.log("that.data.show_entry_name", that.data.show_entry_name)
+  },
+  hideEntryName: function (e) {
+    var that = this
+    console.log("丧失焦点")
+    console.log("that.data.show_entry_name", that.data.show_entry_name)
+    that.setData({
+      show_entry_no: 'false',
+    })
+    console.log("that.data.show_entry_name", that.data.show_entry_name)
+  },
+
+
+  //entryNo
+  changeEntryNo: function (e) {
+    var that = this
+    var value = e.detail.value
+    var entry_storage_location_name = ''
+
+    for (var h = 0; h < that.data.all_storage_location.data.length; h++) {
+      if (value == that.data.all_storage_location.data[h].no) {
+        entry_storage_location_name = that.data.all_storage_location.data[h].name
+      }
+    }
+    that.setData({
+      entry_storage_location_name: entry_storage_location_name,
+    })
+
+    var vague_entry_no = []
+    
+    var i = 0
+    console.log("value", value)
+    if (value != '') {
+      for (var h = 0; h < that.data.all_storage_location.data.length; h++) {
+        var temp = that.data.all_storage_location.data[h].no
+        if (temp.indexOf(value, 0) == 0) {
+          vague_entry_no[i] = that.data.all_storage_location.data[h].no
+          i++
+        }
+      }
+    }
+    that.setData({
+      vague_entry_no: vague_entry_no,
+    })
+  },
+  showEntryNo: function (e) {
+    var that = this
+    that.changeEntryNo(e)
+    console.log("聚焦")
+    console.log("that.data.show_entry_no", that.data.show_entry_no)
+    that.setData({
+      show_entry_no: 'true',
+    })
+    console.log("that.data.show_entry_no", that.data.show_entry_no)
+  },
+  hideEntryNo: function (e) {
+    var that = this
+    console.log("丧失焦点")
+    console.log("that.data.show_entry_no", that.data.show_entry_no)
+    that.setData({
+      show_entry_no: 'false',
+    })
+    console.log("that.data.show_entry_no", that.data.show_entry_no)
+  },
+
+
+/*
+  test: function () {
+    var that = this
+    console.log("test")
+    console.log("that.data.show_entry_no", that.data.show_unqualified_no)
+    that.setData({
+      show_unqualified_no: 'false',
+    })
+    console.log("that.data.show_entry_no", that.data.show_unqualified_no)
+  },
+  test2: function () {
+    var that = this
+    console.log("test2")
+    console.log("that.data.show_entry_no", that.data.show_unqualified_no)
+    that.setData({
+      show_unqualified_no: 'true',
+    })
+    console.log("that.data.show_entry_no", that.data.show_unqualified_no)
+  },
+*/
+
+
+
+
+
+
+  //qualifiedName
+  changeQualifiedName: function (e) {
+    var that = this
+    var value = e.detail.value
+    var qualified_storage_location_no = ''
+
+    for (var h = 0; h < that.data.all_storage_location.data.length; h++) {
+      if (value == that.data.all_storage_location.data[h].name) {
+        qualified_storage_location_no = that.data.all_storage_location.data[h].no
+      }
+    }
+    that.setData({
+      qualified_storage_location_no: qualified_storage_location_no,
+    })
+
+    var vague_qualified_name = []
+    
+    var i = 0
+    console.log("value", value)
+    if (value != '') {
+      for (var h = 0; h < that.data.all_storage_location.data.length; h++) {
+        var temp = that.data.all_storage_location.data[h].name
+        if (temp.indexOf(value, 0) == 0) {
+          vague_qualified_name[i] = that.data.all_storage_location.data[h].name
+          i++
+        }
+      }
+    }
+    that.setData({
+      vague_qualified_name: vague_qualified_name,
+    })
+  },
+  showQualifiedName: function (e) {
+    var that = this
+    that.changeQualifiedName(e)
+    console.log("聚焦")
+    console.log("that.data.show_qualified_name", that.data.show_qualified_name)
+    that.setData({
+      show_qualified_no: 'true',
+    })
+    console.log("that.data.show_qualified_name", that.data.show_qualified_name)
+  },
+  hideQualifiedName: function (e) {
+    var that = this
+    console.log("丧失焦点")
+    console.log("that.data.show_qualified_name", that.data.show_qualified_name)
+    that.setData({
+      show_qualified_no: 'false',
+    })
+    console.log("that.data.show_qualified_name", that.data.show_qualified_name)
+  },
+
+  //qualifiedNo
+  changeQualifiedNo: function (e) {
+    var that = this
+    var value = e.detail.value
+    var qualified_storage_location_name = ''
+
+    for (var h = 0; h < that.data.all_storage_location.data.length; h++) {
+      if (value == that.data.all_storage_location.data[h].no) {
+        qualified_storage_location_name = that.data.all_storage_location.data[h].name
+      }
+    }
+    that.setData({
+      qualified_storage_location_name: qualified_storage_location_name,
+    })
+
+    var vague_qualified_no = []
+    
+    var i = 0
+    console.log("value", value)
+    if (value != '') {
+      for (var h = 0; h < that.data.all_storage_location.data.length; h++) {
+        var temp = that.data.all_storage_location.data[h].no
+        if (temp.indexOf(value, 0) == 0) {
+          vague_qualified_no[i] = that.data.all_storage_location.data[h].no
+          i++
+        }
+      }
+    }
+    that.setData({
+      vague_qualified_no: vague_qualified_no,
+    })
+  },
+  showQualifiedNo: function (e) {
+    var that = this
+    that.changeQualifiedNo(e)
+    console.log("聚焦")
+    console.log("that.data.show_qualified_no", that.data.show_qualified_no)
+    that.setData({
+      show_qualified_no: 'true',
+    })
+    console.log("that.data.show_qualified_no", that.data.show_qualified_no)
+  },
+  hideQualifiedNo: function (e) {
+    var that = this
+    console.log("丧失焦点")
+    console.log("that.data.show_qualified_no", that.data.show_qualified_no)
+    that.setData({
+      show_qualified_no: 'false',
+    })
+    console.log("that.data.show_qualified_no", that.data.show_qualified_no)
+  },
+
+
+
+
+
+  //UnqualifiedName
+  changeUnqualifiedName: function (e) {
+    var that = this
+    var value = e.detail.value
+    var unqualified_storage_location_no = ''
+
+    for (var h = 0; h < that.data.all_storage_location.data.length; h++) {
+      if (value == that.data.all_storage_location.data[h].name) {
+        unqualified_storage_location_no = that.data.all_storage_location.data[h].no
+      }
+    }
+    that.setData({
+      unqualified_storage_location_no: unqualified_storage_location_no,
+    })
+
+    var vague_unqualified_name = []
+    
+    var i = 0
+    console.log("value", value)
+    if (value != '') {
+      for (var h = 0; h < that.data.all_storage_location.data.length; h++) {
+        var temp = that.data.all_storage_location.data[h].name
+        if (temp.indexOf(value, 0) == 0) {
+          vague_unqualified_name[i] = that.data.all_storage_location.data[h].name
+          i++
+        }
+      }
+    }
+    that.setData({
+      vague_unqualified_name: vague_unqualified_name,
+    })
+  },
+  showUnqualifiedName: function (e) {
+    var that = this
+    that.changeUnqualifiedName(e)
+    console.log("聚焦")
+    console.log("that.data.show_unqualified_name", that.data.show_unqualified_name)
+    that.setData({
+      show_unqualified_no: 'true',
+    })
+    console.log("that.data.show_unqualified_name", that.data.show_unqualified_name)
+  },
+  hideUnqualifiedName: function (e) {
+    var that = this
+    console.log("丧失焦点")
+    console.log("that.data.show_unqualified_name", that.data.show_unqualified_name)
+    that.setData({
+      show_unqualified_no: 'false',
+    })
+    console.log("that.data.show_unqualified_name", that.data.show_unqualified_name)
+  },
+
+  //UnqualifiedNo
+  changeUnqualifiedNo: function (e) {
+    var that = this
+    var value = e.detail.value    
+    var unqualified_storage_location_name = ''
+      
+    for (var h = 0; h < that.data.all_storage_location.data.length; h++) {
+      if (value == that.data.all_storage_location.data[h].no) {
+        unqualified_storage_location_name = that.data.all_storage_location.data[h].name
+      }
+    }
+    that.setData({
+      unqualified_storage_location_name: unqualified_storage_location_name,
+    })
+
+    var vague_unqualified_no =[]
+    
+    var i = 0
+    console.log("value",value)
+    if(value!='')
+    {
+      for (var h = 0; h < that.data.all_storage_location.data.length; h++) {
+        var temp = that.data.all_storage_location.data[h].no
+        if (temp.indexOf(value,0)==0 ) {
+          vague_unqualified_no[i] = that.data.all_storage_location.data[h].no
+          i++
+        }
+      }
+    }
+    that.setData({
+      vague_unqualified_no: vague_unqualified_no,
+    })
+  },
+  showUnqualifiedNo:function(e){
+    var that=this
+    that.changeUnqualifiedNo(e)
+    console.log("聚焦")
+    console.log("that.data.show_unqualified_no",that.data.show_unqualified_no)
+    that.setData({
+      show_unqualified_no:'true',
+    })
+    console.log("that.data.show_unqualified_no",that.data.show_unqualified_no)
+  },
+  hideUnqualifiedNo: function (e) {
+    var that=this
+    console.log("丧失焦点")
+    console.log("that.data.show_unqualified_no",that.data.show_unqualified_no)
+    that.setData({
+      show_unqualified_no: 'false',
+    })
+    console.log("that.data.show_unqualified_no",that.data.show_unqualified_no)
+  },
+
+
+
+
+
+
+
+
+
+
+
+/*
   choseEntryItem: function (e) {
     var that = this
     var index = e.currentTarget.dataset.index;
@@ -444,6 +906,7 @@ Page({
       }
     })
   }
+  */
   /*
   getTheLocationNo:function(e){
     var that = this

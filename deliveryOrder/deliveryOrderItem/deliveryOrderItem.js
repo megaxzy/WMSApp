@@ -17,6 +17,7 @@ Page({
     delivery_order_item_list: '',
     index: '',//选择的条目顺序
     hide: [],
+    scan_success: '0',
   },
   onLoad: function (query) {
     var that = this
@@ -161,7 +162,15 @@ Page({
     })
   },
  
-
+  recover: function () {
+    var that = this
+    that.data
+    that.setData({
+      supply: '',
+      rescode:'',
+    })
+    that.getDeliveryOrderItem()
+  },
 
   scan: function () {
     var that = this
@@ -188,6 +197,9 @@ Page({
   getSupply: function () {
     //获得供货信息
     var that = this
+    that.setData({
+      scan_success: '0'
+    })
     var con = condition.NewCondition();
     con = condition.AddFirstCondition('barCodeNo', 'EQUAL', that.data.rescode);
     wx.request({
@@ -223,7 +235,8 @@ Page({
             }
             else {
               that.setData({
-                supply: res_temp.data[0]
+                supply: res_temp.data[0],
+                scan_success:'1'
               })
               console.log(that.data.supply)
               console.log(res.data[0].barCodeNo)//TODO 暂时查不到barcodeno
@@ -242,14 +255,20 @@ Page({
         })
       },
       complete: function () {
-        wx.showToast({
-          title: '扫码成功',//TODO此处还可以使用
-          icon: 'success',
-          duration: 2000,
-        })
-        setTimeout(function () {
-          wx.hideToast()
-        }, 2000)
+        if(that.data.scan_success=='1'){
+          wx.showToast({
+            title: '扫码成功',//TODO此处还可以使用
+            icon: 'success',
+            duration: 2000,
+          })
+          setTimeout(function () {
+            wx.hideToast()
+          }, 2000)
+          that.setData({
+            scan_success: '0'
+          })
+        }
+
         that.getDeliveryOrderItem()
       }
     })
