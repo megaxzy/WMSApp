@@ -77,8 +77,6 @@ Page({
         }
       }
     }
-
-
     /*
     setTimeout(function () {
       // 放在最后--

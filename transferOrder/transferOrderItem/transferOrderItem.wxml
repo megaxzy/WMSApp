@@ -39,6 +39,8 @@
         <text decode="{{true}}">\n</text>
         目标库位名称：{{item.targetStorageLocationName}}
         <text decode="{{true}}">\n</text>
+        状态：{{item.state==0 ?'移库中':'' + item.state==1 ?'部分移库完成':'' + item.state==2 ?'全部移库完成':''}}
+        <text decode="{{true}}">\n</text>
         备注：{{item.comment==null ?'':'' + item.comment}}
       </view>
       

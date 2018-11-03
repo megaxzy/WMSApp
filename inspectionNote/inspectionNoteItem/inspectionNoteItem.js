@@ -17,6 +17,7 @@ Page({
     inspection_note_item_list: '',
     index: '',//选择的条目顺序
     hide: [],
+    rescode:'',
   },
   onLoad: function (query) {
     var that = this
@@ -51,7 +52,8 @@ Page({
     var that = this
     that.getInspectionNoteItem()
     that.setData({
-      supply: ''
+      supply: '',
+      rescode:''
     });
   },
 
@@ -69,7 +71,7 @@ Page({
         that.setData({
           inspection_note_item_list: res_temp
         })
-        console.log('inspection 信息：', that.data.inspection_note_item_list)
+        console.log('inspection item 信息：', that.data.inspection_note_item_list)
       },
       //请求失败
       fail: function (err) {
@@ -101,8 +103,32 @@ Page({
     })
   },
 
+  scan_gun: function (e) {
+    var that = this
+    var value = e.detail.value
+    console.log(value)
+    if (!(/^[0-9]*$/.test(value))) {
+      that.setData({
+        //TODO此处应该是res 仅作测试
+        rescode: ''
+      });
+    }
+    else {
+      if ((/^[0-9]{7}$/.test(value))) {
+        that.setData({
+          rescode: value
+        });
+        console.log(that.data.rescode)
+        that.getSupply()
+        that.getInspectionNoteItem()
+      }
+      else {
+        if ((/^[0-9]{8,9,10,11,12,13,14,15,16,17}$/.test(value))) {
 
-
+        }
+      }
+    }
+  },
   scan: function () {
     var that = this
     //扫码
@@ -110,36 +136,16 @@ Page({
       scanType: 'barCode',
       success: (res) => {
         console.log(res)
-        /*
         that.setData({
-          //TODO此处应该是res 仅作测试
-          rescode: '1234567'
+          rescode: res.result
         });
-        console.log(that.data.rescode)
-        that.getSupply()
-        //根据扫码内容获得 供应商id和物料id
-        //TODO 此处应该是获得  test程序中用来索取
-        that.setData({
-          supplier_id: that.data.supply.supplier_id,
-          material_id: that.data.supply.material_id
-        })*/
       },
       complete: function () {
-        //test begin
-        that.setData({
-          //TODO此处应该是res 仅作测试
-          rescode: '1234567'
-        });
-        console.log(that.data.rescode)
         that.getSupply()
-        //根据扫码内容获得 供应商id和物料id
-        //TODO 此处应该是获得  test程序中用来索取
-        //根据供应商id获得供应商名称 物料id和物料名称
-        //更新表单
-
       }
     })
   },
+
   getSupply: function () {
     //获得供货信息
     var that = this
@@ -212,4 +218,34 @@ Page({
       }
     })
   },
+/*
+  getWarehouseEntryItem: function () {
+    var that = this
+    var con = condition.NewCondition();
+    con = condition.AddFirstCondition('inspectionNoteId', 'EQUAL', that.data.chosen_inspection_note.id);
+    wx.request({
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/' + con,
+      method: 'GET',
+      success: function (res) {
+        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/' + con)
+        var res_temp = res
+        that.setData({
+          inspection_note_item_list: res_temp
+        })
+        console.log('inspection item 信息：', that.data.inspection_note_item_list)
+      },
+      //请求失败
+      fail: function (err) {
+        console.log("false")
+        wx.showToast({
+          title: '连接失败,请检查你的网络或者服务端是否开启',
+          icon: 'none',
+          duration: 2000
+        })
+      },
+      complete: function () {
+      }
+    })
+  },
+  */
 })

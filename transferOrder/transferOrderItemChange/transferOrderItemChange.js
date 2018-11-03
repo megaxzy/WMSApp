@@ -50,6 +50,11 @@ Page({
     var form = e.detail.value
 
     if (form.realAmount > that.data.chosen_transfer_order_item.scheduledAmount) {
+      wx.showModal({
+        title: '错误',
+        content: '实际移位数量不能大于计划移位数量',
+      })
+      /*
       wx.showToast({
         title: '实际移位数量不能大于计划移位数量',
         icon: 'none',
@@ -60,6 +65,7 @@ Page({
           }, 2000)
         }
       })
+      */
     }
     else { 
       var res_temp 
@@ -101,12 +107,24 @@ Page({
         },
         complete: function () {
           if(res_temp.statusCode==200){
+            wx.showToast({
+              title: '存入成功',
+              icon: 'success',
+              duration: 1000,
+              success: function () {
+                setTimeout(function () {
+                  //要延时执行的代码
+                  wx.navigateBack();
+                }, 1000)
+              }
+            })
+          /*
           var object_output_transfer_order = {
             "id": that.data.chosen_transfer_order.id,
             "warehouseId": that.data.chosen_transfer_order.warehouseId, //auto 
             "supplierId": that.data.chosen_transfer_order.supplierId,
             "no": that.data.chosen_transfer_order.no,
-            "state": that.data.chosen_transfer_order.state,
+            //"state": that.data.chosen_transfer_order.state,
             "description": that.data.chosen_transfer_order.description,
             "type": that.data.chosen_transfer_order.type,
             "printTimes": that.data.chosen_transfer_order.printTimes,
@@ -155,18 +173,23 @@ Page({
                 wx.showToast({
                   title: '' + res_temp.data,
                   icon: 'none',
-                  duration: 2000
+                  duration: 8000
                 })
               }
             }
-          })
+          })*/
           }
           else{
-            wx.showToast({
+            wx.showModal({
+              title:'错误',
+              content: '' + res_temp.data,
+            })
+            /*({
               title: '' + res_temp.data,
               icon: 'none',
-              duration: 2000
+              duration: 8000
             })
+            */
           }
         }
       })

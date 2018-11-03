@@ -80,6 +80,7 @@ Page({
       })
     }
     else{       
+      var res_temp
       console.log("inspection note item:")
       var object_output_inspection_note_item = {
         "id": that.data.inspection_note_item.id,
@@ -106,6 +107,7 @@ Page({
         success: function (res) {
           console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/')
           console.log(res)
+          res_temp=res
         },
         //请求失败
         fail: function (err) {
@@ -117,6 +119,27 @@ Page({
           })
         },
         complete: function () {
+          if (res_temp.statusCode == 200) {
+            wx.showToast({
+              title: '修改成功',
+              icon: 'success',
+              duration: 2500,
+              success: function () {
+                setTimeout(function () {
+                  //要延时执行的代码
+                  wx.navigateBack();
+                }, 2500)
+              }
+            })
+          }
+          else{
+            wx.showModal({
+              title: '错误',
+              content: '' + res_temp.data,
+            })
+          }
+
+          /*
           console.log("inspection note:")
           var object_output_inspection_note = {
             "id": that.data.inspection_note.id,
@@ -168,7 +191,7 @@ Page({
             },
             complete: function () {
             }
-          })
+          })*/
         }
       })
     }

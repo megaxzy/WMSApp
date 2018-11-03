@@ -106,6 +106,19 @@ Page({
       complete: function () {
         console.log("delivery order:")
         if (res_temp.statusCode == 200) {
+          wx.showToast({
+            title: '修改成功',
+            icon: 'success',
+            duration: 2500,
+            success: function () {
+              setTimeout(function () {
+                //要延时执行的代码
+                wx.navigateBack();
+              }, 2500)
+            }
+          })
+        }
+          /*
           var object_output_delivery_order = {
             "id": that.data.chosen_delivery_order.id,
             "warehouseId": that.data.chosen_delivery_order.warehouseId, //auto 
@@ -170,9 +183,14 @@ Page({
               })
             },
             complete: function () {}
-          })
-        }
+          })*/
+        
         else {
+          wx.showModal({
+            title: '错误',
+            content: '' + res_temp.data,
+          })
+          /*
           wx.showToast({
             title: '' + res_temp.data,
             icon: 'none',
@@ -184,6 +202,7 @@ Page({
               }, 4000)
             }
           })
+          */
         }
       }
     })
