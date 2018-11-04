@@ -207,40 +207,30 @@ Page({
         console.log(res)
         console.log(res_temp.data.length)
         if (res_temp.data.length == 0) {
-          wx.showToast({
-            title: '该供货码不存在',
-            icon: 'none',
-            duration: 2000,
+          wx.showModal({
+            title: '警告！！！',
+            content: '该供货码不存在',
+            showCancel: false,
           })
-          setTimeout(function () {
-            wx.hideToast()
-          }, 2000)
         }
         else {
           console.log(that.data.chosen_transfer_order.supplierId)
           console.log(res_temp.data[0].supplierId)
           if (that.data.chosen_transfer_order.supplierId != res_temp.data[0].supplierId) {
-            console.log("123456712345679898")
-            wx.showToast({
-              title: '警告！！！该供货码不属于该供货商，请切换入库单或修改信息',
-              icon: 'none',
-              duration: 4000,
+            wx.showModal({
+              title: '警告！！！',
+              content: '该供货码不属于该供货商，请切换入库单或修改信息',
+              showCancel: false,
             })
-            setTimeout(function () {
-              wx.hideToast()
-            }, 4000)
           }
           else {
             
             if (res_temp.data[0].warehouseId != that.data.warehouse_id) {
-              wx.showToast({
-                title: '警告！！！该供货码不属于该仓库，请切换仓库或修改信息',//TODO此处还可以使用
-                icon: 'none',
-                duration: 4000,
+              wx.showModal({
+                title: '警告！！！',
+                content: '该供货码不属于该仓库，请切换仓库或修改信息',
+                showCancel: false,
               })
-              setTimeout(function () {
-                wx.hideToast()
-              }, 4000)
             }
             else {
               that.setData({

@@ -14,7 +14,8 @@ Page({
     date_today: '',//今天的时间
     date_today_YMDhms:'',
     supply:'', //供货信息
-    warehouse_entry:'', //选择的那个入库单
+    warehouse_entry: '', //入库单
+    warehouse_entry_item:'', //入库单条目
     index:'',
     hide:[], 
     //user_names:[],   
@@ -58,54 +59,24 @@ Page({
       date_today_YMDhms: YMDhms,
       all_storage_location: globaldata.all_storage_location,
     })
-    //传递上个页面给的参数
-    //json数据用wx.navigateTo需要先用JSON.stringify转码再用JSON.parse转码
-    var supply_json = JSON.parse(query.supply)
-    console.log('收到的：'+query.warehouse_entry)
-    query.warehouse_entry = query.warehouse_entry.replace(/%26/g, "&");
-    var warehouse_entry_json=JSON.parse(query.warehouse_entry)
-    console.log(warehouse_entry_json)
+
+    var warehouse_entry_item_json=JSON.parse(query.warehouse_entry_item)
+    var warehouse_entry_json = JSON.parse(query.warehouse_entry)
     this.setData({
-      supply: supply_json,
-      warehouse_entry:warehouse_entry_json
+      warehouse_entry_item:warehouse_entry_item_json,
+      warehouse_entry: warehouse_entry_json,
+      index:query.index
     });
-    console.log(that.data.supply)
 
-
+    
     var entry_storage_location_name = ''
     var qualified_storage_location_name = ''
     var unqualified_storage_location_name = ''
 
-    console.log(that.data.all_storage_location)
-    console.log(that.data.supply)
-    for (var h = 0; h < that.data.all_storage_location.data.length; h++) {
-      if (that.data.supply.defaultEntryStorageLocationNo == that.data.all_storage_location.data[h].no) {
-        entry_storage_location_name = that.data.all_storage_location.data[h].name
-      }
-      //console.log(that.data.all_storage_location.data[h].no)
-      if (that.data.supply.defaultQualifiedStorageLocationNo==that.data.all_storage_location.data[h].no) {
-        qualified_storage_location_name = that.data.all_storage_location.data[h].name
-        
-      }
-      if (that.data.supply.defaultUnqualifiedStorageLocationNo == that.data.all_storage_location.data[h].no) {
-        unqualified_storage_location_name = that.data.all_storage_location.data[h].name
-      }
-    }
-    that.setData({
-      entry_storage_location_name: entry_storage_location_name,
-      qualified_storage_location_name: qualified_storage_location_name,
-      unqualified_storage_location_name: unqualified_storage_location_name,
-      entry_storage_location_no:that.data.supply.defaultEntryStorageLocationNo,
-      qualified_storage_location_no:that.data.supply.defaultQualifiedStorageLocationNo,
-      unqualified_storage_location_no: that.data.supply.defaultUnqualifiedStorageLocationNo,
-    })
-    console.log("three location")
-    console.log(that.data.entry_storage_location_name)
-    console.log(that.data.qualified_storage_location_name)
-    console.log(that.data.unqualified_storage_location_name)
+
+
   },
   onShow: function () {
-
   },
 
 
@@ -336,11 +307,7 @@ Page({
                 },
                 complete: function () {
                   var res_message
-                  console.log("warehouseEntry:")
-                  console.log(that.data.warehouse_entry)
-                  console.log(that.data.default_entry_storage_location_id)
-                  console.log(that.data.default_qualified_storage_location_id)
-                  console.log(that.data.default_unqualified_storage_location_id)
+
                   //TODO 添加判断
                   var manufactureDate = form.manufactureDate
                   console.log(manufactureDate.length)
@@ -369,8 +336,9 @@ Page({
                   }
                   */
                   var object_output = {
-                    "warehouseEntryId": that.data.warehouse_entry.id,//auto
-                    "supplyId": that.data.supply.id, //auto 
+                    "id": that.data.warehouse_entry_item.id,//auto
+                    "warehouseEntryId": that.data.warehouse_entry_item.warehouseEntryId,
+                    "supplyId": that.data.warehouse_entry_item.supplyId, //auto 
 
                     //TODO
                     "storageLocationId": entry_storage_location_id,//input-get
@@ -395,11 +363,12 @@ Page({
                     "manufactureDate": manufactureDate,//input   
                     "expiryDate": expiryDate//input
                   }
+                  console.log(that.data.warehouse_entry_item)
                   console.log(object_output)
                   wx.request({
                     url: globaldata.url + 'warehouse/' + globaldata.account + 'warehouse_entry_item/',
                     data: [object_output],
-                    method: 'POST',
+                    method: 'PUT',
                     header: {
                       'content-type': 'application/json'
                     },
@@ -419,7 +388,7 @@ Page({
                     },
                     //TODOPUT
                     complete: function () {
-                      if (res_message.data.length == 1) {
+                      if (res_message.statusCode == 200) {
                         console.log("存入成功")
                         //实现入库单信息跟新
                         wx.request({

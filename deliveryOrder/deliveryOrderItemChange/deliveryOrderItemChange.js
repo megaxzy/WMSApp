@@ -59,153 +59,162 @@ Page({
     }
 
 
-
-    var object_output_delivery_order_item = {
-      "id": that.data.chosen_delivery_order_item.id,
-      "deliveryOrderId": that.data.chosen_delivery_order_item.deliveryOrderId,
-      "supplyId": that.data.chosen_delivery_order_item.supplyId,
-      "sourceStorageLocationId": that.data.chosen_delivery_order_item.sourceStorageLocationId,
-      "state": 0,//0:待装车 1:装车中 2:装车完成   这个好像是后台自动改变的
-      "scheduledAmount": that.data.chosen_delivery_order_item.scheduledAmount,
-      "realAmount": form.realAmount,
-      "loadingTime": loadingTime,
-      "unit": form.unit,
-      "unitAmount": form.unitAmount,
-      "comment": form.comment,
-      "personId": that.data.user_id
+    if(form.realAmount=='')
+    {
+      wx.showModal({
+        title: '错误',
+        content: '实际装车数量不能为空',
+        showCancel: false,
+      })
     }
-    console.log(object_output_delivery_order_item)
-    wx.request({
-      url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/',
-      data: [object_output_delivery_order_item],
-      method: 'PUT',
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/')
-        console.log(res)
-        res_temp = res
-      },
-      //请求失败
-      fail: function (err) {
-        console.log("false")
-        wx.showToast({
-          title: '连接失败,请检查你的网络或者服务端是否开启',
-          icon: 'none',
-          duration: 2000
-        })
-      },
-      /*     
-      case 0: return "待装车";
-      case 1: return "装车中";
-      case 2: return "整单装车";
-      case 3: return "发运在途";
-      case 4: return "核减完成";
-      */
-      complete: function () {
-        console.log("delivery order:")
-        if (res_temp.statusCode == 200) {
-          wx.showToast({
-            title: '修改成功',
-            icon: 'success',
-            duration: 2500,
-            success: function () {
-              setTimeout(function () {
-                //要延时执行的代码
-                wx.navigateBack();
-              }, 2500)
-            }
-          })
-        }
-          /*
-          var object_output_delivery_order = {
-            "id": that.data.chosen_delivery_order.id,
-            "warehouseId": that.data.chosen_delivery_order.warehouseId, //auto 
-            "no": that.data.chosen_delivery_order.no,
-            "state": that.data.chosen_delivery_order.state,
-            "description": that.data.chosen_delivery_order.description,
-            "driverName": that.data.chosen_delivery_order.driverName,
-            "liscensePlateNumber": that.data.chosen_delivery_order.liscensePlateNumber,
-            "deliverTime": that.data.chosen_delivery_order.deliverTime,
-            "returnNoteNo": that.data.chosen_delivery_order.returnNoteNo,
-            "returnNoteTime": that.data.chosen_delivery_order.returnNoteTime,
-            "createPersonId": that.data.chosen_delivery_order.createPersonId,
-            "createTime": that.data.chosen_delivery_order.createTime,
-            "lastUpdatePersonId": that.data.user_id,
-            "lastUpdateTime": that.data.YMDhms
-          }
-          console.log(object_output_delivery_order)
-          wx.request({
-            url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/',
-            data: [object_output_delivery_order],
-            method: 'PUT',
-            header: {
-              'content-type': 'application/json' // 默认值
-            },
-            success: function (res) {
-              console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/')
-              console.log(res)
-              if (res_temp.statusCode == 200) {
-                wx.showToast({
-                  title: '修改成功',
-                  icon: 'success',
-                  duration: 2500,
-                  success: function () {
-                    setTimeout(function () {
-                      //要延时执行的代码
-                      wx.navigateBack();
-                    }, 1500)
-                  }
-                })
-              }
-              else{
-                wx.showToast({
-                  title: '' + res_temp.data,
-                  icon: 'none',
-                  duration: 4000,
-                  success: function () {
-                    setTimeout(function () {
-                      //要延时执行的代码
-                      wx.hideToast()
-                    }, 4000)
-                  }
-                })
-              }
-            },
-            //请求失败
-            fail: function (err) {
-              console.log("false")
-              wx.showToast({
-                title: '连接失败,请检查你的网络或者服务端是否开启',
-                icon: 'none',
-                duration: 2000
-              })
-            },
-            complete: function () {}
-          })*/
-        
-        else {
-          wx.showModal({
-            title: '错误',
-            content: '' + res_temp.data,
-            showCancel:false,
-          })
-          /*
-          wx.showToast({
-            title: '' + res_temp.data,
-            icon: 'none',
-            duration: 4000,
-            success: function () {
-              setTimeout(function () {
-                //要延时执行的代码
-                wx.hideToast()
-              }, 4000)
-            }
-          })
-          */
-        }
+    else{
+      var object_output_delivery_order_item = {
+        "id": that.data.chosen_delivery_order_item.id,
+        "deliveryOrderId": that.data.chosen_delivery_order_item.deliveryOrderId,
+        "supplyId": that.data.chosen_delivery_order_item.supplyId,
+        "sourceStorageLocationId": that.data.chosen_delivery_order_item.sourceStorageLocationId,
+        "state": 0,//0:待装车 1:装车中 2:装车完成   这个好像是后台自动改变的
+        "scheduledAmount": that.data.chosen_delivery_order_item.scheduledAmount,
+        "realAmount": form.realAmount,
+        "loadingTime": loadingTime,
+        "unit": form.unit,
+        "unitAmount": form.unitAmount,
+        "comment": form.comment,
+        "personId": that.data.user_id
       }
-    })
+      console.log(object_output_delivery_order_item)
+      wx.request({
+        url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/',
+        data: [object_output_delivery_order_item],
+        method: 'PUT',
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/')
+          console.log(res)
+          res_temp = res
+        },
+        //请求失败
+        fail: function (err) {
+          console.log("false")
+          wx.showToast({
+            title: '连接失败,请检查你的网络或者服务端是否开启',
+            icon: 'none',
+            duration: 2000
+          })
+        },
+        /*     
+        case 0: return "待装车";
+        case 1: return "装车中";
+        case 2: return "整单装车";
+        case 3: return "发运在途";
+        case 4: return "核减完成";
+        */
+        complete: function () {
+          console.log("delivery order:")
+          if (res_temp.statusCode == 200) {
+            wx.showToast({
+              title: '修改成功',
+              icon: 'success',
+              duration: 2500,
+              success: function () {
+                setTimeout(function () {
+                  //要延时执行的代码
+                  wx.navigateBack();
+                }, 2500)
+              }
+            })
+          }
+            /*
+            var object_output_delivery_order = {
+              "id": that.data.chosen_delivery_order.id,
+              "warehouseId": that.data.chosen_delivery_order.warehouseId, //auto 
+              "no": that.data.chosen_delivery_order.no,
+              "state": that.data.chosen_delivery_order.state,
+              "description": that.data.chosen_delivery_order.description,
+              "driverName": that.data.chosen_delivery_order.driverName,
+              "liscensePlateNumber": that.data.chosen_delivery_order.liscensePlateNumber,
+              "deliverTime": that.data.chosen_delivery_order.deliverTime,
+              "returnNoteNo": that.data.chosen_delivery_order.returnNoteNo,
+              "returnNoteTime": that.data.chosen_delivery_order.returnNoteTime,
+              "createPersonId": that.data.chosen_delivery_order.createPersonId,
+              "createTime": that.data.chosen_delivery_order.createTime,
+              "lastUpdatePersonId": that.data.user_id,
+              "lastUpdateTime": that.data.YMDhms
+            }
+            console.log(object_output_delivery_order)
+            wx.request({
+              url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/',
+              data: [object_output_delivery_order],
+              method: 'PUT',
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order/')
+                console.log(res)
+                if (res_temp.statusCode == 200) {
+                  wx.showToast({
+                    title: '修改成功',
+                    icon: 'success',
+                    duration: 2500,
+                    success: function () {
+                      setTimeout(function () {
+                        //要延时执行的代码
+                        wx.navigateBack();
+                      }, 1500)
+                    }
+                  })
+                }
+                else{
+                  wx.showToast({
+                    title: '' + res_temp.data,
+                    icon: 'none',
+                    duration: 4000,
+                    success: function () {
+                      setTimeout(function () {
+                        //要延时执行的代码
+                        wx.hideToast()
+                      }, 4000)
+                    }
+                  })
+                }
+              },
+              //请求失败
+              fail: function (err) {
+                console.log("false")
+                wx.showToast({
+                  title: '连接失败,请检查你的网络或者服务端是否开启',
+                  icon: 'none',
+                  duration: 2000
+                })
+              },
+              complete: function () {}
+            })*/
+          
+          else {
+            wx.showModal({
+              title: '错误',
+              content: '' + res_temp.data,
+              showCancel:false,
+            })
+            /*
+            wx.showToast({
+              title: '' + res_temp.data,
+              icon: 'none',
+              duration: 4000,
+              success: function () {
+                setTimeout(function () {
+                  //要延时执行的代码
+                  wx.hideToast()
+                }, 4000)
+              }
+            })
+            */
+          }
+        }
+      })
+    }
   },
 })

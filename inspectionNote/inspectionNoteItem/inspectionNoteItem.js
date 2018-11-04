@@ -90,10 +90,10 @@ Page({
       //请求失败
       fail: function (err) {
         console.log("false")
-        wx.showToast({
-          title: '连接失败,请检查你的网络或者服务端是否开启',
-          icon: 'none',
-          duration: 2000
+        wx.showModal({
+          title: '错误',
+          content: '连接失败,请检查你的网络或者服务端是否开启',
+          showCancel: false,
         })
       },
       complete: function () {
@@ -173,38 +173,29 @@ Page({
         console.log(globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con)
         var res_temp = res
         if (res_temp.data.length == 0) {
-          wx.showToast({
-            title: '该供货码不存在',
-            icon: 'none',
-            duration: 2000,
+          wx.showModal({
+            title: '警告！！！',
+            content: '该供货码不存在',
+            showCancel: false,
           })
-          setTimeout(function () {
-            wx.hideToast()
-          }, 2000)
         }
         else {
           console.log(that.data.chosen_inspection_note.supplierName)
           console.log(res_temp.data[0].supplierName) //TODO
           if (that.data.chosen_inspection_note.supplierName != res_temp.data[0].supplierName) {
-            wx.showToast({
-              title: '警告！！！该供货码不属于该供货商，请切换入库单或修改信息',
-              icon: 'none',
-              duration: 4000,
+            wx.showModal({
+              title: '警告！！！',
+              content: '该供货码不属于该供货商，请切换入库单或修改信息',
+              showCancel: false,
             })
-            setTimeout(function () {
-              wx.hideToast()
-            }, 4000)
           }
           else {
             if (res_temp.data[0].warehouseId != that.data.warehouse_id) {
-              wx.showToast({
-                title: '警告！！！该供货码不属于该仓库，请切换仓库或修改信息',//TODO此处还可以使用
-                icon: 'none',
-                duration: 4000,
+              wx.showModal({
+                title: '警告！！！',
+                content: '该供货码不属于该仓库，请切换仓库或修改信息',
+                showCancel: false,
               })
-              setTimeout(function () {
-                wx.hideToast()
-              }, 4000)
             }
             else {
               that.setData({
@@ -221,10 +212,10 @@ Page({
       //请求失败
       fail: function (err) {
         console.log("false")
-        wx.showToast({
-          title: '连接失败,请检查你的网络或者服务端是否开启',
-          icon: 'none',
-          duration: 2000
+        wx.showModal({
+          title: '错误',
+          content: '连接失败,请检查你的网络或者服务端是否开启',
+          showCancel: false,
         })
       },
       complete: function () {

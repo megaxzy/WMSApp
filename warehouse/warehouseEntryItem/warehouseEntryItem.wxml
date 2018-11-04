@@ -53,8 +53,11 @@
         <text decode="{{true}}">\n</text>
         备注：{{item.comment==null ? '':'' + item.comment}}
       </view>
-    
-<view class="{{hide[index] == true ?  'hide' : ''}}">
+
+
+
+<view class="{{hide[index] == true ?  'hide' : ''}}" >
+    <button type="warn" bindtap="fix">修改</button> 
 	<view class="item">
     <view class="title" style="color:blue; 	text-align: center;">送检单条目信息(第{{index+1}}项)</view>
   </view>
@@ -65,8 +68,6 @@
       <!--warehouse_entry_item.data[index].realAmount-->
 		</view>
 	</view>
-
-
   <view class="item">
 		<view class="title" >入库库位名称</view>
 		<view class="subtitle">

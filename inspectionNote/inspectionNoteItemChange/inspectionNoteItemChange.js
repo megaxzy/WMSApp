@@ -67,10 +67,19 @@ Page({
     var that = this 
     var form = e.detail.value
 
-    if (form.returnAmount > that.data.inspection_note_item.amount){
+    if (form.returnAmount =='')
+    {
+      wx.showModal({
+        title: '返回数量不能为空',
+        content: '',
+        showCancel: false,
+      })
+    }
+    else if (form.returnAmount > that.data.inspection_note_item.amount) 
+    {
       wx.showModal({
         title: '返回数量不能大于送检数量',
-        content: '' + res_temp.data,
+        content: '',
         showCancel: false,
       })
     }
@@ -107,15 +116,16 @@ Page({
         //请求失败
         fail: function (err) {
           console.log("false")
-          wx.showToast({
-            title: '连接失败,请检查你的网络或者服务端是否开启',
-            icon: 'none',
-            duration: 2000
+          wx.showModal({
+            title: '错误',
+            content: '连接失败,请检查你的网络或者服务端是否开启',
+            showCancel: false,
           })
         },
         complete: function () {
           if (res_temp.statusCode == 200) {
             var qul = that.data.qualified==1 ? 'true':'false'
+            var x=null
             var object_output_inspection_note = 
               {
                 "allFinish":false,
@@ -124,24 +134,14 @@ Page({
                     "inspectionNoteItemId":that.data.inspection_note_item.id,
                     "qualified":qul,
                     "returnAmount":form.returnAmount,
-                    "returnUnit": form.returnUnit,
+                    "returnUnit":form.returnUnit,
                     "returnUnitAmount":form.returnUnitAmount,
-                    "returnStorageLocationId":'',//TODO
+                    "returnStorageLocationId":100 ,//TODO
                     "personId":that.data.user_id,
                   }]
               }
-              /*
-              "allFinish": false,
-              "inspectFinishItems": 
-              [{
-                  "inspectionNoteItemId": that.data.inspection_note_item.id,
-                  "qualified": qul,
-                  "returnAmount": form.returnAmount,
-                  "returnUnit": form.returnUnit,
-                  "returnUnitAmount": form.returnUnitAmount,
-                  "returnStorageLocationId":'',//TODO
-                  "personId": that.data.user_id,
-              }]*/
+            console.log(object_output_inspection_note)
+
             
             wx.request({
               url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note/inspect_finish',
@@ -156,10 +156,10 @@ Page({
               //请求失败
               fail: function (err) {
                 console.log("false")
-                wx.showToast({
-                  title: '连接失败,请检查你的网络或者服务端是否开启',
-                  icon: 'none',
-                  duration: 2000
+                wx.showModal({
+                  title: '错误',
+                  content: '连接失败,请检查你的网络或者服务端是否开启',
+                  showCancel: false,
                 })
               },
               complete: function () {
@@ -187,6 +187,7 @@ Page({
                 }
               }
             })
+            
           }
           else{
             wx.showModal({

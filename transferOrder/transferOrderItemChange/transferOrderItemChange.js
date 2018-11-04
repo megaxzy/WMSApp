@@ -49,23 +49,21 @@ Page({
     var that = this
     var form = e.detail.value
 
-    if (form.realAmount > that.data.chosen_transfer_order_item.scheduledAmount) {
+    if (form.realAmount > that.data.chosen_transfer_order_item.scheduledAmount) 
+    {
       wx.showModal({
         title: '错误',
         content: '实际移位数量不能大于计划移位数量',
+        showCancel: false,
       })
-      /*
-      wx.showToast({
-        title: '实际移位数量不能大于计划移位数量',
-        icon: 'none',
-        duration: 2000,
-        success: function () {
-          setTimeout(function () {
-            //要延时执行的代码
-          }, 2000)
-        }
+    }
+    else if (form.realAmount=='')
+    {
+      wx.showModal({
+        title: '错误',
+        content: '实际移位数量不能为空',
+        showCancel: false,
       })
-      */
     }
     else { 
       var res_temp 
@@ -99,10 +97,10 @@ Page({
         //请求失败
         fail: function (err) {
           console.log("false")
-          wx.showToast({
+          wx.showModal({
             title: '连接失败,请检查你的网络或者服务端是否开启',
-            icon: 'none',
-            duration: 2000
+            content: '',
+            showCancel: false,
           })
         },
         complete: function () {
@@ -118,6 +116,22 @@ Page({
                 }, 1000)
               }
             })
+          }
+          else{
+            wx.showModal({
+              title:'错误',
+              content: '' + res_temp.data,
+              showCancel: false,
+            })
+          }
+        }
+      })
+    }
+
+  },
+  
+})
+
           /*
           var object_output_transfer_order = {
             "id": that.data.chosen_transfer_order.id,
@@ -178,23 +192,3 @@ Page({
               }
             }
           })*/
-          }
-          else{
-            wx.showModal({
-              title:'错误',
-              content: '' + res_temp.data,
-            })
-            /*({
-              title: '' + res_temp.data,
-              icon: 'none',
-              duration: 8000
-            })
-            */
-          }
-        }
-      })
-    }
-
-  },
-  
-})

@@ -299,6 +299,18 @@ Page({
     }*/
   },
 
+  fix: function (e) {
+    var that = this
+    var index = that.data.index;
+    var warehouse_entry = JSON.stringify(that.data.warehouse_entry);
+    var warehouse_entry_item = JSON.stringify(that.data.warehouse_entry_item.data[index]);
+    var transvar =
+      'warehouse_entry_item=' + warehouse_entry_item + '&' +
+      'warehouse_entry=' + warehouse_entry + '&' +
+      'index=' + index
+    wx.navigateTo({ url: '../../warehouse/warehouseEntryItemFix/warehouseEntryItemFix' + '?' + transvar })
+  },
+
   scan: function () {
     var that=this
     //扫码
@@ -309,23 +321,10 @@ Page({
           that.setData({
             rescode:res.result
           });
-          /*
-          console.log(that.data.rescode)
-          that.getSupply()
-          //根据扫码内容获得 供应商id和物料id
-          //TODO 此处应该是获得  test程序中用来索取
-          that.setData({
-            supplier_id: that.data.supply.supplier_id,
-            material_id: that.data.supply.material_id
-          })*/
         },
       complete: function () {
         console.log(that.data.rescode)
         that.getSupply()
-        //根据扫码内容获得 供应商id和物料id
-        //TODO 此处应该是获得  test程序中用来索取
-        //test end
-        
         that.showWarehouseEntryItem()
       }
     })
@@ -345,39 +344,30 @@ Page({
         console.log(globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con)
         var res_temp = res
         if (res_temp.data.length == 0){
-          wx.showToast({
-            title: '该供货码不存在',
-            icon: 'none',
-            duration: 2000,
+          wx.showModal({
+            title: '警告！！！',
+            content: '该供货码不存在',
+            showCancel: false,
           })
-          setTimeout(function () {
-            wx.hideToast()
-          }, 2000)
         }
         else{
           if(that.data.warehouse_entry.supplierId!=res_temp.data[0].supplierId){
             console.log(that.data.warehouse_entry.supplierId)
             console.log(res_temp.data[0].supplierId)
-            wx.showToast({
-              title: '警告！！！该供货码不属于该供货商，请切换入库单或修改信息',
-              icon: 'none',
-              duration: 4000,
+            wx.showModal({
+              title: '警告！！！',
+              content: '该供货码不属于该供货商，请切换入库单或修改信息',
+              showCancel: false,
             })
-            setTimeout(function () {
-              wx.hideToast()
-            }, 4000)
           }
           else
           {
             if (res_temp.data[0].warehouseId != that.data.warehouse_id) {
-              wx.showToast({
-                title: '警告！！！该供货码不属于该仓库，请切换仓库或修改信息',//TODO此处还可以使用
-                icon: 'none',
-                duration: 4000,
+              wx.showModal({
+                title: '警告！！！',
+                content: '该供货码不属于该仓库，请切换仓库或修改信息',
+                showCancel: false,
               })
-              setTimeout(function () {
-                wx.hideToast()
-              }, 4000)
             }
             else{
               that.setData({

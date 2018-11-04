@@ -165,20 +165,20 @@ Page({
         //请求失败
         fail: function (err) {
           console.log("false")
-          wx.showToast({
-            title: '连接失败,请检查你的网络或者服务端是否开启',
-            icon: 'none',
-            duration: 2000
+          wx.showModal({
+            title: '错误',
+            content: '连接失败,请检查你的网络或者服务端是否开启',
+            showCancel: false,
           })
         },
         complete: function () //请求完成后执行的函数
         {
           if (that.data.requiredata.statusCode == '500'|| that.data.requiredata.statusCode== '404') {
             console.log('连接超时')
-            wx.showToast({
-              title: '连接超时',
-              icon: 'none',
-              duration: 1500
+            wx.showModal({
+              title: '错误',
+              content: '连接超时',
+              showCancel: false,
             })
           }
           else if(that.data.requiredata.data.length==0){
