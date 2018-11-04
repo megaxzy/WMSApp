@@ -50,18 +50,32 @@ Page({
 
   onShow: function () {
     var that = this
-    that.getInspectionNoteItem()
     that.setData({
       supply: '',
-      rescode:''
+      rescode: ''
     });
+    that.getInspectionNoteItem()
+
   },
 
+  recover: function () {
+    var that = this
+    that.data
+    that.setData({
+      supply: '',
+      rescode: '',
+    })
+    that.getInspectionNoteItem()
+  },
 
   getInspectionNoteItem: function () {
     var that = this
     var con = condition.NewCondition();
     con = condition.AddFirstCondition('inspectionNoteId', 'EQUAL', that.data.chosen_inspection_note.id);
+    if (that.data.supply != '') {
+      con = condition.AddCondition('materialId', 'EQUAL', that.data.supply.materialId);
+      con = condition.AddCondition('supplierId', 'EQUAL', that.data.supply.supplierId);
+    }
     wx.request({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/' + con,
       method: 'GET',
@@ -218,34 +232,6 @@ Page({
       }
     })
   },
-/*
-  getWarehouseEntryItem: function () {
-    var that = this
-    var con = condition.NewCondition();
-    con = condition.AddFirstCondition('inspectionNoteId', 'EQUAL', that.data.chosen_inspection_note.id);
-    wx.request({
-      url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/' + con,
-      method: 'GET',
-      success: function (res) {
-        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/' + con)
-        var res_temp = res
-        that.setData({
-          inspection_note_item_list: res_temp
-        })
-        console.log('inspection item 信息：', that.data.inspection_note_item_list)
-      },
-      //请求失败
-      fail: function (err) {
-        console.log("false")
-        wx.showToast({
-          title: '连接失败,请检查你的网络或者服务端是否开启',
-          icon: 'none',
-          duration: 2000
-        })
-      },
-      complete: function () {
-      }
-    })
-  },
-  */
+  
+
 })

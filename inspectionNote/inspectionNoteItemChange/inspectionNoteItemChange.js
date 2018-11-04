@@ -71,6 +71,7 @@ Page({
       wx.showModal({
         title: '返回数量不能大于送检数量',
         content: '' + res_temp.data,
+        showCancel: false,
       })
     }
     else{       
@@ -114,15 +115,76 @@ Page({
         },
         complete: function () {
           if (res_temp.statusCode == 200) {
-            wx.showToast({
-              title: '修改成功',
-              icon: 'success',
-              duration: 2500,
-              success: function () {
-                setTimeout(function () {
-                  //要延时执行的代码
-                  wx.navigateBack();
-                }, 2500)
+            var qul = that.data.qualified==1 ? 'true':'false'
+            var object_output_inspection_note = 
+              {
+                "allFinish":false,
+                "inspectFinishItems":
+                  [{
+                    "inspectionNoteItemId":that.data.inspection_note_item.id,
+                    "qualified":qul,
+                    "returnAmount":form.returnAmount,
+                    "returnUnit": form.returnUnit,
+                    "returnUnitAmount":form.returnUnitAmount,
+                    "returnStorageLocationId":'',//TODO
+                    "personId":that.data.user_id,
+                  }]
+              }
+              /*
+              "allFinish": false,
+              "inspectFinishItems": 
+              [{
+                  "inspectionNoteItemId": that.data.inspection_note_item.id,
+                  "qualified": qul,
+                  "returnAmount": form.returnAmount,
+                  "returnUnit": form.returnUnit,
+                  "returnUnitAmount": form.returnUnitAmount,
+                  "returnStorageLocationId":'',//TODO
+                  "personId": that.data.user_id,
+              }]*/
+            
+            wx.request({
+              url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note/inspect_finish',
+              data: [object_output_inspection_note],
+              method: 'PUT',
+              header: {'content-type': 'application/json'},
+              success: function (res) {
+                console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note/')
+                console.log(res)
+                res_temp=res
+              },
+              //请求失败
+              fail: function (err) {
+                console.log("false")
+                wx.showToast({
+                  title: '连接失败,请检查你的网络或者服务端是否开启',
+                  icon: 'none',
+                  duration: 2000
+                })
+              },
+              complete: function () {
+                if(res_temp==200)
+                {
+                  wx.showToast({
+                    title: '修改成功',
+                    icon: 'success',
+                    duration: 2500,
+                    success: function () {
+                      setTimeout(function () {
+                        //要延时执行的代码
+                        wx.navigateBack();
+                      }, 2500)
+                    }
+                  })
+                }
+                else
+                {
+                  wx.showModal({
+                    title: '错误',
+                    content: '' + res_temp.data,
+                    showCancel: false,
+                  })
+                }
               }
             })
           }
@@ -130,8 +192,15 @@ Page({
             wx.showModal({
               title: '错误',
               content: '' + res_temp.data,
+              showCancel: false,
             })
           }
+        }
+      })
+    }
+  },
+})
+
 
           /*
           console.log("inspection note:")
@@ -186,9 +255,3 @@ Page({
             complete: function () {
             }
           })*/
-        }
-      })
-    }
-
-  },
-})

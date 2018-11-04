@@ -1,6 +1,6 @@
 
-//var url = 'http://192.168.43.103:9000/'
-var url = 'http://localhost:9000/' 
+var url = 'http://192.168.1.9:9000/'
+//var url = 'http://localhost:9000/'
 var account = 'WMS_Template/'
 
 var user_id='' //用户id

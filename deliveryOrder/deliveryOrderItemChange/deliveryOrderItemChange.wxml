@@ -44,13 +44,13 @@
   <view class="item">
 		<view class="title">计划装车数量（个）</view>
 		<view class="subtitle_disabled">
-			<input type="digital" disabled="true" name="scheduledAmount" value="{{chosen_delivery_order_item.scheduledAmount}}" placeholder="" />
+			<input type="digit" disabled="true" name="scheduledAmount" value="{{chosen_delivery_order_item.scheduledAmount}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title">实际装车数量（个）</view>
 		<view class="subtitle">
-			<input type="digital"  name="realAmount" value="{{chosen_delivery_order_item.realAmount}}" placeholder="" />
+			<input type="digit"  name="realAmount" value="{{chosen_delivery_order_item.realAmount}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
@@ -62,7 +62,7 @@
   <view class="item">
 		<view class="title">单位数量</view>
 		<view class="subtitle">
-			<input type="digital"  name="unitAmount" value="{{chosen_delivery_order_item.unitAmount}}" placeholder="" />
+			<input type="digit"  name="unitAmount" value="{{chosen_delivery_order_item.unitAmount}}" placeholder="" />
 		</view>
 	</view>
 

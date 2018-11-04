@@ -189,6 +189,7 @@ Page({
           wx.showModal({
             title: '错误',
             content: '' + res_temp.data,
+            showCancel:false,
           })
           /*
           wx.showToast({

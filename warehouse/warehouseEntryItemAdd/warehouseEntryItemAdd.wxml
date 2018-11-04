@@ -100,13 +100,13 @@
   <view class="item">
 		<view class="title">订单数量</view>
 		<view class="subtitle"> 
-			<input type="digital" name="expectedAmount" value="{{supply.defaultEntryAmount/supply.defaultEntryUnitAmount}}" placeholder="请输入订单数量" />
+			<input type="digit" name="expectedAmount" value="{{supply.defaultEntryAmount/supply.defaultEntryUnitAmount}}" placeholder="请输入订单数量" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title">实收数量(默认为全部)</view>
 		<view class="subtitle">
-			<input type="digital" name="realAmount" value="{{supply.defaultEntryAmount/supply.defaultEntryUnitAmount}}" placeholder="请输入实收数量" />
+			<input type="digit" name="realAmount" value="{{supply.defaultEntryAmount/supply.defaultEntryUnitAmount}}" placeholder="请输入实收数量" />
 		</view>
 	</view>
   <view class="item">
@@ -118,13 +118,13 @@
   <view class="item">
 		<view class="title">单位数量</view>
 		<view class="subtitle">
-			<input type="digital" name="unitAmount" value="{{supply.defaultEntryUnitAmount}}" placeholder="请输入单位数量" />
+			<input type="digit" name="unitAmount" value="{{supply.defaultEntryUnitAmount}}" placeholder="请输入单位数量" />
 		</view>
 	</view>  
     <view class="item">
 		<view class="title">拒收数量(默认为0)</view>
 		<view class="subtitle">
-			<input type="digital" name="refuseAmount" value="0" placeholder="请输入拒收数量" />
+			<input type="digit" name="refuseAmount" value="0" placeholder="请输入拒收数量" />
 		</view>
 	</view>
   <view class="item">
@@ -136,13 +136,13 @@
   <view class="item">
 		<view class="title">拒收单位数量(默认为0)</view>
 		<view class="subtitle">
-			<input type="digital"  name="refuseUnitAmount" value="0" placeholder="请输入拒收单位数量" />
+			<input type="digit"  name="refuseUnitAmount" value="0" placeholder="请输入拒收单位数量" />
 		</view>
 	</view>  
   <view class="item">
 		<view class="title">已送检数量</view>
 		<view class="subtitle_disabled">
-			<input type="digital" disabled="true" name="inspectionAmount" value="0" placeholder="" />
+			<input type="digit" disabled="true" name="inspectionAmount" value="0" placeholder="" />
 		</view>
 	</view>
   <!--

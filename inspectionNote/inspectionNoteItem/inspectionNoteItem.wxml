@@ -31,7 +31,7 @@
 <form onsubmit="update"> <!--onsubmit="create"-->
 <view class="form">
     <view class="message" style="color:blue;">【送检单条目】 信息</view> 
-		<view class="subtitle" wx:for="{{inspection_note_item_list.data}}" wx:key="id" bindtap="choseItem" hover-class="subtitle_press" data-index="{{index}}">
+		<view class="subtitle" wx:for="{{inspection_note_item_list.data}}" wx:key="id"  bindtap="choseItem" hover-class="subtitle_press" data-index="{{index}}">
       <view class="subtitle">
         <view style="color:red;display:flex;flex-direction:row;">{{index+1}}
         </view>

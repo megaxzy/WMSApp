@@ -79,13 +79,13 @@
   <view class="item">
 		<view class="title">源单位数量</view>
 		<view class="subtitle_disabled">
-			<input type="digital" disabled="true" name="sourceUnitAmount" value="{{chosen_transfer_order_item.sourceUnitAmount}}"  /> 
+			<input type="digit" disabled="true" name="sourceUnitAmount" value="{{chosen_transfer_order_item.sourceUnitAmount}}"  /> 
 		</view>
 	</view>
   <view class="item">
 		<view class="title">计划移位数量</view>
 		<view class="subtitle_disabled">
-			<input type="digital" disabled="true" name="scheduledAmount" value="{{chosen_transfer_order_item.scheduledAmount}}" /> 
+			<input type="digit" disabled="true" name="scheduledAmount" value="{{chosen_transfer_order_item.scheduledAmount}}" /> 
 		</view>
 	</view>
 
@@ -98,13 +98,13 @@
   <view class="item">
 		<view class="title">单位数量</view>
 		<view class="subtitle">
-			<input type="digital"  name="unitAmount" value="{{chosen_transfer_order_item.unitAmount}}" placeholder="必填信息" /> 
+			<input type="digit"  name="unitAmount" value="{{chosen_transfer_order_item.unitAmount}}" placeholder="必填信息" /> 
 		</view>
 	</view>
   <view class="item">
 		<view class="title">实际移位数量</view>
 		<view class="subtitle">
-			<input type="digital"  name="realAmount" value="{{chosen_transfer_order_item.realAmount}}" placeholder="必填信息" /> 
+			<input type="digit"  name="realAmount" value="{{chosen_transfer_order_item.realAmount}}" placeholder="必填信息" /> 
 		</view>
 	</view>
 
