@@ -45,7 +45,7 @@
         </view>
       </view>
     </view>
-		<view class="subtitle" wx:for="{{warehouseEntry_list.data}}" wx:if="{{item.state==0||item.state==2||item.state==3}}"  bindtap="chose" hover-class="subtitle_press"  data-index="{{index}}">
+		<view class="subtitle" wx:for="{{warehouseEntry_list.data}}" wx:if="{{item.state==0||item.state==1||item.state==2||item.state==3}}"  bindtap="chose" hover-class="subtitle_press"  data-index="{{index}}">
       <view class="subtitle">
         <view style="color:red;display:flex;flex-direction:row;">入库单号：
           <view style="color:black;display:flex;flex-direction:row;" >{{item.no}}</view>

@@ -61,7 +61,7 @@
   <view class="item">
 		<view class="title">实收数量</view>
 		<view class="subtitle_disabled">
-			<input type="number" name="realAmount" value="{{item.realAmount}}" placeholder="" />
+			<input type="digit" name="realAmount" value="{{item.realAmount}}" placeholder="" />
       <!--warehouse_entry_item.data[index].realAmount-->
 		</view>
 	</view>
@@ -70,49 +70,49 @@
   <view class="item">
 		<view class="title" >入库库位名称</view>
 		<view class="subtitle">
-			<input type="number" name="storageLocationName" value="{{item.storageLocationName}}" />
+			<input type="text" name="storageLocationName" value="{{item.storageLocationName}}" />
 		</view>
 	</view> 
   <view class="item">
 		<view class="title" >入库库位系列</view>
 		<view class="subtitle">
-			<input type="number" name="storageLocationNo" value="{{item.storageLocationNo}}" />
+			<input type="text" name="storageLocationNo" value="{{item.storageLocationNo}}" />
 		</view>
 	</view> 
   <view class="item">
 		<view class="title" >合格品库位名称</view>
 		<view class="subtitle">
-			<input type="number" name="qualifiedStorageLocationName" value="{{item.qualifiedStorageLocationName}}"  />
+			<input type="text" name="qualifiedStorageLocationName" value="{{item.qualifiedStorageLocationName}}"  />
 		</view>
 	</view> 
   <view class="item">
 		<view class="title" >合格品库位系列</view>
 		<view class="subtitle">
-			<input type="number" name="qualifiedStorageLocationNo" value="{{item.qualifiedStorageLocationNo}}"  />
+			<input type="text" name="qualifiedStorageLocationNo" value="{{item.qualifiedStorageLocationNo}}"  />
 		</view>
 	</view> 
   <view class="item">
 		<view class="title" >不良品库位名称</view>
 		<view class="subtitle">
-			<input type="number" name="unqualifiedStorageLocationName" value="{{item.unqualifiedStorageLocationName}}"  />
+			<input type="text" name="unqualifiedStorageLocationName" value="{{item.unqualifiedStorageLocationName}}"  />
 		</view>
 	</view> 
   <view class="item">
 		<view class="title" >不良品库位系列</view>
 		<view class="subtitle">
-			<input type="number" name="unqualifiedStorageLocationNo" value="{{item.unqualifiedStorageLocationNo}}"  />
+			<input type="text" name="unqualifiedStorageLocationNo" value="{{item.unqualifiedStorageLocationNo}}"  />
 		</view>
 	</view> 
   <view class="item">
 		<view class="title">订单数量</view>
 		<view class="subtitle"> 
-			<input type="number" name="expectedAmount" value="{{item.expectedAmount}}" placeholder="" />
+			<input type="digit" name="expectedAmount" value="{{item.expectedAmount/item.unitAmount}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title">实收数量</view>
 		<view class="subtitle">
-			<input type="number" name="realAmount" value="{{item.realAmount}}" placeholder="" />
+			<input type="digit" name="realAmount" value="{{item.realAmount/item.unitAmount}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
@@ -124,13 +124,13 @@
   <view class="item">
 		<view class="title">单位数量</view>
 		<view class="subtitle">
-			<input type="number" name="unitAmount" value="{{item.unitAmount}}" placeholder="" />
+			<input type="digit" name="unitAmount" value="{{item.unitAmount}}" placeholder="" />
 		</view>
 	</view>  
     <view class="item">
 		<view class="title">拒收数量</view>
 		<view class="subtitle">
-			<input type="number" name="refuseAmount" value="{{item.refuseAmount}}" placeholder="" />
+			<input type="digit" name="refuseAmount" value="{{item.refuseAmount}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
@@ -142,13 +142,13 @@
   <view class="item">
 		<view class="title">拒收单位数量</view>
 		<view class="subtitle">
-			<input type="number" name="refuseUnitAmount" value="{{item.refuseAmount}}" placeholder="" />
+			<input type="digit" name="refuseUnitAmount" value="{{item.refuseAmount}}" placeholder="" />
 		</view>
 	</view>  
   <view class="item">
 		<view class="title">已送检数量</view>
 		<view class="subtitle">
-			<input type="number" name="inspectionAmount" value="{{item.inspectionAmount}}" placeholder="" />
+			<input type="digit" name="inspectionAmount" value="{{item.inspectionAmount}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">

@@ -100,13 +100,13 @@
   <view class="item">
 		<view class="title">订单数量</view>
 		<view class="subtitle"> 
-			<input type="digital" name="expectedAmount" value="{{supply.defaultEntryAmount}}" placeholder="请输入订单数量" />
+			<input type="digital" name="expectedAmount" value="{{supply.defaultEntryAmount/supply.defaultEntryUnitAmount}}" placeholder="请输入订单数量" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title">实收数量(默认为全部)</view>
 		<view class="subtitle">
-			<input type="digital" name="realAmount" value="{{supply.defaultEntryAmount}}" placeholder="请输入实收数量" />
+			<input type="digital" name="realAmount" value="{{supply.defaultEntryAmount/supply.defaultEntryUnitAmount}}" placeholder="请输入实收数量" />
 		</view>
 	</view>
   <view class="item">

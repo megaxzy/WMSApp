@@ -68,15 +68,9 @@ Page({
     var form = e.detail.value
 
     if (form.returnAmount > that.data.inspection_note_item.amount){
-      wx.showToast({
+      wx.showModal({
         title: '返回数量不能大于送检数量',
-        icon: 'none',
-        duration: 2000,
-        success: function () {
-          setTimeout(function () {
-            //要延时执行的代码
-          }, 2000)
-        }
+        content: '' + res_temp.data,
       })
     }
     else{       
