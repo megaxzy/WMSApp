@@ -5,7 +5,7 @@
   <view class="message">模式:入库扫码模式</view>
   <view class="line"></view>
   <view class="message">
-    <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>
+    <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text> 
   </view>
 
 
@@ -100,14 +100,14 @@
   <view class="item">
 		<view class="title">订单数量</view>
 		<view class="subtitle"> 
-			<input type="digit" name="expectedAmount" value="{{warehouse_entry_item.expectedAmount}}" placeholder="请输入订单数量" />
+			<input type="digit" name="expectedAmount" value="{{warehouse_entry_item.expectedAmount/warehouse_entry_item.unitAmount}}" placeholder="请输入订单数量" />
 		</view>
     <!--{warehouse_entry_item.expectedAmount/warehouse_entry_item.unitAmount}}"-->
 	</view>
   <view class="item">
 		<view class="title">实收数量</view>
 		<view class="subtitle">
-			<input type="digit" name="realAmount" value="{{warehouse_entry_item.realAmount}}" placeholder="请输入实收数量" />
+			<input type="digit" name="realAmount" value="{{warehouse_entry_item.realAmount/warehouse_entry_item.unitAmount}}" placeholder="请输入实收数量" />
 		</view>
 	</view>
   <view class="item">
@@ -125,7 +125,7 @@
     <view class="item">
 		<view class="title">拒收数量</view>
 		<view class="subtitle">
-			<input type="digit" name="refuseAmount" value="{{warehouse_entry_item.refuseAmount}}" placeholder="请输入拒收数量" />
+			<input type="digit" name="refuseAmount" value="{{warehouse_entry_item.refuseAmount/warehouse_entry_item.refuseUnitAmount}}" placeholder="请输入拒收数量" />
 		</view>
 	</view>
   <view class="item">

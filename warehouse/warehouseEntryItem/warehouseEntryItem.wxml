@@ -61,13 +61,7 @@
 	<view class="item">
     <view class="title" style="color:blue; 	text-align: center;">送检单条目信息(第{{index+1}}项)</view>
   </view>
-  <view class="item">
-		<view class="title">实收数量</view>
-		<view class="subtitle_disabled">
-			<input type="digit" name="realAmount" value="{{item.realAmount}}" placeholder="" />
-      <!--warehouse_entry_item.data[index].realAmount-->
-		</view>
-	</view>
+
   <view class="item">
 		<view class="title" >入库库位名称</view>
 		<view class="subtitle">
@@ -107,14 +101,14 @@
   <view class="item">
 		<view class="title">订单数量</view>
 		<view class="subtitle"> 
-			<input type="digit" name="expectedAmount" value="{{item.expectedAmount}}" placeholder="" />
+			<input type="digit" name="expectedAmount" value="{{item.expectedAmount/item.unitAmount}}" placeholder="" />
 		</view>
 	</view>
   <!--{{item.expectedAmount}}-->
   <view class="item">
 		<view class="title">实收数量</view>
 		<view class="subtitle">
-			<input type="digit" name="realAmount" value="{{item.realAmount}}" placeholder="" />
+			<input type="digit" name="realAmount" value="{{item.realAmount/item.unitAmount}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
@@ -132,7 +126,7 @@
     <view class="item">
 		<view class="title">拒收数量</view>
 		<view class="subtitle">
-			<input type="digit" name="refuseAmount" value="{{item.refuseAmount}}" placeholder="" />
+			<input type="digit" name="refuseAmount" value="{{item.refuseAmount/item.refuseUnitAmount}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
@@ -144,7 +138,7 @@
   <view class="item">
 		<view class="title">拒收单位数量</view>
 		<view class="subtitle">
-			<input type="digit" name="refuseUnitAmount" value="{{item.refuseAmount}}" placeholder="" />
+			<input type="digit" name="refuseUnitAmount" value="{{item.refuseUnitAmount}}" placeholder="" />
 		</view>
 	</view>  
   <view class="item">
