@@ -75,7 +75,7 @@ Page({
         showCancel: false,
       })
     }
-    else if (form.returnAmount > that.data.inspection_note_item.amount) 
+    else if (form.returnAmount * form.returnUnitAmount > that.data.inspection_note_item.amount) 
     {
       wx.showModal({
         title: '返回数量不能大于送检数量',
@@ -93,7 +93,7 @@ Page({
         "amount": that.data.inspection_note_item.amount,
         "unit": that.data.inspection_note_item.unit,
         "unitAmount": that.data.inspection_note_item.unitAmount,
-        "returnAmount": form.returnAmount,
+        "returnAmount": form.returnAmount * form.returnUnitAmount,
         "returnUnit": form.returnUnit,
         "returnUnitAmount": form.returnUnitAmount,
         "state": that.data.qualified,
@@ -136,7 +136,7 @@ Page({
                     "returnAmount":form.returnAmount,
                     "returnUnit":form.returnUnit,
                     "returnUnitAmount":form.returnUnitAmount,
-                    "returnStorageLocationId":100 ,//TODO
+                    //"returnStorageLocationId":100 ,//TODO
                     "personId":that.data.user_id,
                   }]
               }
@@ -149,7 +149,7 @@ Page({
               method: 'PUT',
               header: {'content-type': 'application/json'},
               success: function (res) {
-                console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note/')
+                console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note/inspect_finish')
                 console.log(res)
                 res_temp=res
               },
@@ -163,7 +163,7 @@ Page({
                 })
               },
               complete: function () {
-                if(res_temp==200)
+                if(res_temp.statusCode==200)
                 {
                   wx.showToast({
                     title: '修改成功',
@@ -179,6 +179,7 @@ Page({
                 }
                 else
                 {
+                  console.log("wrong put")
                   wx.showModal({
                     title: '错误',
                     content: '' + res_temp.data,

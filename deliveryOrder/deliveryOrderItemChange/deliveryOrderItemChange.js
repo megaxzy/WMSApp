@@ -73,9 +73,9 @@ Page({
         "deliveryOrderId": that.data.chosen_delivery_order_item.deliveryOrderId,
         "supplyId": that.data.chosen_delivery_order_item.supplyId,
         "sourceStorageLocationId": that.data.chosen_delivery_order_item.sourceStorageLocationId,
-        "state": 0,//0:待装车 1:装车中 2:装车完成   这个好像是后台自动改变的
+        //"state": 0,//0:待装车 1:装车中 2:装车完成   这个好像是后台自动改变的
         "scheduledAmount": that.data.chosen_delivery_order_item.scheduledAmount,
-        "realAmount": form.realAmount,
+        "realAmount": form.realAmount * form.unitAmount,
         "loadingTime": loadingTime,
         "unit": form.unit,
         "unitAmount": form.unitAmount,

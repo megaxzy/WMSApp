@@ -146,7 +146,7 @@ Page({
 
     var con = condition.NewCondition();
     con = condition.AddFirstCondition('warehouseId', 'EQUAL', that.data.warehouse_id);
-    con = condition.AddCondition('type', 'EQUAL', 1);
+    con = condition.AddCondition('type', 'EQUAL', 0);
     if (that.data.supply.length!=''){
       con = condition.AddCondition('supplierId', 'EQUAL', that.data.supply.supplierId);
     }
@@ -194,7 +194,7 @@ Page({
     var transvar = 
       'chosen_transfer_order=' + chosen_transfer_order
     wx.navigateTo({
-      url: '../../transferOrder/transferOrderItem/transferOrderItem' + '?'+transvar
+      url: '../../transferOrder0/transferOrder0Item/transferOrder0Item' + '?'+transvar
     })
   },
 

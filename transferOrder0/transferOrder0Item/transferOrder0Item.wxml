@@ -1,0 +1,109 @@
+<view class="container"> 
+
+  
+  <!--decode="{{true}}" 后面的&nbsp才能用-->
+  <view class="message">模式:上架扫码模式</view>
+<view class="line"></view>
+  <view class="message">
+    <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>
+  </view>
+<view class="line"></view>
+  <view class="item">
+    <view style="width: 750rpx; ;display:flex;flex-direction: row;" >
+      <view class="message">
+        <input  adjust-position="true" bindinput="scan_gun" type="text"  name="res" value="{{rescode}}" placeholder="点击启用扫码枪扫码" />
+      </view>
+    </view>
+	</view>
+  <!--按钮-->
+  <view class="loginBtnView"> 
+    <button class="loginBtn" type="primary" bindtap="scan">手机扫码</button> 
+  </view> 
+    <!--按钮-->
+  <view class="loginBtnView"> 
+    <button class="loginBtn" type="primary" bindtap="recover">恢复</button> 
+  </view> 
+
+<form onsubmit="update"> <!--onsubmit="create"-->
+<view class="form">
+    <view class="message" style="color:blue;">【上架单条目】 信息</view> 
+		<view class="subtitle" wx:for="{{transfer_order_item_list.data}}" wx:key="id" bindtap="choseItem" hover-class="subtitle_press" data-index="{{index}}">
+      <view class="subtitle">
+        <view style="color:red;display:flex;flex-direction:row;">{{index+1}}
+        </view>
+        物料系列：{{item.materialName}}
+        <text decode="{{true}}">\n</text>
+        供货商名称：{{item.supplierName}}
+        <text decode="{{true}}">\n</text>
+        源库位名称：{{item.sourceStorageLocationName}}
+        <text decode="{{true}}">\n</text>
+        目标库位名称：{{item.targetStorageLocationName}}
+        <text decode="{{true}}">\n</text>
+        状态：{{item.state==0 ?'移库中':'' + item.state==1 ?'部分移库完成':'' + item.state==2 ?'全部移库完成':''}}
+        <text decode="{{true}}">\n</text>
+        备注：{{item.comment==null ?'':'' + item.comment}}
+      </view>
+      
+<view class="{{hide[index] ==false ?  '' : 'hide'}}">
+	<view class="item">
+    <view class="title" style="color:blue; 	text-align: center;">送检单条目信息(第{{index+1}}项)</view>
+    <view class="line"></view>
+  </view>
+
+  <view class="item">
+		<view class="title" >物料系列</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="materialName" value="{{material_name}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title" >供货商名称</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="supplierName" value="{{supplier_name}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">源单位</view>
+		<view class="subtitle_disabled">
+			<input type="text" disabled="true" name="sourceUnit{{index}}" value="{{transfer_order_item_list.data[index].sourceUnit}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">源单位数量</view>
+		<view class="subtitle_disabled">
+			<input type="digit" disabled="true" name="sourceUnitAmount[+{{index}}+]" value="{{transfer_order_item_list.data[index].sourceUnitAmount}}" placeholder="" /> 
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">计划移位数量</view>
+		<view class="subtitle_disabled">
+			<input type="digit" disabled="true" name="scheduledAmount[+{{index}}+]" value="{{transfer_order_item_list.data[index].scheduledAmount}}" placeholder="" /> 
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">实际移位数量</view>
+		<view class="subtitle">
+			<input type="digit"  name="realAmount[+{{index}}+]" value="{{transfer_order_item_list.data[index].realAmount}}" placeholder="" /> 
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">单位</view>
+		<view class="subtitle">
+			<input type="text" name="unit[+{{index}}+]" value="{{transfer_order_item_list.data[index].sourceUnit}}" placeholder="" /> 
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">单位数量</view>
+		<view class="subtitle">
+			<input type="digit"  name="unitAmount[+{{index}}+]" value="{{transfer_order_item_list.data[index].unitAmount}}" placeholder="" /> 
+		</view>
+	</view>
+  </view>
+</view>
+</view>
+
+</form>
+
+<view class="line_white"><text decode="{{true}}">\n</text></view>
+
+</view>

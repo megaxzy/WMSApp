@@ -81,6 +81,21 @@ Page({
       wx.hideLoading()
     }, 1000)
   },
+  enterTransferOrder0: function () {
+    wx.navigateTo({
+      //这个url不能是tabBar中的页面
+      //url: '../../main/scan/scan'
+      url: '../../transferOrder0/transferOrder0/transferOrder0',
+      success: function () {
+        wx.showLoading({
+          title: '正在进入 上架单扫码模式',
+        })
+      }
+    })
+    setTimeout(function () {
+      wx.hideLoading()
+    }, 1000)
+  },
   enterDeliveryOrder: function () {
     wx.navigateTo({
       //这个url不能是tabBar中的页面

@@ -32,7 +32,7 @@
   <view class="item">
 		<view class="title">送检数量</view>
 		<view class="subtitle_disabled">
-			<input type="digit" disabled="true" name="amount" value="{{inspection_note_item.amount}}" placeholder="" />
+			<input type="digit" disabled="true" name="amount" value="{{inspection_note_item.amount/inspection_note_item.unitAmount}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
@@ -50,7 +50,7 @@
   <view class="item">
 		<view class="title">返回数量</view>
 		<view class="subtitle">
-			<input type="digit"  name="returnAmount" value="{{inspection_note_item.returnAmount}}" placeholder="" />
+			<input type="digit"  name="returnAmount" value="{{inspection_note_item.returnAmount/inspection_note_item.returnUnitAmount}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">

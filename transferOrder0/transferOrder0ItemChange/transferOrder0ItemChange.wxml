@@ -2,7 +2,7 @@
 
   
   <!--decode="{{true}}" 后面的&nbsp才能用-->
-  <view class="message">模式:备货扫码模式</view>
+  <view class="message">模式:上架扫码模式</view>
 <view class="line"></view>
   <view class="message">
     <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>
@@ -17,7 +17,7 @@
 <form onsubmit="update"> <!--onsubmit="create"-->
 <view class="form">
 	<view class="item">
-    <view class="title" style="color:blue; 	text-align: center;">备货条目信息</view>
+    <view class="title" style="color:blue; 	text-align: center;">上架条目信息</view>
     <view class="line"></view>
   </view>
 

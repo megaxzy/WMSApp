@@ -107,13 +107,14 @@
   <view class="item">
 		<view class="title">订单数量</view>
 		<view class="subtitle"> 
-			<input type="digit" name="expectedAmount" value="{{item.expectedAmount/item.unitAmount}}" placeholder="" />
+			<input type="digit" name="expectedAmount" value="{{item.expectedAmount}}" placeholder="" />
 		</view>
 	</view>
+  <!--{{item.expectedAmount}}-->
   <view class="item">
 		<view class="title">实收数量</view>
 		<view class="subtitle">
-			<input type="digit" name="realAmount" value="{{item.realAmount/item.unitAmount}}" placeholder="" />
+			<input type="digit" name="realAmount" value="{{item.realAmount}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">

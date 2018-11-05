@@ -28,6 +28,10 @@
     "transferOrder/transferOrderItem/transferOrderItem",
     "transferOrder/transferOrderItemChange/transferOrderItemChange",
 
+    "transferOrder0/transferOrder0/transferOrder0",
+    "transferOrder0/transferOrder0Item/transferOrder0Item",
+    "transferOrder0/transferOrder0ItemChange/transferOrder0ItemChange",
+
     "deliveryOrder/deliveryOrder/deliveryOrder",
     "deliveryOrder/deliveryOrderItem/deliveryOrderItem",
     "deliveryOrder/deliveryOrderItemChange/deliveryOrderItemChange",
