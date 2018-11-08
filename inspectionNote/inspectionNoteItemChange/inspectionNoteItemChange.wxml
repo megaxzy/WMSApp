@@ -86,7 +86,7 @@
   <view class="item">
 		<view class="title">作业人姓名</view>
 		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="uaerName" value="{{name}}" placeholder="" />
+			<input type="text" disabled="true" name="uaerName" value="{{inspection_note_item.personName}}" placeholder="" />
 		</view>
 	</view>
 </view>

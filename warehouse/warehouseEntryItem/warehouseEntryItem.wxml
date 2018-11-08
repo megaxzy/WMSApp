@@ -57,7 +57,9 @@
 
 
 <view class="{{hide[index] == true ?  'hide' : ''}}" >
-    <button type="warn" bindtap="fix">修改</button> 
+  <view class="{{item.state == 3 ?  'hide' : ''+ item.state==2 ? 'hide':''}}" >
+  <button type="warn" bindtap="fix">修改</button> 
+  </view>
 	<view class="item">
     <view class="title" style="color:blue; 	text-align: center;">送检单条目信息(第{{index+1}}项)</view>
   </view>
@@ -184,6 +186,12 @@
 		<view class="title">备注</view>
 		<view class="subtitle">
 			<input type="text" name="comment" value="{{item.comment}}" placeholder="" />
+		</view>
+	</view>
+  <view class="item">
+		<view class="title">作业人姓名</view>
+		<view class="subtitle">
+			<input type="text" name="personName" value="{{item.personName}}" placeholder="" />
 		</view>
 	</view>
 </view>

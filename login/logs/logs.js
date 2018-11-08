@@ -44,10 +44,10 @@ Page({
       //请求失败
       fail: function (err) {
         console.log("false")
-        wx.showToast({
-          title: '连接失败,请检查你的网络或者服务端是否开启',
-          icon: 'none',
-          duration: 4000
+        wx.showModal({
+          title: '错误',
+          content: '连接失败,请检查你的网络或者服务端是否开启',
+          showCancel: false,
         })
       },
       complete: function ()

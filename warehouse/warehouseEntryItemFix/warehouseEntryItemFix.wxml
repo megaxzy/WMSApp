@@ -176,7 +176,7 @@
   <view class="item">
 		<view class="title">作业人名称</view>
 		<view class="subtitle_disabled">
-			<input type="text" disabled="true" name="uaerName" value="{{name}}" placeholder="" />
+			<input type="text" disabled="true" name="uaerName" value="{{warehouse_entry_item.personName}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">

@@ -143,7 +143,7 @@ Page({
             console.log(object_output_inspection_note)
 
             
-            wx.request({
+            wx.request({                   
               url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note/inspect_finish',
               data: [object_output_inspection_note],
               method: 'PUT',
