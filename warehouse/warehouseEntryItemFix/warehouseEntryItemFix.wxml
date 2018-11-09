@@ -47,32 +47,32 @@
   <view class="item">
 		<view class="title" >入库库位名称</view>
 		<view class="subtitle">
-			<input type="text"  bindinput="changeEntryName" bindfocus="showEntryName" bindblur="hideEntryName"  name="storageLocationName" value="{{warehouse_entry_item.storageLocationName}}" placeholder="请输入入库库位名称" />
+			<input type="text"  bindinput="changeEntryName" bindfocus="showEntryName" bindblur="hideEntryName"  name="storageLocationName" value="{{entry_storage_location_name}}" placeholder="请输入入库库位名称" />
 		</view>
 	</view> 
   <!--TODO 联想 输入name获得no-->
   <view class="item">
 		<view class="title" >入库库位编码</view>
 		<view class="subtitle">
-			<input type="text" bindinput="changeEntryNo" bindfocus="showEntryNo" bindblur="hideEntryNo"  name="storageLocationNo" name="storageLocationNo" value="{{warehouse_entry_item.storageLocationNo}}" placeholder="请输入入库库位编码" />
+			<input type="text" bindinput="changeEntryNo" bindfocus="showEntryNo" bindblur="hideEntryNo"  name="storageLocationNo" name="storageLocationNo" value="{{entry_storage_location_no}}" placeholder="请输入入库库位编码" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title" >合格品库位名称</view>
 		<view class="subtitle">
-			<input type="text" bindinput="changeQualifiedName" bindfocus="showQualifiedName" bindblur="hideQualifiedName"  name="qualifiedLocationName" value="{{warehouse_entry_item.qualifiedStorageLocationName}}" placeholder="请输入合格库位名称" />
+			<input type="text" bindinput="changeQualifiedName" bindfocus="showQualifiedName" bindblur="hideQualifiedName"  name="qualifiedLocationName" value="{{qualified_storage_location_name}}" placeholder="请输入合格库位名称" />
 		</view>
 	</view> 
   <view class="item">
 		<view class="title" >合格品库位编码</view>
 		<view class="subtitle">
-			<input type="text" bindinput="changeQualifiedNo" bindfocus="showQualifiedNo" bindblur="hideQualifiedNo"  name="qualifiedLocationNo" value="{{warehouse_entry_item.qualifiedStorageLocationNo}}" placeholder="请输入合格库位编码" />
+			<input type="text" bindinput="changeQualifiedNo" bindfocus="showQualifiedNo" bindblur="hideQualifiedNo"  name="qualifiedLocationNo" value="{{qualified_storage_location_no}}" placeholder="请输入合格库位编码" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title" >不良品库位名称</view>
 		<view class="subtitle">
-			<input type="text" bindinput="changeUnqualifiedName" bindfocus="showUnqualifiedName" bindblur="hideUnqualifiedName"name="unqualifiedLocationName" value="{{warehouse_entry_item.unqualifiedStorageLocationName}}" placeholder="请输入不良品库位名称" />
+			<input type="text" bindinput="changeUnqualifiedName" bindfocus="showUnqualifiedName" bindblur="hideUnqualifiedName"name="unqualifiedLocationName" value="{{unqualified_storage_location_name}}" placeholder="请输入不良品库位名称" />
 		</view>
 	</view> 
   <!--
@@ -86,7 +86,7 @@
   <view class="item">
 		<view class="title" >不良品库位编码</view>
 		<view class="subtitle">
-			<input type="text" bindinput="changeUnqualifiedNo" bindfocus="showUnqualifiedNo" bindblur="hideUnqualifiedNo" name="unqualifiedLocationNo" value="{{warehouse_entry_item.unqualifiedStorageLocationNo}}" placeholder="请输入不良品库位编码" />
+			<input type="text" bindinput="changeUnqualifiedNo" bindfocus="showUnqualifiedNo" bindblur="hideUnqualifiedNo" name="unqualifiedLocationNo" value="{{unqualified_storage_location_no}}" placeholder="请输入不良品库位编码" />
 		</view>
 	</view>
   <!--

@@ -69,11 +69,21 @@ Page({
     });
 
     
-    var entry_storage_location_name = ''
-    var qualified_storage_location_name = ''
-    var unqualified_storage_location_name = ''
+    var entry_storage_location_name = that.data.warehouse_entry_item.storageLocationName
+    var qualified_storage_location_name = that.data.warehouse_entry_item.qualifiedStorageLocationName
+    var unqualified_storage_location_name = that.data.warehouse_entry_item.unqualifiedStorageLocationName
 
-
+    var entry_storage_location_no = that.data.warehouse_entry_item.storageLocationNo
+    var qualified_storage_location_no = that.data.warehouse_entry_item.qualifiedStorageLocationNo
+    var unqualified_storage_location_no = that.data.warehouse_entry_item.unqualifiedStorageLocationNo
+    this.setData({
+      entry_storage_location_name: entry_storage_location_name,
+      qualified_storage_location_name: qualified_storage_location_name,
+      unqualified_storage_location_name: unqualified_storage_location_name,
+      entry_storage_location_no: entry_storage_location_no,
+      qualified_storage_location_no: qualified_storage_location_no,
+      unqualified_storage_location_no: unqualified_storage_location_no
+    });
 
   },
   onShow: function () {

@@ -12,7 +12,7 @@ Page({
     requiredata: '', //收到的用户信息
     all_warehouse: '', //收到的所有的仓库信息
     all_warehouse_array: [], //仓库姓名合集
-    index:9,  //选择的哪项  默认为2
+    index:3,  //选择的哪项  默认为2
     chosen_warehouse:'',
     all_storage_location:'',
     all_material:'',

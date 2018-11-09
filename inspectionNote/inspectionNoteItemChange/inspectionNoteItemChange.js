@@ -85,67 +85,26 @@ Page({
     }
     else{       
       var res_temp
-      console.log("inspection note item:")
-      var object_output_inspection_note_item = {
-        "id": that.data.inspection_note_item.id,
-        "inspectionNoteId": that.data.inspection_note_item.inspectionNoteId,//auto
-        "warehouseEntryItemId": that.data.inspection_note_item.warehouseEntryItemId, //auto 
-        "amount": that.data.inspection_note_item.amount,
-        "unit": that.data.inspection_note_item.unit,
-        "unitAmount": that.data.inspection_note_item.unitAmount,
-        "returnAmount": form.returnAmount * form.returnUnitAmount,
-        "returnUnit": form.returnUnit,
-        "returnUnitAmount": form.returnUnitAmount,
-        "state": that.data.qualified,
-        "comment": form.comment,
-        "personId": that.data.user_id
-      }
-      console.log(object_output_inspection_note_item)
-      wx.request({
-        url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/',
-        data: [object_output_inspection_note_item],
-        method: 'PUT',
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
-        success: function (res) {
-          console.log(globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note_item/')
-          console.log(res)
-          res_temp=res
-        },
-        //请求失败
-        fail: function (err) {
-          console.log("false")
-          wx.showModal({
-            title: '错误',
-            content: '连接失败,请检查你的网络或者服务端是否开启',
-            showCancel: false,
-          })
-        },
-        complete: function () {
-          if (res_temp.statusCode == 200) {
+
+
             var qul = that.data.qualified==1 ? 'true':'false'
             var x=null
             var object_output_inspection_note = 
-              {
-                "allFinish":false,
-                "inspectFinishItems":
-                  [{
-                    "inspectionNoteItemId":that.data.inspection_note_item.id,
+            
+              { "allFinish":false,
+                "inspectFinishItems":[{"inspectionNoteItemId":that.data.inspection_note_item.id,
                     "qualified":qul,
                     "returnAmount":form.returnAmount,
                     "returnUnit":form.returnUnit,
                     "returnUnitAmount":form.returnUnitAmount,
-                    //"returnStorageLocationId":100 ,//TODO
-                    "personId":that.data.user_id,
-                  }]
-              }
-            console.log(object_output_inspection_note)
+                    "personId":that.data.user_id}] }
+            
+            console.log(JSON.stringify(object_output_inspection_note))
 
             
             wx.request({                   
               url: globaldata.url + 'warehouse/' + globaldata.account + 'inspection_note/inspect_finish',
-              data: [object_output_inspection_note],
+              data: object_output_inspection_note,
               method: 'PUT',
               header: {'content-type': 'application/json'},
               success: function (res) {
@@ -189,16 +148,10 @@ Page({
               }
             })
             
-          }
-          else{
-            wx.showModal({
-              title: '错误',
-              content: '' + res_temp.data,
-              showCancel: false,
-            })
-          }
-        }
-      })
+          
+
+        
+      
     }
   },
 })
