@@ -88,16 +88,19 @@ Page({
 
 
             var qul = that.data.qualified==1 ? 'true':'false'
-            var x=null
             var object_output_inspection_note = 
             
               { "allFinish":false,
-                "inspectFinishItems":[{"inspectionNoteItemId":that.data.inspection_note_item.id,
+                "inspectionNoteId": that.data.inspection_note_item.inspectionNoteId,
+                "warehouseEntryId": that.data.inspection_note.warehouseEntryId,
+                "inspectFinishItems":[{
+                    "inspectionNoteItemId":that.data.inspection_note_item.id,
                     "qualified":qul,
-                    "returnAmount":form.returnAmount,
+                    "returnAmount":form.returnAmount * form.returnUnitAmount,
                     "returnUnit":form.returnUnit,
                     "returnUnitAmount":form.returnUnitAmount,
-                    "personId":that.data.user_id}] }
+                    "personId":that.data.user_id}] 
+              }
             
             console.log(JSON.stringify(object_output_inspection_note))
 
