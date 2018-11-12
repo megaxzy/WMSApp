@@ -43,6 +43,12 @@ Page({
       inspection_note: chosen_inspection_note_json,
       inspection_note_item: chosen_inspection_note_item_json,
     });
+    if (chosen_inspection_note_item_json.state==2)
+    {
+      this.setData({
+        qualified:'2'
+      })
+    }
     
   },
   change_state_1: function (e) {

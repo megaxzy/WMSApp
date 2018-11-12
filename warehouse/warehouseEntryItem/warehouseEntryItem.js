@@ -223,24 +223,62 @@ Page({
 
   trans: function () {
     var that=this
-    wx.showToast({
-      title: '进入【入库单条目】生成页面',
-      icon: 'none',
-      duration: 2000
-    })
-    var supply = JSON.stringify(that.data.supply);
-    var warehouse_entry = JSON.stringify(that.data.warehouse_entry);
-    /*
-    var str = 'abcadeacf';
-    var str1 = str.replace('a', 'o');
-    console.log(str1); 
-    */
-    warehouse_entry = warehouse_entry.replace(/&/g, "%26");
-    console.log('发过去的：'+warehouse_entry)
-    var transvar = 
-      'warehouse_entry=' + warehouse_entry + '&' +
-      'supply=' +  supply 
-    wx.navigateTo({url: '../../warehouse/warehouseEntryItemAdd/warehouseEntryItemAdd' + '?'+transvar})
+    //获得库位的所有内容
+      var that = this
+      var con = condition.NewCondition();
+      con = condition.AddFirstOrder('name', ' ASC');//???ASC DESC都一样
+      wx.request({
+        url: globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con,
+        success: function (res) {
+          //console.log(res)
+          //console.log(res.data.length)
+          var res_temp = res
+          if (res_temp.statusCode == 500) {
+            wx.showToast({
+              title: '网络连接超时，请检查网络是否可用',
+              icon: 'none',
+              duration: 2000
+            })
+          }
+          that.setData({
+            all_storage_location: res
+          })
+        },
+        //请求失败
+        fail: function (err) {
+          console.log("false")
+          wx.showToast({
+            title: '连接失败,请检查你的网络或者服务端是否开启',
+            icon: 'none',
+            duration: 2000
+          })
+        },
+        complete: function () {
+
+          globaldata.all_storage_location = that.data.all_storage_location
+          console.log(globaldata.all_storage_location)
+          wx.showToast({
+            title: '进入【入库单条目】生成页面',
+            icon: 'none',
+            duration: 2000
+          })
+          var supply = JSON.stringify(that.data.supply);
+          var warehouse_entry = JSON.stringify(that.data.warehouse_entry);
+          /*
+          var str = 'abcadeacf';
+          var str1 = str.replace('a', 'o');
+          console.log(str1); 
+          */
+          warehouse_entry = warehouse_entry.replace(/&/g, "%26");
+          console.log('发过去的：' + warehouse_entry)
+          var transvar =
+            'warehouse_entry=' + warehouse_entry + '&' +
+            'supply=' + supply
+          wx.navigateTo({ url: '../../warehouse/warehouseEntryItemAdd/warehouseEntryItemAdd' + '?' + transvar })
+        }
+      })
+  
+    
   },
   
   scan_gun: function (e) {
@@ -301,14 +339,52 @@ Page({
 
   fix: function (e) {
     var that = this
-    var index = that.data.index;
-    var warehouse_entry = JSON.stringify(that.data.warehouse_entry);
-    var warehouse_entry_item = JSON.stringify(that.data.warehouse_entry_item.data[index]);
-    var transvar =
-      'warehouse_entry_item=' + warehouse_entry_item + '&' +
-      'warehouse_entry=' + warehouse_entry + '&' +
-      'index=' + index
-    wx.navigateTo({ url: '../../warehouse/warehouseEntryItemFix/warehouseEntryItemFix' + '?' + transvar })
+    var that = this
+    var con = condition.NewCondition();
+    con = condition.AddFirstOrder('name', ' ASC');//???ASC DESC都一样
+    wx.request({
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con,
+      success: function (res) {
+        //console.log(res)
+        //console.log(res.data.length)
+        var res_temp = res
+        if (res_temp.statusCode == 500) {
+          wx.showToast({
+            title: '网络连接超时，请检查网络是否可用',
+            icon: 'none',
+            duration: 2000
+          })
+        }
+        that.setData({
+          all_storage_location: res
+        })
+      },
+      //请求失败
+      fail: function (err) {
+        console.log("false")
+        wx.showToast({
+          title: '连接失败,请检查你的网络或者服务端是否开启',
+          icon: 'none',
+          duration: 2000
+        })
+      },
+      complete: function () {
+
+        globaldata.all_storage_location = that.data.all_storage_location
+
+        console.log(globaldata.all_storage_location)
+        var index = that.data.index;
+        var warehouse_entry = JSON.stringify(that.data.warehouse_entry);
+        var warehouse_entry_item = JSON.stringify(that.data.warehouse_entry_item.data[index]);
+        var transvar =
+          'warehouse_entry_item=' + warehouse_entry_item + '&' +
+          'warehouse_entry=' + warehouse_entry + '&' +
+          'index=' + index
+        wx.navigateTo({ url: '../../warehouse/warehouseEntryItemFix/warehouseEntryItemFix' + '?' + transvar })
+      }
+    })
+
+
   },
 
   scan: function () {

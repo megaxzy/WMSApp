@@ -356,13 +356,13 @@ Page({
                     "unqualifiedStorageLocationId":unqualified_storage_location_id, //input-get
                     //
                     
-                    "expectedAmount": form.expectedAmount, //auto/input
-                    "realAmount": form.realAmount, //auto/input
+                    "expectedAmount": form.expectedAmount * form.unitAmount, //auto/input
+                    "realAmount": form.realAmount * form.unitAmount, //auto/input
                     "unit": form.unit, //auto/input
                     "unitAmount": form.unitAmount, //auto/input
                     "inspectionAmount": form.inspectionAmount, //auto/input
                     "state": form.state, //auto/input 
-                    "refuseAmount": form.refuseAmount, //auto/input
+                    "refuseAmount": form.refuseAmount * form.refuseUnitAmount, //auto/input
                     "refuseUnit": form.refuseUnit, //auto/input
                     "refuseUnitAmount": form.refuseUnitAmount, //auto/input
                     "personId": globaldata.user_id, //auto

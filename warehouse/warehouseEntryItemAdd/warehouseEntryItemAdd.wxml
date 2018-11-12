@@ -134,9 +134,9 @@
 		</view>
 	</view>
   <view class="item">
-		<view class="title">拒收单位数量(默认为0)</view>
+		<view class="title">拒收单位数量(默认相同)</view>
 		<view class="subtitle">
-			<input type="digit"  name="refuseUnitAmount" value="0" placeholder="请输入拒收单位数量" />
+			<input type="digit"  name="refuseUnitAmount" value="{{supply.defaultEntryUnitAmount}}" placeholder="请输入拒收单位数量" />
 		</view>
 	</view>  
   <view class="item">
