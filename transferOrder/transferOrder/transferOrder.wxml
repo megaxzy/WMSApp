@@ -19,7 +19,7 @@
   </picker>
   </view>-->
 
-
+<!--
 <view class="line"></view>
   <view class="item">
     <view style="width: 750rpx; ;display:flex;flex-direction: row;" >
@@ -29,15 +29,15 @@
     </view>
 	</view>
 
-  <!--按钮-->
+
   <view class="loginBtnView"> 
     <button class="loginBtn" type="primary" bindtap="scan">手机扫码</button> 
   </view> 
-    <!--按钮-->
+
   <view class="loginBtnView"> 
     <button class="loginBtn" type="primary" bindtap="recover">恢复</button> 
   </view> 
-
+-->
 
 <form > <!--onsubmit="add"-->
 <view class="form">

@@ -9,27 +9,29 @@
 
   <view class="line">' '</view>
 
-
+  <!--
   <view class="item">
     <view style="width: 750rpx; ;display:flex;flex-direction: row;" >
       <view class="message">
-        <input  adjust-position="true" bindinput="scan_gun" type="text"  name="res" value="{{rescode}}" placeholder="点击启用扫码枪扫码" />
+        <input  adjust-position="true" bindfocus="hide" bindinput="scan_gun" type="text"  name="res" value="{{rescode}}" placeholder="点击启用扫码枪扫码" />
       </view>
     </view>
 	</view>
 
   <view class="line">' '</view>
 
-  <!--按钮-->
+
   <view class="loginBtnView"> 
     <button class="loginBtn" type="primary" bindtap="scan">手机扫码</button> 
   </view> 
-    <!--按钮-->
+
   <view class="loginBtnView"> 
     <button class="loginBtn" type="primary" bindtap="recover">恢复</button> 
   </view> 
-
-
+  -->
+  <view class="loginBtnView"> 
+    <button class="loginBtn" type="primary" bindtap="trans">进入扫码模式</button> 
+  </view> 
 
 	<view class="item">
 		<view class="title" style="	text-align: center;">【入库单条目】 信息</view>

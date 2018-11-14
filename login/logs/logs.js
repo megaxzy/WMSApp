@@ -12,7 +12,7 @@ Page({
     requiredata: '', //收到的用户信息
     all_warehouse: '', //收到的所有的仓库信息
     all_warehouse_array: [], //仓库姓名合集
-    index:3,  //选择的哪项  默认为2
+    index:8,  //选择的哪项  默认为2
     chosen_warehouse:'',
     all_storage_location:'',
     all_material:'',
@@ -271,6 +271,25 @@ Page({
       }
     })
   },
+
+
+  //右上角分享功能
+  onShareAppMessage: function (res) {
+    var that = this;
+    return {
+      title: '',
+      path: '/pages/list/list?id=' + that.data.scratchId,
+      success: function (res) {
+        // 转发成功
+
+        that.shareClick();
+      },
+      fail: function (res) {
+        // 转发失败
+      }
+    }
+  },
+
 
 
   getAllMaterial: function () {

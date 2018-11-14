@@ -111,3 +111,22 @@ page{
   background-color: green; 
   color: #333333;
 }
+
+.scan_chosen {
+  display:flex;
+  flex-direction: row; 
+  width: 375rpx; 
+  font-size: 50rpx;
+	flex: 3;
+  color: #333333;
+  background-color: #00eeee; 
+}
+.scan_unchosen {
+  display:flex;
+  flex-direction: row; 
+  width:375rpx; 
+  font-size: 50rpx;
+	flex: 3;
+  color: #333333;
+  background-color: #ffffff; 
+}

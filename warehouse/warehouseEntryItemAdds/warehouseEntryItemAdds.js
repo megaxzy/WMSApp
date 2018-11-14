@@ -1,3 +1,6 @@
+//C37800031 181024 001 F1062284
+//C37800031181024001F1062284
+
 //TODO 库位编码联想  自动获取入库库位名称
 var condition = require('../../utils/condition.js');
 var globaldata = require('../../utils/globaldata.js');
@@ -13,18 +16,24 @@ Page({
     date: '',//选择的时间
     date_today: '',//今天的时间
     date_today_YMDhms:'',
+    focus: false,
+    rescode:'',
+    scan_model:'1',  //1为普通码 2为李尔码
+    //
     supply:'', //供货信息
     warehouse_entry:'', //选择的那个入库单
     index:'',
     hide:[], 
-    //user_names:[],   
+    scan_success: '0',
+    //所有库位信息 
+    all_storage_location: '', //所有库位信息
     entry_storage_location_name:'',
     qualified_storage_location_name:'',
     unqualified_storage_location_name:'',
     entry_storage_location_no: '',
     qualified_storage_location_no: '',
     unqualified_storage_location_no: '',
-    all_storage_location: '', //所有库位信息
+    //库位模糊搜索
     show_unqualified_no:'false',
     vague_unqualified_no:[],
     show_unqualified_name: 'false',
@@ -37,6 +46,8 @@ Page({
     vague_entry_no: [],
     show_entry_name: 'false',
     vague_entry_name: [],
+    //李尔码需求
+    unit_number:'',
   },
   onLoad: function (query) {
     var that = this
@@ -58,23 +69,48 @@ Page({
       date_today_YMDhms: YMDhms,
       all_storage_location: globaldata.all_storage_location,
     })
-    //传递上个页面给的参数
-    //json数据用wx.navigateTo需要先用JSON.stringify转码再用JSON.parse转码
-    var supply_json = JSON.parse(query.supply)
-    console.log('收到的：'+query.warehouse_entry)
+    console.log(that.data.all_storage_location)
     query.warehouse_entry = query.warehouse_entry.replace(/%26/g, "&");
     var warehouse_entry_json=JSON.parse(query.warehouse_entry)
-    console.log(warehouse_entry_json)
     this.setData({
-      supply: supply_json,
       warehouse_entry:warehouse_entry_json
     });
-    console.log(that.data.supply)
 
 
+
+  },
+  onShow: function () {
+
+  },
+  change_scan_model_1: function (e) {
+    var that = this
+    var form = e.detail.value
+    if (that.data.scan_model == 2) {
+      that.setData({
+        scan_model: '1',
+        rescode: '',
+      });
+    }
+  },
+  change_scan_model_2: function (e) {
+    var that = this
+    var form = e.detail.value
+    if (that.data.scan_model == 1) {
+      that.setData({
+        scan_model: '2',
+        rescode:'',
+      });
+    }
+  },
+
+  setLocation: function () {
+    var that=this
     var entry_storage_location_name = ''
     var qualified_storage_location_name = ''
     var unqualified_storage_location_name = ''
+
+
+
 
     console.log(that.data.all_storage_location)
     console.log(that.data.supply)
@@ -83,9 +119,9 @@ Page({
         entry_storage_location_name = that.data.all_storage_location.data[h].name
       }
       //console.log(that.data.all_storage_location.data[h].no)
-      if (that.data.supply.defaultQualifiedStorageLocationNo==that.data.all_storage_location.data[h].no) {
+      if (that.data.supply.defaultQualifiedStorageLocationNo == that.data.all_storage_location.data[h].no) {
         qualified_storage_location_name = that.data.all_storage_location.data[h].name
-        
+
       }
       if (that.data.supply.defaultUnqualifiedStorageLocationNo == that.data.all_storage_location.data[h].no) {
         unqualified_storage_location_name = that.data.all_storage_location.data[h].name
@@ -95,24 +131,158 @@ Page({
       entry_storage_location_name: entry_storage_location_name,
       qualified_storage_location_name: qualified_storage_location_name,
       unqualified_storage_location_name: unqualified_storage_location_name,
-      entry_storage_location_no:that.data.supply.defaultEntryStorageLocationNo,
-      qualified_storage_location_no:that.data.supply.defaultQualifiedStorageLocationNo,
+      entry_storage_location_no: that.data.supply.defaultEntryStorageLocationNo,
+      qualified_storage_location_no: that.data.supply.defaultQualifiedStorageLocationNo,
       unqualified_storage_location_no: that.data.supply.defaultUnqualifiedStorageLocationNo,
     })
-    console.log("three location")
-    console.log(that.data.entry_storage_location_name)
-    console.log(that.data.qualified_storage_location_name)
-    console.log(that.data.unqualified_storage_location_name)
-  },
-  onShow: function () {
-
   },
 
 
 
+  scan_gun: function (e) {
+    var that = this
+    var value = e.detail.value
+    //wx.hideKeyboard()
+    console.log(value)
+    if(that.data.scan_model==1){
+      if (!(/^[0-9]*$/.test(value))) {
+        that.setData({
+          rescode: ''
+        });
+      }
+      else {
+        if ((/^[0-9]{7}$/.test(value))) {  //TODO 26
+          that.setData({
+            rescode: value
+          });
+          console.log(that.data.rescode)
+          that.getSupply()      
+        }
+        else {
+          if ((/^[0-9]{8,9}$/.test(value))) {
+          }
+        }
+      }
+    }
+    else if (that.data.scan_model == 2){
+      if (!(/^[0-9,A-Z]*$/.test(value))) {
+        that.setData({
+          rescode: ''
+        });
+      }
+      else {
+        if ((/^[0-9,A-Z]{26}$/.test(value))) {  //TODO 26
+          that.setData({
+            rescode: value
+          });
+          console.log(that.data.rescode)
+          that.getSupply()
+        }
+        else {
+          if ((/^[0-9,A-Z]{27,28}$/.test(value))) {
+          }
+        }
+      }
+    }
+  },
 
 
+  getSupply: function () {
+    //获得供货信息
+    var that = this
+    
+    var rescode
+    if(that.data.scan_model==1){
+      rescode = that.data.rescode
+    }
+    if(that.data.scan_model==2){
+      rescode=that.data.rescode.slice(0,9)
+    }
 
+    var con = condition.NewCondition();
+    con = condition.AddFirstCondition('barCodeNo', 'EQUAL', rescode);
+    wx.request({
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con,
+      header: { 'content-type': 'application/json' },
+      method: 'GET',
+      success: function (res) {
+        console.log("succeed connect")
+        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con)
+        var res_temp = res
+        if (res_temp.data.length == 0) {
+          wx.showModal({
+            title: '警告！！！',
+            content: '该供货码不存在',
+            showCancel: false,
+          })
+        }
+        else {
+          if (that.data.warehouse_entry.supplierId != res_temp.data[0].supplierId) {
+            console.log(that.data.warehouse_entry.supplierId)
+            console.log(res_temp.data[0].supplierId)
+            wx.showModal({
+              title: '警告！！！',
+              content: '该供货码不属于该供货商，请切换入库单或修改信息',
+              showCancel: false,
+            })
+          }
+          else {
+            if (res_temp.data[0].warehouseId != that.data.warehouse_id) {
+              wx.showModal({
+                title: '警告！！！',
+                content: '该供货码不属于该仓库，请切换仓库或修改信息',
+                showCancel: false,
+              })
+            }
+            else {
+              that.setData({
+                supply: res_temp.data[0]
+              })
+              console.log(that.data.supply)
+              console.log(res.data[0].barCodeNo)
+              that.setData({
+                supplier_id: that.data.supply.supplierId,
+                material_id: that.data.supply.materialId
+              })
+              that.setData({
+                scan_success: 1
+              })
+            }
+          }
+        }
+
+      },
+      //请求失败
+      fail: function (err) {
+        console.log("false")
+        wx.showToast({
+          title: '连接失败,请检查你的网络或者服务端是否开启',
+          icon: 'none',
+          duration: 2000
+        })
+      },
+      complete: function () {
+        if (that.data.scan_success == 1) {
+          if (that.data.scan_model == 1){
+            that.setData({
+              unit_number: that.data.supply.defaultEntryUnitAmount
+            })
+          }
+          if(that.data.scan_model==2){//lierma
+            that.setData({
+              unit_number: that.data.rescode.slice(15,18)
+            })
+          }
+          that.setData({
+            scan_success: 0
+          })
+          that.setLocation()
+        }
+        else{  
+        }
+      }
+    })
+  },
 
   create: function (e) {
     var that = this 
@@ -135,7 +305,6 @@ Page({
         }
       }
 
-    
 
     //^匹配输入字符串开始的位置 $结束
     if (entry_storage_location_id == '') {
@@ -270,7 +439,7 @@ Page({
     }
     */
 
-    else{
+    else {
       var res_message
 
       //TODO 添加判断
@@ -291,6 +460,14 @@ Page({
       }
       else if (expiryDate.indexOf(":") == -1) {
         expiryDate = expiryDate + ' ' + '00:00:00'
+      }
+      var inventoryDate = that.data.date_today_YMDhms
+      if(that.data.scan_model==2){
+        console.log(that.data.rescode)
+        console.log(that.data.rescode.slice(9,15))
+        inventoryDate = '20' + that.data.rescode.slice(9, 11) + '-' + that.data.rescode.slice(11, 13) + '-' + that.data.rescode.slice(13, 15) + ' ' + '00:00:00'
+        console.log(inventoryDate)
+        manufactureDate=that.data.date_today_YMDhms
       }
       var object_output = {
         "warehouseEntryId": that.data.warehouse_entry.id,//auto
@@ -315,7 +492,7 @@ Page({
         "comment": form.comment, //input 
         "manufactureNo": form.manufactureNo,//input
         //???这时间应该是哪个 两个是否需要统一
-        "inventoryDate": that.data.date_today_YMDhms,//auto
+        "inventoryDate": inventoryDate,//auto
         "manufactureDate": manufactureDate,//input   
         "expiryDate": expiryDate//input
       }
@@ -341,7 +518,6 @@ Page({
             showCancel: false,
           })
         },
-        //TODOPUT
         complete: function () {
           if (res_message.data.length == 1) {
             //实现入库单信息跟新
@@ -388,7 +564,11 @@ Page({
               success: function () {
                 setTimeout(function () {
                   //要延时执行的代码
-                  wx.navigateBack();
+                  //wx.navigateBack();
+                  that.setData({
+                    focus: true,
+                    rescode:''
+                  })
                 }, 500)
               }
             })
@@ -404,6 +584,7 @@ Page({
         }
       })////
     }
+
   },
 
 

@@ -257,11 +257,7 @@ Page({
 
           globaldata.all_storage_location = that.data.all_storage_location
           console.log(globaldata.all_storage_location)
-          wx.showToast({
-            title: '进入【入库单条目】生成页面',
-            icon: 'none',
-            duration: 2000
-          })
+
           var supply = JSON.stringify(that.data.supply);
           var warehouse_entry = JSON.stringify(that.data.warehouse_entry);
           /*
@@ -274,16 +270,26 @@ Page({
           var transvar =
             'warehouse_entry=' + warehouse_entry + '&' +
             'supply=' + supply
-          wx.navigateTo({ url: '../../warehouse/warehouseEntryItemAdd/warehouseEntryItemAdd' + '?' + transvar })
+          wx.navigateTo({ url: '../../warehouse/warehouseEntryItemAdds/warehouseEntryItemAdds' + '?' + transvar })
         }
       })
-  
+
     
   },
   
+
+  //TODO
+  hide:function(e){
+    var that = this
+    var value = e.detail.value
+    //wx.hideKeyboard()
+    //{complete:function(){}}
+  },
+
   scan_gun: function (e) {
     var that=this
     var value = e.detail.value
+    //wx.hideKeyboard()
     console.log(value)
     if (!(/^[0-9]*$/.test(value))) {
       that.setData({
@@ -294,14 +300,10 @@ Page({
     else{
       if ((/^[0-9]{7}$/.test(value))) {
         that.setData({
-          //TODO此处应该是res 仅作测试
           rescode: value
         });
         console.log(that.data.rescode)
         that.getSupply()
-        //根据扫码内容获得 供应商id和物料id
-        //TODO 此处应该是获得  test程序中用来索取
-        //test end
         that.showWarehouseEntryItem()
       }
       else{
@@ -455,9 +457,7 @@ Page({
                 supplier_id: that.data.supply.supplierId,
                 material_id: that.data.supply.materialId
               })
-              that.getThreeOfDefaultEntryStroageLocationMessages()
-              that.getSupplierName()
-              that.getMaterialName()
+
               
               that.setData({
                 scan_success: 1
@@ -482,17 +482,17 @@ Page({
           wx.showToast({
             title: '扫码成功',//TODO此处还可以使用
             icon: 'success',
-            duration: 2000,
+            duration: 1000,
           })
           setTimeout(function () {
             wx.hideToast()
-          }, 2000)
+          }, 1000)
           that.setData({
             scan_success:0
           })
           setTimeout(function () {
             that.trans()
-          }, 2000)
+          }, 1000)
           
         }
         else{

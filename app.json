@@ -14,7 +14,8 @@
   
     
     "main/chose/chose",
-    
+
+    "warehouse/warehouseEntryItemAdds/warehouseEntryItemAdds",
     "warehouse/warehouseEntryItemAdd/warehouseEntryItemAdd",
     "warehouse/warehouseEntry/warehouseEntry",
     "warehouse/warehouseEntryItem/warehouseEntryItem",

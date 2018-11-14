@@ -40,11 +40,11 @@
         <text decode="{{true}}">\n</text>
         状态：{{item.state==0 ?'送检中':'' + item.state==1 ?'部分送检完成':'' + item.state==2 ?'全部送检完成':''}}
         <text decode="{{true}}">\n</text>
-        描述：{{item.description==null ? '':''+item.description}} 
-        <text decode="{{true}}">\n</text>
         送检时间：{{item.inspectionTime==null ? '':'' + item.inspectionTime}}
         <text decode="{{true}}">\n</text>
         创建时间：{{item.createTime}}
+        <text decode="{{true}}">\n</text>
+        描述：{{item.description==null ? '':''+item.description}} 
 
       </view>
       <view class="line">' '</view>
