@@ -102,7 +102,21 @@ Page({
       });
     }
   },
-
+  scan: function () {
+    var that = this
+    //扫码
+    wx.scanCode({
+      success: (res) => {
+        console.log(res)
+        that.setData({
+          rescode: res.result
+        });
+      },
+      complete: function () {
+        that.getSupply()
+      }
+    })
+  },
   setLocation: function () {
     var that=this
     var entry_storage_location_name = ''
