@@ -572,6 +572,15 @@ Page({
                 }, 500)
               }
             })
+            that.setData({
+              supply:'',
+              entry_storage_location_name: '',
+              qualified_storage_location_name: '',
+              unqualified_storage_location_name: '',
+              entry_storage_location_no: '',
+              qualified_storage_location_no: '',
+              unqualified_storage_location_no: '',
+            })
           }
           else {
             console.log(res_message.data[0])
@@ -694,29 +703,6 @@ Page({
     })
     console.log("that.data.show_entry_no", that.data.show_entry_no)
   },
-
-
-/*
-  test: function () {
-    var that = this
-    console.log("test")
-    console.log("that.data.show_entry_no", that.data.show_unqualified_no)
-    that.setData({
-      show_unqualified_no: 'false',
-    })
-    console.log("that.data.show_entry_no", that.data.show_unqualified_no)
-  },
-  test2: function () {
-    var that = this
-    console.log("test2")
-    console.log("that.data.show_entry_no", that.data.show_unqualified_no)
-    that.setData({
-      show_unqualified_no: 'true',
-    })
-    console.log("that.data.show_entry_no", that.data.show_unqualified_no)
-  },
-*/
-
 
 
 

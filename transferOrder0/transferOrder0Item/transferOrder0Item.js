@@ -18,6 +18,9 @@ Page({
     index: '',//选择的条目顺序
     hide: [],
     scan_success:'0',
+    scan_model: '1',
+    rescode: '',
+    first_come: '0',
   },
   onLoad: function (query) {
     var that = this
@@ -49,69 +52,83 @@ Page({
  
   onShow: function () {
     var that = this
- 
+
     that.setData({
-      supply:'',
-      rescode:''
-    }); 
+      supply: '',
+      rescode: '',
+      supply: '',
+      first_come: 1,
+    });
     that.getTransferOrderItem()
   },
 
+  change_scan_model_1: function (e) {
+    var that = this
+    var form = e.detail.value
+    if (that.data.scan_model == 2) {
+      that.setData({
+        scan_model: '1',
+        rescode: '',
+        supply: '',
+      });
+    }
+  },
+  change_scan_model_2: function (e) {
+    var that = this
+    var form = e.detail.value
+    if (that.data.scan_model == 1) {
+      that.setData({
+        scan_model: '2',
+        rescode: '',
+        supply: '',
+      });
+    }
+
+  },
 
   scan_gun: function (e) {
     var that = this
     var value = e.detail.value
-    console.log(value)
-    if (!(/^[0-9]*$/.test(value))) {
-      that.setData({
-        //TODO此处应该是res 仅作测试
-        rescode: ''
-      });
-    }
-    else {
-      if ((/^[0-9]{7}$/.test(value))) {
+    if (that.data.scan_model == 1) {
+      if (!(/^[0-9]*$/.test(value))) {
         that.setData({
-          //TODO此处应该是res 仅作测试
-          rescode: value
+          rescode: ''
         });
-        console.log(that.data.rescode)
-        that.getSupply()
-        //根据扫码内容获得 供应商id和物料id
-        //TODO 此处应该是获得  test程序中用来索取
-        //test end
-        that.getTransferOrderItem()
       }
       else {
-        if ((/^[0-9]{8,9,10,11,12,13,14,15,16,17}$/.test(value))) {
-
+        if ((/^[0-9]{7}$/.test(value))) {  //TODO 26
+          that.setData({
+            rescode: value
+          });
+          console.log(that.data.rescode)
+          that.getSupply()
+        }
+        else {
+          if ((/^[0-9]{8,9}$/.test(value))) {
+          }
         }
       }
     }
-
-
-    /*
-    setTimeout(function () {
-      // 放在最后--
-      total_micro_second += 1;
-    }, 1)
-    
-    console.log(timer)
-    if(that.data.first_num==1){
-      that.setData({
-        first_num:0
-      })
+    else if (that.data.scan_model == 2) {
+      if (!(/^[0-9,A-Z]*$/.test(value))) {
+        that.setData({
+          rescode: ''
+        });
+      }
+      else {
+        if ((/^[0-9,A-Z]{26}$/.test(value))) {  //TODO 26
+          that.setData({
+            rescode: value
+          });
+          console.log(that.data.rescode)
+          that.getSupply()
+        }
+        else {
+          if ((/^[0-9,A-Z]{27,28}$/.test(value))) {
+          }
+        }
+      }
     }
-    else{
-      if(that.data.first_num<=10){
-        that.setData({
-        })
-      }
-      else{
-        that.setData({
-          rescode:''
-        })
-      }
-    }*/
   },
 
 
@@ -120,8 +137,10 @@ Page({
     var con = condition.NewCondition();
     con = condition.AddFirstCondition('transferOrderId', 'EQUAL', that.data.chosen_transfer_order.id);
     if(that.data.supply!=''){
-      console.log("successfully be added")
       con = condition.AddCondition('supplyId', 'EQUAL', that.data.supply.id);
+    }
+    if (that.data.scan_model == 2 && that.data.rescode.length != 0) {
+      con = condition.AddCondition('unitAmount', 'EQUAL', that.data.rescode.slice(15, 18));
     }
     wx.request({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'transfer_order_item/' + con,
@@ -144,6 +163,14 @@ Page({
         })
       },
       complete:function(){
+        if (that.data.transfer_order_item_list.data.length == 1 && that.data.first_come == 0) {
+          that.directTrans()
+        }
+        if (that.data.first_come == 1) {
+          that.setData({
+            first_come: 0
+          })
+        }
       }
     })
   },
@@ -164,13 +191,26 @@ Page({
     })
   },
  
+  directTrans: function () {
+    var that = this
+    var index = 0
 
+    var chosen_transfer_order = JSON.stringify(that.data.chosen_transfer_order);
+    var chosen_transfer_order_item = that.data.transfer_order_item_list.data[index]
+    var chosen_transfer_order_item = JSON.stringify(chosen_transfer_order_item)
+
+    var transvar =
+      'chosen_transfer_order=' + chosen_transfer_order + '&' +
+      'chosen_transfer_order_item=' + chosen_transfer_order_item
+    wx.navigateTo({
+      url: '../../transferOrder/transferOrderItemChange/transferOrderItemChange' + '?' + transvar
+    })
+  },
 
   scan: function () {
     var that = this
     //扫码
     wx.scanCode({
-      scanType: 'barCode',
       success: (res) => {
         console.log(res)
         that.setData({
@@ -181,22 +221,24 @@ Page({
 
         console.log(that.data.rescode)
         that.getSupply()
-        //根据扫码内容获得 供应商id和物料id
-        //TODO 此处应该是获得  test程序中用来索取
-        //根据供应商id获得供应商名称 物料id和物料名称
-        //更新表单
 
       }
     })
   },
   getSupply: function () {
-    //获得供货信息
     var that = this
     that.setData({
-      scan_success:'0'
+      scan_success: '0'
     })
+    var rescode
+    if (that.data.scan_model == 1) {
+      rescode = that.data.rescode
+    }
+    if (that.data.scan_model == 2) {
+      rescode = that.data.rescode.slice(0, 9)
+    }
     var con = condition.NewCondition();
-    con = condition.AddFirstCondition('barCodeNo', 'EQUAL', that.data.rescode);
+    con = condition.AddFirstCondition('barCodeNo', 'EQUAL', rescode);
     wx.request({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con,
       method: 'GET',//GET为默认方法   /POST

@@ -96,10 +96,10 @@ Page({
     con = condition.AddFirstConditions('createTime', 'BETWEEN', dates);
     con = condition.AddCondition('warehouseId', 'EQUAL', that.data.warehouse_id);
     if (that.data.qualified == 2) {
-      con = condition.AddCondition('state', 'NOT_EQUAL', 2)
+      con = condition.AddCondition('state', 'EQUAL', 0)
     }
     if (that.data.qualified == 1) {
-      con = condition.AddCondition('state', 'EQUAL', 2)
+      con = condition.AddCondition('state', 'NOT_EQUAL', 0)
     }
     //con = condition.AddFirstOrder('createTime',' ASC');//???DESC和ASC没有区别
     wx.request({
@@ -129,14 +129,7 @@ Page({
     var that=this
     var index = e.currentTarget.dataset.index;
     var chosen_warehouse_entry = that.data.warehouseEntry_list.data[index]
-    wx.showLoading({
-      title: '进入【入库单条目】生成页面',
-      icon: 'none',
-      duration: 1000
-    })
-    setTimeout(function () {
-      wx.hideLoading()
-    }, 1000)
+
     var warehouse_entry =JSON.stringify(chosen_warehouse_entry);
     warehouse_entry = warehouse_entry.replace(/&/g, "%26");
     var transvar = 

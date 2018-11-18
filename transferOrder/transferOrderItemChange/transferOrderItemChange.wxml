@@ -16,6 +16,11 @@
  
 <form onsubmit="update"> <!--onsubmit="create"-->
 <view class="form">
+  <!--按钮-->
+  <view class="loginBtnView" > 
+    <button class="loginBtn" type="primary" form-type="submit" >更新备货单条目</button> 
+  </view> 
+
 	<view class="item">
     <view class="title" style="color:blue; 	text-align: center;">备货条目信息</view>
     <view class="line"></view>
@@ -64,12 +69,7 @@
 			<input type="text" disabled="true" name="targetStorageLocationNo" value="{{chosen_transfer_order_item.targetStorageLocationNo}}" />
 		</view>
 	</view>
-  <view class="item">
-		<view class="title">状态（0移库中 1部分移库完成 2全部移库完成）</view>
-		<view class="subtitle_disabled">
-			<input type="number" disabled="true" name="state" value="{{chosen_transfer_order_item.state}}" placeholder="必填信息" /> 
-		</view>
-	</view>
+
   <view class="item">
 		<view class="title">源单位</view>
 		<view class="subtitle_disabled">
@@ -88,7 +88,12 @@
 			<input type="digit" disabled="true" name="scheduledAmount" value="{{chosen_transfer_order_item.scheduledAmount/chosen_transfer_order_item.sourceUnitAmount}}" /> 
 		</view>
 	</view>
-
+  <view class="item">
+		<view class="title">现已移位数量</view>
+		<view class="subtitle_disabled">
+			<input type="digit" disabled="true"  name="realAmount" value="{{chosen_transfer_order_item.realAmount/chosen_transfer_order_item.unitAmount}}" placeholder="必填信息" /> 
+		</view>
+	</view>
   <view class="item">
 		<view class="title">单位</view>
 		<view class="subtitle">
@@ -102,9 +107,9 @@
 		</view>
 	</view>
   <view class="item">
-		<view class="title">实际移位数量</view>
+		<view class="title">实际移位数量（默认全部）</view>
 		<view class="subtitle">
-			<input type="digit"  name="realAmount" value="{{chosen_transfer_order_item.realAmount/chosen_transfer_order_item.unitAmount}}" placeholder="必填信息" /> 
+			<input type="digit"  name="realAmount" value="{{chosen_transfer_order_item.scheduledAmount/chosen_transfer_order_item.sourceUnitAmount}}" placeholder="必填信息" /> 
 		</view>
 	</view>
 
@@ -127,10 +132,7 @@
 		</view>
 	</view>
 </view>
-  <!--按钮-->
-  <view class="loginBtnView" > 
-    <button class="loginBtn" type="primary" form-type="submit" >更新备货单条目</button> 
-  </view> 
+
 </form>
 
 </view>

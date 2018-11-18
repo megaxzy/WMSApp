@@ -7,6 +7,21 @@
   <view class="message">
     <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>
   </view>
+
+<view class="line"></view>
+  <view class="item">
+    <view class="message">选择扫码模式</view>
+    <view class="line"></view>
+    <view style="width: 750rpx; font-size:50rpx;;display:flex;flex-direction: row;" >
+      <view class="{{scan_model == 1 ?  'scan_chosen' : 'scan_unchosen'}}"  bindtap="change_scan_model_1" >
+        <input type="number" disabled="true" name="scan_1" value="7位码" placeholder="" />
+      </view>
+      <view class="{{scan_model== 2 ?  'scan_chosen' : 'scan_unchosen'}}"  bindtap="change_scan_model_2" >
+        <input type="number" disabled="true" name="scan_2" value="李尔码" placeholder="" />
+      </view>
+    </view>
+	</view>
+
 <view class="line"></view>
   <view class="item">
     <view style="width: 750rpx; ;display:flex;flex-direction: row;" >

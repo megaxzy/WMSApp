@@ -1,4 +1,4 @@
-//???假设有两种东西 我已经送件了一种 那另外一种还能送检吗？
+
 var condition = require('../../utils/condition.js');
 var globaldata = require('../../utils/globaldata.js');
 var time = require('../../utils/time.js');

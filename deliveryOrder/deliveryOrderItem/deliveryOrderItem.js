@@ -67,8 +67,10 @@ Page({
       that.setData({
         scan_model: '1',
         rescode: '',
+        supply: '',
       });
     }
+    //that.getDeliveryOrderItem()
   },
   change_scan_model_2: function (e) {
     var that = this
@@ -77,8 +79,10 @@ Page({
       that.setData({
         scan_model: '2',
         rescode: '',
+        supply:'',
       });
     }
+    //that.getDeliveryOrderItem()
   },
 
   scan_gun: function (e) {
@@ -134,8 +138,8 @@ Page({
     if(that.data.supply!=''){
       con = condition.AddCondition('supplyId', 'EQUAL', that.data.supply.id);
     }
-    if (that.data.scan_model == 2) {
-      con = condition.AddCondition('unit', 'EQUAL', that.data.rescode.slice(15, 18));
+    if (that.data.scan_model == 2 && that.data.rescode.length != 0) {
+      con = condition.AddCondition('unitAmount', 'EQUAL', that.data.rescode.slice(15, 18));
     }
     wx.request({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/' + con,

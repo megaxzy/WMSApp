@@ -49,8 +49,10 @@
         <text decode="{{true}}">\n</text>
         物料名称：{{item.materialName}}
         <text decode="{{true}}">\n</text>
+        <!--
         存货日期：{{item.inventoryDate}}
         <text decode="{{true}}">\n</text>
+        -->
         状态：{{item.state==0 ? '待入库':''+ item.state==1 ? '送检中':'' + item.state==2 ? '正品入库':''+ item.state==3 ? '不良品入库':''}}
         <text decode="{{true}}">\n</text>
         备注：{{item.comment==null ? '':'' + item.comment}}

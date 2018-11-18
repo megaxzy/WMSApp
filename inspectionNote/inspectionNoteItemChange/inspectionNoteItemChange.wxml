@@ -12,6 +12,10 @@
 
 <form onsubmit="update"> <!--onsubmit="create"-->
 <view class="form">
+  <!--按钮-->
+  <view class="loginBtnView" > 
+    <button class="loginBtn" type="primary" form-type="submit" >更新送检单条目</button> 
+  </view> 
 	<view class="item">
     <view class="title" style="color:blue; 	text-align: center;">送检单条目信息</view>
     <view class="line"></view>
@@ -90,10 +94,7 @@
 		</view>
 	</view>
 </view>
-  <!--按钮-->
-  <view class="loginBtnView" > 
-    <button class="loginBtn" type="primary" form-type="submit" >更新送检单条目</button> 
-  </view> 
+
 </form>
 
 
