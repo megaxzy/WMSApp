@@ -203,7 +203,7 @@ Page({
       'chosen_transfer_order=' + chosen_transfer_order + '&' +
       'chosen_transfer_order_item=' + chosen_transfer_order_item
     wx.navigateTo({
-      url: '../../transferOrder/transferOrderItemChange/transferOrderItemChange' + '?' + transvar
+      url: '../../transferOrder0/transferOrder0ItemChange/transferOrder0ItemChange' + '?' + transvar
     })
   },
 
