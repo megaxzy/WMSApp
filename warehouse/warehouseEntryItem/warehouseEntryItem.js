@@ -27,7 +27,7 @@ Page({
     hide:[], //隐藏item用
     all_material:'', //所有物料信息
     //all_supply: '', //所有supply
-    all_storage_location: '', //所有库位信息
+    //all_storage_location: '', //所有库位信息
     warehouse_entry_item_mapped_material:[],//匹配的material name
     warehouse_entry_item_mapped_supplier: [],//匹配的supplier name
     warehouse_entry_item_mapped_entry_storage_location_name: [],//匹配的
@@ -75,10 +75,9 @@ Page({
       all_material:globaldata.all_material,
       //all_supplier: globaldata.all_supplier,
       all_supply: globaldata.all_supply,
-      all_storage_location: globaldata.all_storage_location
+
     })
-    console.log("all_storage_location")
-    console.log(that.data.all_storage_location)
+
     query.warehouse_entry = query.warehouse_entry.replace(/%26/g, "&");
     var warehouse_entry_json = JSON.parse(query.warehouse_entry)
     that.setData({
@@ -224,7 +223,7 @@ Page({
   trans: function () {
     var that=this
     //获得库位的所有内容
-      var that = this
+      /*
       var con = condition.NewCondition();
       con = condition.AddFirstOrder('name', ' ASC');//???ASC DESC都一样
       wx.request({
@@ -256,7 +255,7 @@ Page({
         complete: function () {
 
           globaldata.all_storage_location = that.data.all_storage_location
-          console.log(globaldata.all_storage_location)
+          console.log(globaldata.all_storage_location)*/
 
           var supply = JSON.stringify(that.data.supply);
           var warehouse_entry = JSON.stringify(that.data.warehouse_entry);
@@ -271,19 +270,16 @@ Page({
             'warehouse_entry=' + warehouse_entry + '&' +
             'supply=' + supply
           wx.navigateTo({ url: '../../warehouse/warehouseEntryItemAdds/warehouseEntryItemAdds' + '?' + transvar })
-        }
-      })
+        /*}
+      })*/
 
     
   },
   
 
-  //TODO
   hide:function(e){
     var that = this
     var value = e.detail.value
-    //wx.hideKeyboard()
-    //{complete:function(){}}
   },
 
   scan_gun: function (e) {
@@ -312,36 +308,12 @@ Page({
         }
       }
     }
-
-
-    /*
-    setTimeout(function () {
-      // 放在最后--
-      total_micro_second += 1;
-    }, 1)
-    
-    console.log(timer)
-    if(that.data.first_num==1){
-      that.setData({
-        first_num:0
-      })
-    }
-    else{
-      if(that.data.first_num<=10){
-        that.setData({
-        })
-      }
-      else{
-        that.setData({
-          rescode:''
-        })
-      }
-    }*/
   },
 
   fix: function (e) {
     var that = this
-    var that = this
+    
+    /*
     var con = condition.NewCondition();
     con = condition.AddFirstOrder('name', ' ASC');//???ASC DESC都一样
     wx.request({
@@ -372,9 +344,7 @@ Page({
       },
       complete: function () {
 
-        globaldata.all_storage_location = that.data.all_storage_location
-
-        console.log(globaldata.all_storage_location)
+        globaldata.all_storage_location = that.data.all_storage_location*/
         var index = that.data.index;
         var warehouse_entry = JSON.stringify(that.data.warehouse_entry);
         var warehouse_entry_item = JSON.stringify(that.data.warehouse_entry_item.data[index]);
@@ -383,8 +353,8 @@ Page({
           'warehouse_entry=' + warehouse_entry + '&' +
           'index=' + index
         wx.navigateTo({ url: '../../warehouse/warehouseEntryItemFix/warehouseEntryItemFix' + '?' + transvar })
-      }
-    })
+      /*}
+    })*/
 
 
   },

@@ -19,7 +19,7 @@
 
   <!--按钮-->
   <view class="loginBtnView" > 
-    <button class="loginBtn" type="primary" form-type="submit" >更新备货单条目</button> 
+    <button class="loginBtn" type="primary" form-type="submit" >更新上架单条目</button> 
   </view> 
 
 	<view class="item">

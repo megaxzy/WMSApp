@@ -162,14 +162,14 @@
   <view class="item">
 		<view class="title">存货日期</view>
 		<view class="subtitle">
-			<input type="text" disabled="true" name="inventoryDate" value="{{item.inventoryDate}}" placeholder="" />
+			<input type="text" disabled="true" name="inventoryDate" value="{{item.manufactureDate}}" placeholder="" />
 		</view>
 	</view>
   <!--TODO-->
   <view class="item">
 		<view class="title">生产日期</view>
 		<view class="subtitle">
-			<input type="text" name="manufactureDate" value="{{item.manufactureDate}}" placeholder="" />
+			<input type="text" name="manufactureDate" value="{{item.inventoryDate}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">

@@ -12,7 +12,7 @@ Page({
     requiredata: '', //收到的用户信息
     all_warehouse: '', //收到的所有的仓库信息
     all_warehouse_array: [], //仓库姓名合集
-    index:8,  //选择的哪项  默认为2
+    index:0,  //选择的哪项  默认为2
     chosen_warehouse:'',
     all_storage_location:'',
     all_material:'',
@@ -234,12 +234,13 @@ Page({
   getAllStorageLocation:function(){
     var that = this
     var con = condition.NewCondition();
+   
     con = condition.AddFirstOrder('name', ' ASC');//???ASC DESC都一样
     wx.request({
-      url: globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con,
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/less/' + con, //+'/',
       success: function (res) {
         //console.log(res)
-        //console.log(res.data.length)
+        //console.log(res.data.length) 
         var res_temp = res
         if (res_temp.statusCode == 500) {
           wx.showToast({

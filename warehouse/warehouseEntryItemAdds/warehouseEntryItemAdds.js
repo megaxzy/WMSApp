@@ -156,7 +156,7 @@ Page({
   scan_gun: function (e) {
     var that = this
     var value = e.detail.value
-    //wx.hideKeyboard()
+    
     console.log(value)
     if(that.data.scan_model==1){
       if (!(/^[0-9]*$/.test(value))) {
@@ -167,8 +167,10 @@ Page({
       else {
         if ((/^[0-9]{7}$/.test(value))) {  //TODO 26
           that.setData({
-            rescode: value
+            rescode: value,
+            focus: false,
           });
+          wx.hideKeyboard()
           console.log(that.data.rescode)
           that.getSupply()      
         }
@@ -187,8 +189,10 @@ Page({
       else {
         if ((/^[0-9,A-Z]{26}$/.test(value))) {  //TODO 26
           that.setData({
-            rescode: value
+            rescode: value,
+            focus:false,
           });
+          wx.hideKeyboard()
           console.log(that.data.rescode)
           that.getSupply()
         }
