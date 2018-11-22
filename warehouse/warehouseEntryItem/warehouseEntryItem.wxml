@@ -30,9 +30,11 @@
   </view> 
   -->
   <view class="loginBtnView"> 
-    <button class="loginBtn" type="primary" bindtap="trans">进入扫码模式</button> 
+    <button class="loginBtn" type="primary" bindtap="trans">进入快速扫码模式</button> 
   </view> 
-
+  <view class="loginBtnView"> 
+    <button class="loginBtn" type="primary" bindtap="trans2">进入确认扫码模式</button> 
+  </view> 
 	<view class="item">
 		<view class="title" style="	text-align: center;">【入库单条目】 信息</view>
     <view class="line">' '</view> 
@@ -71,92 +73,86 @@
   <view class="item">
 		<view class="title" >入库库位名称</view>
 		<view class="subtitle">
-			<input type="text" name="storageLocationName" value="{{item.storageLocationName}}" />
+			<input type="text"  disabled="true"name="storageLocationName" value="{{item.storageLocationName}}" />
 		</view>
 	</view> 
   <view class="item">
 		<view class="title" >入库库位系列</view>
 		<view class="subtitle">
-			<input type="text" name="storageLocationNo" value="{{item.storageLocationNo}}" />
+			<input type="text" disabled="true" name="storageLocationNo" value="{{item.storageLocationNo}}" />
 		</view>
 	</view> 
   <view class="item">
 		<view class="title" >合格品库位名称</view>
 		<view class="subtitle">
-			<input type="text" name="qualifiedStorageLocationName" value="{{item.qualifiedStorageLocationName}}"  />
+			<input type="text" disabled="true" name="qualifiedStorageLocationName" value="{{item.qualifiedStorageLocationName}}"  />
 		</view>
 	</view> 
   <view class="item">
 		<view class="title" >合格品库位系列</view>
 		<view class="subtitle">
-			<input type="text" name="qualifiedStorageLocationNo" value="{{item.qualifiedStorageLocationNo}}"  />
+			<input type="text"  disabled="true"name="qualifiedStorageLocationNo" value="{{item.qualifiedStorageLocationNo}}"  />
 		</view>
 	</view> 
   <view class="item">
 		<view class="title" >不良品库位名称</view>
 		<view class="subtitle">
-			<input type="text" name="unqualifiedStorageLocationName" value="{{item.unqualifiedStorageLocationName}}"  />
+			<input type="text" disabled="true" name="unqualifiedStorageLocationName" value="{{item.unqualifiedStorageLocationName}}"  />
 		</view>
 	</view> 
   <view class="item">
 		<view class="title" >不良品库位系列</view>
 		<view class="subtitle">
-			<input type="text" name="unqualifiedStorageLocationNo" value="{{item.unqualifiedStorageLocationNo}}"  />
+			<input type="text" disabled="true" name="unqualifiedStorageLocationNo" value="{{item.unqualifiedStorageLocationNo}}"  />
 		</view>
 	</view> 
   <view class="item">
 		<view class="title">订单数量</view>
 		<view class="subtitle"> 
-			<input type="digit" name="expectedAmount" value="{{item.expectedAmount/item.unitAmount}}" placeholder="" />
+			<input type="digit"  disabled="true"name="expectedAmount" value="{{item.expectedAmount/item.unitAmount}}" placeholder="" />
 		</view>
 	</view>
   <!--{{item.expectedAmount}}-->
   <view class="item">
 		<view class="title">实收数量</view>
 		<view class="subtitle">
-			<input type="digit" name="realAmount" value="{{item.realAmount/item.unitAmount}}" placeholder="" />
+			<input type="digit" disabled="true" name="realAmount" value="{{item.realAmount/item.unitAmount}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title">单位</view>
 		<view class="subtitle">
-			<input type="text" name="unit" value="{{item.unit}}" placeholder="" />
+			<input type="text"  disabled="true"name="unit" value="{{item.unit}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title">单位数量</view>
 		<view class="subtitle">
-			<input type="digit" name="unitAmount" value="{{item.unitAmount}}" placeholder="" />
+			<input type="digit"  disabled="true"name="unitAmount" value="{{item.unitAmount}}" placeholder="" />
 		</view>
 	</view>  
     <view class="item">
 		<view class="title">拒收数量</view>
 		<view class="subtitle">
-			<input type="digit" name="refuseAmount" value="{{item.refuseAmount/item.refuseUnitAmount}}" placeholder="" />
+			<input type="digit" disabled="true" name="refuseAmount" value="{{item.refuseAmount/item.refuseUnitAmount}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title">拒收单位</view>
 		<view class="subtitle">
-			<input type="text" name="refuseUnit" value="{{item.refuseUnit}}" placeholder="" />
+			<input type="text" disabled="true" name="refuseUnit" value="{{item.refuseUnit}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title">拒收单位数量</view>
 		<view class="subtitle">
-			<input type="digit" name="refuseUnitAmount" value="{{item.refuseUnitAmount}}" placeholder="" />
+			<input type="digit" disabled="true" name="refuseUnitAmount" value="{{item.refuseUnitAmount}}" placeholder="" />
 		</view>
 	</view>  
   <view class="item">
 		<view class="title">已送检数量</view>
 		<view class="subtitle">
-			<input type="digit" name="inspectionAmount" value="{{item.inspectionAmount}}" placeholder="" />
-		</view>
-	</view>
-  <view class="item">
-		<view class="title">状态（0待入库 1送检中 2正品入库 3不良品入库）</view>
-		<view class="subtitle">
-			<input type="number" name="state" value="{{item.state}}" placeholder="" />
+			<input type="digit"  disabled="true" name="inspectionAmount" value="{{item.inspectionAmount}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
@@ -169,13 +165,13 @@
   <view class="item">
 		<view class="title">生产日期</view>
 		<view class="subtitle">
-			<input type="text" name="manufactureDate" value="{{item.inventoryDate}}" placeholder="" />
+			<input type="text"  disabled="true" name="manufactureDate" value="{{item.inventoryDate}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title">失效日期</view>
 		<view class="subtitle">
-			<input type="text" name="expiryDate" value="{{item.expiryDate}}" placeholder="" />
+			<input type="text"  disabled="true" name="expiryDate" value="{{item.expiryDate}}" placeholder="" />
 		</view>
 	</view>
   <!--
@@ -189,13 +185,13 @@
   <view class="item">
 		<view class="title">备注</view>
 		<view class="subtitle">
-			<input type="text" name="comment" value="{{item.comment}}" placeholder="" />
+			<input type="text"  disabled="true" name="comment" value="{{item.comment}}" placeholder="" />
 		</view>
 	</view>
   <view class="item">
 		<view class="title">作业人姓名</view>
 		<view class="subtitle">
-			<input type="text" name="personName" value="{{item.personName}}" placeholder="" />
+			<input type="text" disabled="true" name="personName" value="{{item.personName}}" placeholder="" />
 		</view>
 	</view>
 </view>

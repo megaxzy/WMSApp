@@ -16,6 +16,8 @@ var all_storage_location = '' //所有库位的json格式
 var all_material = ''  //所有物料的json格式
 var all_supply = ''  //所有supply的json格式
 
+var entry_barcode=[] //缓存的所有已经扫过的码
+
 module.exports = {
   url:url,
   account:account,
@@ -27,5 +29,6 @@ module.exports = {
   chosen_warehouse: chosen_warehouse,
   all_storage_location: all_storage_location,
   all_material:all_material,
-  all_supply:all_supply
+  all_supply:all_supply,
+  entry_barcode: entry_barcode,
 }

@@ -1,6 +1,6 @@
 //C37800031 181024 001 F1062284
 //C37800031181024001F1062284
-//C37800106181112002F1095904
+
 //TODO 库位编码联想  自动获取入库库位名称
 var condition = require('../../utils/condition.js');
 var globaldata = require('../../utils/globaldata.js');
@@ -48,8 +48,10 @@ Page({
     vague_entry_name: [],
     //李尔码需求
     unit_number:'',
+    //订单数量
+    expected_amount:'',
     //所有的码
-    barcode:[],
+    barcode: [],
   },
   onLoad: function (query) {
     var that = this
@@ -70,7 +72,7 @@ Page({
       date_today:date,
       date_today_YMDhms: YMDhms,
       all_storage_location: globaldata.all_storage_location,
-      barcode:globaldata.entry_barcode
+      barcode: globaldata.entry_barcode,
     })
     console.log(that.data.all_storage_location)
     query.warehouse_entry = query.warehouse_entry.replace(/%26/g, "&");
@@ -107,16 +109,15 @@ Page({
   },
   scan: function () {
     var that = this
-    var rescode=''
-    var success=1
-    //扫码
+    var rescode = ''
+    var success = 1
     wx.scanCode({
       success: (res) => {
         console.log(res)
         that.setData({
           rescode: res.result
         });
-        rescode=res.result
+        rescode = res.result
         console.log(that.data.rescode)
       },
       complete: function () {
@@ -124,19 +125,19 @@ Page({
         console.log("缓存的")
         console.log(barcode)
         for (var i = 0; i < barcode.length; i++) {
-          if(barcode[i]==rescode){
+          if (barcode[i] == rescode) {
             wx.showModal({
               title: '警告！！！',
               content: '条码重复扫描',
               showCancel: false,
             })
             that.setData({
-              rescode:''
+              rescode: ''
             });
-            success=0
+            success = 0
           }
         }
-        if(success==1){
+        if (success == 1) {
           that.setData({
             rescode: rescode
           });
@@ -151,12 +152,16 @@ Page({
     var qualified_storage_location_name = ''
     var unqualified_storage_location_name = ''
 
+
+
+
     console.log(that.data.all_storage_location)
     console.log(that.data.supply)
     for (var h = 0; h < that.data.all_storage_location.data.length; h++) {
       if (that.data.supply.defaultEntryStorageLocationNo == that.data.all_storage_location.data[h].no) {
         entry_storage_location_name = that.data.all_storage_location.data[h].name
       }
+      //console.log(that.data.all_storage_location.data[h].no)
       if (that.data.supply.defaultQualifiedStorageLocationNo == that.data.all_storage_location.data[h].no) {
         qualified_storage_location_name = that.data.all_storage_location.data[h].name
 
@@ -231,7 +236,6 @@ Page({
         });
       }
       else {
-        //(/^[\s,\n,\r,\n\r]$/.test(value.slice(value.length - 1, value.length)))
         if ((/^[0-9,A-Z]{26}$/.test(value))) {  //TODO 26
           that.setData({
             rescode: value,
@@ -267,12 +271,13 @@ Page({
         }
       }
     }
-  },//C37800106181112002F1095904
+  },
 
 
   getSupply: function () {
     //获得供货信息
     var that = this
+    
     var rescode
     if(that.data.scan_model==1){
       rescode = that.data.rescode
@@ -341,7 +346,6 @@ Page({
               that.setData({
                 scan_success: 1
               })
-              that.setLocation()
             }
           }
         }
@@ -360,18 +364,20 @@ Page({
         if (that.data.scan_success == 1) {
           if (that.data.scan_model == 1){
             that.setData({
-              unit_number: that.data.supply.defaultEntryUnitAmount
+              unit_number: that.data.supply.defaultEntryUnitAmount,
+              expected_amount: that.data.supply.defaultEntryAmount / that.data.supply.defaultEntryUnitAmount ,
             })
           }
           if(that.data.scan_model==2){//lierma
             that.setData({
-              unit_number: that.data.rescode.slice(15,18)
+              unit_number: that.data.rescode.slice(15,18),
+              expected_amount:1,
             })
           }
           that.setData({
             scan_success: 0
           })
-          that.create()
+          that.setLocation()
         }
         else{  
         }
@@ -379,19 +385,23 @@ Page({
     })
   },
 
-  create: function () {
+  create: function (e) {
     var that = this 
+    var form = e.detail.value
+
+    
       var entry_storage_location_id=''
       var qualified_storage_location_id=''
       var unqualified_storage_location_id=''
+
       for (var h = 0; h < that.data.all_storage_location.data.length; h++) {
-        if (that.data.supply.defaultEntryStorageLocationNo == that.data.all_storage_location.data[h].no) {
+        if (form.storageLocationNo == that.data.all_storage_location.data[h].no && form.storageLocationName == that.data.all_storage_location.data[h].name) {
           entry_storage_location_id = that.data.all_storage_location.data[h].id
         }
-        if (that.data.supply.defaultQualifiedStorageLocationNo == that.data.all_storage_location.data[h].no) {
+        if (form.qualifiedLocationNo == that.data.all_storage_location.data[h].no && form.qualifiedLocationName == that.data.all_storage_location.data[h].name) {
           qualified_storage_location_id = that.data.all_storage_location.data[h].id
         }
-        if (that.data.supply.defaultUnqualifiedStorageLocationNo == that.data.all_storage_location.data[h].no) {
+        if (form.unqualifiedLocationNo == that.data.all_storage_location.data[h].no && form.unqualifiedLocationName == that.data.all_storage_location.data[h].name) {
           unqualified_storage_location_id = that.data.all_storage_location.data[h].id
         }
       }
@@ -403,6 +413,7 @@ Page({
         title: '入库库位信息有误',
         showCancel: false
       });
+      
     }
     else if (qualified_storage_location_id == ''&&form.qualifiedLocationNo != '' && form.qualifiedLocationName!='') {
       wx.showModal({
@@ -416,53 +427,178 @@ Page({
         showCancel: false
       });
     }
+    else if (form.storageLocationName.length == 0) {
+      wx.showModal({
+        title: '入库库位名称不能为空',
+        showCancel: false
+      });
+    }
+    else if (form.storageLocationNo.length == 0) {
+      wx.showModal({
+        title: '入库库位编码不能为空',
+        showCancel: false
+      });
+    }
+    else if (form.expectedAmount.length == 0) {
+      wx.showModal({
+        title: '订单数量不能为空',
+        showCancel: false
+      });
+    } 
+    else if (form.realAmount.length == 0) {
+      wx.showModal({
+        title: '实收数量不能为空',
+        showCancel: false
+      });
+    } 
+    else if (form.unit.length == 0) {
+      wx.showModal({
+        title: '单位数量不能为空',
+        showCancel: false
+      });
+    } 
+    else if (form.refuseAmount.length == 0) {
+      wx.showModal({
+        title: '拒收数量不能为空',
+        showCancel: false
+      });
+    } 
+    else if (form.refuseUnit.length == 0) {
+      wx.showModal({
+        title: '拒收单位不能为空',
+        showCancel: false
+      });
+    } 
+    else if (form.refuseUnitAmount.length == 0) {
+      wx.showModal({
+        title: '拒收单位数量不能为空',
+        showCancel: false
+      });
+    } 
+    else if (!(/^[0-9]+[.][0-9]+$/.test(form.expectedAmount)) && !(/^[0-9][0-9]*$/.test(form.expectedAmount))) {
+      wx.showModal({
+        title: '订单数量格式有误',
+        showCancel: false
+      });
+    } 
+    else if (!(/^[0-9]+[.][0-9]+$/.test(form.realAmount)) && !(/^[0-9][0-9]*$/.test(form.realAmount))) {
+      wx.showModal({
+        title: '实收数量格式有误',
+        showCancel: false
+      });
+    } 
+    else if (!(/^[0-9]+[.][0-9]+$/.test(form.unitAmount)) && !(/^[0-9][0-9]*$/.test(form.unitAmount))) {
+      wx.showModal({
+        title: '单位数量格式有误',
+        showCancel: false
+      });
+    } 
+    else if (!(/^[0-9]+[.][0-9]+$/.test(form.refuseAmount)) && !(/^[0-9][0-9]*$/.test(form.refuseAmount))) {
+      wx.showModal({
+        title: '拒收数量格式有误',
+        showCancel: false
+      });
+    } 
+    else if (!(/^[0-9]+[.][0-9]+$/.test(form.refuseUnitAmount)) && !(/^[0-9][0-9]*$/.test(form.refuseUnitAmount))) {
+      wx.showModal({
+        title: '拒收单位数量格式有误',
+        showCancel: false
+      });
+    }
+    /*
+    else if (qualified_storage_location_id == '' && form.qualifiedLocationNo.length != '' && form.qualifiedLocationName.length != '') {
+      wx.showModal({
+        title: '合格品库位信息有误',
+        showCancel: false
+      });
+    }
+    */
+    /*
+    else if (!(/^([0-9]{4})-((0([1-9]{1}))|(1[1|2]))-(([0-2]([1-9]{1}))|(3[0|1]))[\s]+(20|21|22|23|[0-1]\d):[0-5]\d:[0-5] $/.test(form.manufactureDate))  &&
+    !(/^([0-9]{4})[-](([0]([1-9]{1}))|(1[0|1|2]))[-](([0-2]([1-9]{1}))|([3][0|1]))$/.test(form.manufactureDate)) && 
+    ! form.manufactureDate == '') {
+      wx.showModal({
+        title: '生产日期格式有误',
+        showCancel: false
+      });
+    }
+    else if (!(/^(d{2}|d{4})-((0([1-9]{1}))|(1[1|2]))-(([0-2]([1-9]{1}))|(3[0|1]))[\s]+(20|21|22|23|[0-1]\d):[0-5]\d:[0-5] $/.test(form.manufactureDate)) &&
+      !(/^(d{2}|d{4})-((0([1-9]{1}))|(1[1|2]))-(([0-2]([1-9]{1}))|(3[0|1]))$/.test(form.manufactureDate)) &&
+      !form.manufactureDate == '') {
+      wx.showModal({
+        title: '生产日期格式有误',
+        showCancel: false
+      });
+    }
+    */
+    /*
+    else if (!(/^[1-2][0-9]{3}[-][0-1]{0,1}[1-9][-][0-1]{0,1}[1-9][\s]}$/.test(form.manufactureDate))) {
+      wx.showModal({
+        title: '生产日期格式有误',
+        showCancel: false
+      });
+    }
+    */
+
     else {
-      var res_message=''
-      var manufactureDate=''
-      var inventoryDate = that.data.date_today_YMDhms
+      var res_message
+
+      //TODO 添加判断
+      var manufactureDate = form.manufactureDate
+      var expiryDate = form.expiryDate
       var unitAmount = that.data.supply.defaultEntryUnitAmount
       var expectedAmount = that.data.supply.defaultEntryAmount
-
-      if(that.data.scan_model==2){
-        console.log(that.data.rescode)
-        console.log(that.data.rescode.slice(9,15))
-        inventoryDate = '20' + that.data.rescode.slice(9, 11) + '-' + that.data.rescode.slice(11, 13) + '-' + that.data.rescode.slice(13, 15) + ' ' + '00:00:00'
-        console.log(inventoryDate)
-        manufactureDate=that.data.date_today_YMDhms
-        unitAmount = that.data.rescode.slice(15,18)
-        expectedAmount=1
-      }
-      console.log(manufactureDate)
       if (manufactureDate == '') {
         console.log("is kong")
         manufactureDate = null
       }
+      //TODO 正则表达式  空格
       else if (manufactureDate.indexOf(":") == -1) {
         manufactureDate = manufactureDate + ' ' + '00:00:00'
+      }
+      if (expiryDate == '') {
+        console.log("is kong")
+        expiryDate = null
+      }
+      else if (expiryDate.indexOf(":") == -1) {
+        expiryDate = expiryDate + ' ' + '00:00:00'
+      }
+      var inventoryDate = that.data.date_today_YMDhms
+      if(that.data.scan_model==2){
+          console.log(that.data.rescode.slice(9,15))
+        inventoryDate = '20' + that.data.rescode.slice(9, 11) + '-' + that.data.rescode.slice(11, 13) + '-' + that.data.rescode.slice(13, 15) + ' ' + '00:00:00'
+          console.log(inventoryDate)
+        manufactureDate=that.data.date_today_YMDhms
+        unitAmount = that.data.rescode.slice(15,18)
+        expectedAmount = 1
       }
       var object_output = {
         "warehouseEntryId": that.data.warehouse_entry.id,//auto
         "supplyId": that.data.supply.id, //auto 
 
+        //TODO
         "storageLocationId": entry_storage_location_id,//input-get
         "qualifiedStorageLocationId": qualified_storage_location_id, //input-get
         "unqualifiedStorageLocationId": unqualified_storage_location_id, //input-get
+        //
 
-        "expectedAmount": expectedAmount * unitAmount, //auto/input
+        "expectedAmount": form.expectedAmount * form.unitAmount, //auto/input
+        "realAmount": form.realAmount * form.unitAmount, //auto/input
+        "unit": form.unit, //auto/input
+        "unitAmount": form.unitAmount, //auto/input
 
-        "realAmount": expectedAmount * unitAmount, //auto/input
-        "unit": that.data.supply.defaultEntryUnit, //auto/input
-        "unitAmount": unitAmount, //auto/input
-        
-        "refuseAmount":0, //auto/input
-        "refuseUnit": that.data.supply.defaultEntryUnit, //auto/input
-        "refuseUnitAmount": unitAmount, //auto/input
+        "inspectionAmount": form.inspectionAmount, //auto/input
 
-        "inspectionAmount": 0, //auto/input
-
+        "refuseAmount": form.refuseAmount * form.refuseUnitAmount, //auto/input
+        "refuseUnit": form.refuseUnit, //auto/input
+        "refuseUnitAmount": form.refuseUnitAmount, //auto/input
         "personId": globaldata.user_id, //auto
+        "comment": form.comment, //input 
+        "manufactureNo": form.manufactureNo,//input
+        //???这时间应该是哪个 两个是否需要统一
         "inventoryDate": inventoryDate,//auto
         "manufactureDate": manufactureDate,//input   
+        "expiryDate": expiryDate//input
       }
       console.log(object_output)
       wx.request({
@@ -568,7 +704,7 @@ Page({
             })
           }
         }
-      })
+      })////
     }
 
   },

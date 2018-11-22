@@ -12,7 +12,7 @@ Page({
     requiredata: '', //收到的用户信息
     all_warehouse: '', //收到的所有的仓库信息
     all_warehouse_array: [], //仓库姓名合集
-    index:0,  //选择的哪项  默认为2
+    index:3,  //选择的哪项  默认为2
     chosen_warehouse:'',
     all_storage_location:'',
     all_material:'',
@@ -75,7 +75,45 @@ Page({
         //that.getAllSupplier()
       }
     })
+
   },
+
+
+/*
+  test: function () {
+    console.log("beginning")
+    var date = new Date();
+    var now = date.getTime();
+    var endDate = new Date("2019-10-01 00:00:00");//设置截止时间
+    var end = endDate.getTime();
+    var leftTime = end - now; //时间差                              
+    var d, h, m, s, ms;
+    
+    if (leftTime >= 0) {
+      d = Math.floor(leftTime / 1000 / 60 / 60 / 24);
+      h = Math.floor(leftTime / 1000 / 60 / 60 % 24);
+      m = Math.floor(leftTime / 1000 / 60 % 60);
+      s = Math.floor(leftTime / 1000 % 60);
+      ms = Math.floor(leftTime % 1000);
+      if (ms < 100) {
+        ms = "0" + ms;
+      }
+      if (s < 10) {
+        s = "0" + s;
+      }
+      if (m < 10) {
+        m = "0" + m;
+      }
+      if (h < 10) {
+        h = "0" + h;
+      }
+    } else {
+      console.log('已截止')
+    }
+    console.log(now,end,leftTime,d,h,m,s,ms)
+    //this.setTimeout(countTime, 50);
+  },
+*/
 
   WarehouseChose: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)

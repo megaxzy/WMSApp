@@ -1,0 +1,132 @@
+page{ 
+ height: 100%; 
+ background-color: #f2f2f2
+} 
+.hide{
+    display:none
+}
+.container { 
+ height: 75rpx; 
+ display: flex; 
+ flex-direction: column; 
+ padding: 0; 
+ box-sizing: border-box; 
+ background-color: #f2f2f2
+} 
+/*接收到的数据*/
+.message {
+	width: 750rpx;
+	color: black;
+  background: white;
+	line-height: 50rpx;
+	text-align: center;
+}
+ 
+/*按钮*/
+.loginBtnView { 
+ width: 750rpx; 
+ height: auto; 
+ background-color:white; 
+ margin-top: 0px; 
+ margin-bottom: 0px; 
+ margin-left: 0px; 
+ padding-bottom: 0px; 
+} 
+  
+.loginBtn { 
+ background-color:white; 
+ width: 500rpx; 
+}
+
+/*form*/
+.form{
+  display: flex;
+  flex-direction:column; 
+}
+
+/*每行*/
+.item {
+	align-items: center;
+	border-bottom: 1rpx solid #eee;
+	background: white;
+	margin-left: 0;
+}
+
+/*标题与文本框 下面的选择*/
+.title {
+  width: 750rpx;
+  font-size: 40rpx;
+	flex: 1;
+  /*color: #E81548;*/
+  color:blue;
+}
+
+.subtitle {
+  /*font-size:40rpx;*/
+  width: 750rpx; 
+  font-size: 40rpx;
+	flex: 3;
+  color: #333333;
+}
+/*这是不可修改的条目*/
+.subtitle_disabled {
+  /*font-size:40rpx;*/
+  width: 750rpx; 
+  font-size: 40rpx;
+	flex: 3;
+  color: #333333;
+  background:#ddd;
+}
+.section{
+  text-align: center;
+  width:750rpx;
+  background: white;
+}
+
+.line { 
+ width: 750rpx; 
+ background-color: #cccccc; 
+ margin-top: 3rpx; 
+} 
+.line_long { 
+ width: 750rpx; 
+ background-color:  #cccccc; 
+ margin-top: 10rpx; 
+} 
+
+.subtitle_right {
+  /*font-size:40rpx;*/
+  width: 750rpx; 
+  font-size: 40rpx;
+	flex: 3;
+  background-color: green; 
+  color: #333333;
+}
+
+.subtitle_wrong {
+  /*font-size:40rpx;*/
+  width: 750rpx; 
+  font-size: 40rpx;
+	flex: 3;
+  background-color: green; 
+  color: #333333;
+}
+
+.scan_chosen {
+  display:flex;
+  flex-direction: row; 
+  width: 375rpx; 
+  font-size: 50rpx;
+	flex: 3;
+  color: #333333;
+  background-color: #00eeee; 
+}
+.scan_unchosen {
+  display:flex;
+  flex-direction: row; 
+  width:375rpx; 
+  font-size: 50rpx;
+	flex: 3;
+  color: #333333;
+  background-color: #ffffff; 
+}

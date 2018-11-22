@@ -222,60 +222,32 @@ Page({
 
   trans: function () {
     var that=this
-    //获得库位的所有内容
-      /*
-      var con = condition.NewCondition();
-      con = condition.AddFirstOrder('name', ' ASC');//???ASC DESC都一样
-      wx.request({
-        url: globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con,
-        success: function (res) {
-          //console.log(res)
-          //console.log(res.data.length)
-          var res_temp = res
-          if (res_temp.statusCode == 500) {
-            wx.showToast({
-              title: '网络连接超时，请检查网络是否可用',
-              icon: 'none',
-              duration: 2000
-            })
-          }
-          that.setData({
-            all_storage_location: res
-          })
-        },
-        //请求失败
-        fail: function (err) {
-          console.log("false")
-          wx.showToast({
-            title: '连接失败,请检查你的网络或者服务端是否开启',
-            icon: 'none',
-            duration: 2000
-          })
-        },
-        complete: function () {
-
-          globaldata.all_storage_location = that.data.all_storage_location
-          console.log(globaldata.all_storage_location)*/
-
           var supply = JSON.stringify(that.data.supply);
           var warehouse_entry = JSON.stringify(that.data.warehouse_entry);
-          /*
-          var str = 'abcadeacf';
-          var str1 = str.replace('a', 'o');
-          console.log(str1); 
-          */
+
           warehouse_entry = warehouse_entry.replace(/&/g, "%26");
           console.log('发过去的：' + warehouse_entry)
           var transvar =
             'warehouse_entry=' + warehouse_entry + '&' +
             'supply=' + supply
           wx.navigateTo({ url: '../../warehouse/warehouseEntryItemAdds/warehouseEntryItemAdds' + '?' + transvar })
-        /*}
-      })*/
 
     
   },
-  
+  trans2: function () {
+    var that = this
+    var supply = JSON.stringify(that.data.supply);
+    var warehouse_entry = JSON.stringify(that.data.warehouse_entry);
+
+    warehouse_entry = warehouse_entry.replace(/&/g, "%26");
+    console.log('发过去的：' + warehouse_entry)
+    var transvar =
+      'warehouse_entry=' + warehouse_entry + '&' +
+      'supply=' + supply
+    wx.navigateTo({ url: '../../warehouse/warehouseEntryItemAdds2/warehouseEntryItemAdds2' + '?' + transvar })
+
+
+  },
 
   hide:function(e){
     var that = this
