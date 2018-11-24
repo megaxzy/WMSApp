@@ -1,6 +1,8 @@
-
+var x = new Date();
+var y = x.getTime();
+console.log("当前时间戳为：" + y);
 var timestamp = Date.parse(new Date());
-console.log("当前时间戳为：" + timestamp);
+console.log("当前时间戳为：" + timestamp );
 timestamp = timestamp / 1000;
 
 //获取当前时间  

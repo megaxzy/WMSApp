@@ -1,5 +1,5 @@
 //C37800031 181024 001 F1062284
-//C37800031181024001F1062284
+//C37800031181024001F10622841
 
 //TODO 库位编码联想  自动获取入库库位名称
 var condition = require('../../utils/condition.js');
@@ -199,7 +199,7 @@ Page({
             rescode: value,
             focus: false,
           });
-          wx.hideKeyboard()
+          //wx.hideKeyboard()
           var barcode = that.data.barcode
           console.log("缓存的")
           console.log(barcode)
@@ -236,12 +236,12 @@ Page({
         });
       }
       else {
-        if ((/^[0-9,A-Z]{26}$/.test(value))) {  //TODO 26
+        if ((/^[0-9,A-Z]{26,27}$/.test(value))) {  //TODO 26
           that.setData({
             rescode: value,
-            focus:false,
+            //focus:false,
           });
-          wx.hideKeyboard()
+          //wx.hideKeyboard()
           var barcode = that.data.barcode
           console.log("缓存的")
           console.log(barcode)
@@ -674,15 +674,17 @@ Page({
                     rescode:''
                   })
                 }, 200)
-                var barcode
-                barcode = that.data.barcode
-                barcode.push(that.data.rescode)
-                that.setData({
-                  barcode: barcode,
-                });
-                globaldata.entry_barcode = barcode
-                console.log("global缓存的内容")
-                console.log(globaldata.entry_barcode)
+                if (that.data.scan_model == 2) {
+                  var barcode
+                  barcode = that.data.barcode
+                  barcode.push(that.data.rescode)
+                  that.setData({
+                    barcode: barcode,
+                  });
+                  globaldata.entry_barcode = barcode
+                  console.log("global缓存的内容")
+                  console.log(globaldata.entry_barcode)
+                }
               }
             })
             that.setData({

@@ -1,6 +1,6 @@
 
-//var url = 'http://47.93.35.199:9000/'//正式服
-var url = 'http://localhost:9000/'
+var url = 'http://47.93.35.199:9000/'//正式服
+//var url = 'http://localhost:9000/'
 //var url = 'http://192.168.43.103:9000/'
 //var url = 'https://wms.jackquantop.com/9000/'
 
@@ -17,7 +17,9 @@ var all_material = ''  //所有物料的json格式
 var all_supply = ''  //所有supply的json格式
 
 var entry_barcode=[] //缓存的所有已经扫过的码
-
+var delivery_barcode = [] //缓存的所有已经扫过的码
+var transfer_barcode = [] //缓存的所有已经扫过的码
+var transfer0_barcode = [] //缓存的所有已经扫过的码
 module.exports = {
   url:url,
   account:account,
@@ -31,4 +33,7 @@ module.exports = {
   all_material:all_material,
   all_supply:all_supply,
   entry_barcode: entry_barcode,
+  delivery_barcode: delivery_barcode,
+  transfer0_barcode: transfer0_barcode,
+  transfer_barcode: transfer_barcode,
 }

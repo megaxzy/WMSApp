@@ -115,12 +115,7 @@ Page({
     var chosen_delivery_order = that.data.delivery_order_list.data[index]
     console.log(index)
     console.log(that.data.delivery_order_list.data[index])
-    wx.showToast({
-      title: '进入【出库单条目】生成页面',
-      icon: 'none',
-      duration: 2000
-    })
-    var supply = JSON.stringify(that.data.supply);
+
     var chosen_delivery_order = JSON.stringify(chosen_delivery_order);
     var transvar = 
       'chosen_delivery_order=' + chosen_delivery_order

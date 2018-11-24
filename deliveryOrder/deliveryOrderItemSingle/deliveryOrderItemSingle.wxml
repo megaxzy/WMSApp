@@ -1,0 +1,67 @@
+<view class="container"> 
+
+  
+  <!--decode="{{true}}" 后面的&nbsp才能用-->
+  <view class="message">模式:出库扫码模式</view>
+  <view class="line"></view>
+  <view class="message">
+    <text decode="{{true}}">用户名：{{name}} &nbsp;&nbsp;职业：{{role}}</text>
+  </view>
+<view class="line"></view>
+  <view class="item">
+    <view class="message">选择扫码模式</view>
+    <view class="line"></view>
+    <view style="width: 750rpx; font-size:50rpx;;display:flex;flex-direction: row;" >
+      <view class="{{scan_model == 1 ?  'scan_chosen' : 'scan_unchosen'}}"  bindtap="change_scan_model_1" >
+        <input type="number" disabled="true" name="scan_1" value="动力/暂未开发/" placeholder="" />
+      </view>
+      <view class="{{scan_model== 2 ?  'scan_chosen' : 'scan_unchosen'}}"  bindtap="change_scan_model_2" >
+        <input type="number" disabled="true" name="scan_2" value="李尔码" placeholder="" />
+      </view>
+    </view>
+	</view>
+
+<view class="line"></view>
+  <view class="item">
+    <view style="width: 750rpx; ;display:flex;flex-direction: row;" >
+      <view class="message">
+        <input  adjust-position="true" focus="{{focus}}" bindinput="scan_gun" type="text"  name="res" value="{{rescode}}" placeholder="点击启用扫码枪扫码" />
+      </view>
+    </view>
+	</view>
+
+  <!--按钮-->
+  <view class="loginBtnView"> 
+    <button class="loginBtn" type="primary" bindtap="scan">手机扫码</button> 
+  </view> 
+    <!--按钮-->
+  <view class="loginBtnView"> 
+    <button class="loginBtn" type="primary" bindtap="recover">恢复</button> 
+  </view> 
+
+
+<form onsubmit="update"> <!--onsubmit="create"-->
+<view class="form">
+    <view class="message" style="color:blue;">【出库单条目】 信息</view> 
+		<view class="subtitle" wx:for="{{delivery_order_item_list.data}}" wx:key="id" bindtap="choseItem" hover-class="subtitle_press" data-index="{{index}}">
+      <view class="subtitle">
+        <view style="color:red;display:flex;flex-direction:row;">{{index+1}}
+        </view>
+        物料名称：{{item.materialName}}
+        <text decode="{{true}}">\n</text>
+        供货商名称：{{item.supplierName}}
+        <text decode="{{true}}">\n</text>
+        状态：{{item.state==0 ?'待装车':'' + item.state==1 ?'部分装车完成':'' + item.state==2 ?'全部装车完成':''}}
+        <text decode="{{true}}">\n</text>
+        备注：{{item.comment==null ?'':'' + item.comment}}
+        <text decode="{{true}}">\n</text>
+        实际/计划：{{ item.realAmount+'/'+ item.scheduledAmount}}
+      </view>
+    </view>
+</view>
+
+</form>
+
+<view class="line_white"><text decode="{{true}}">\n</text></view>
+
+</view>

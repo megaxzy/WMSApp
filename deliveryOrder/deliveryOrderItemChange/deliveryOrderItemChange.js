@@ -51,13 +51,14 @@ Page({
 
     //时间判断
     var loadingTime = form.loadingTime
+    /*
     if (loadingTime == '') {
       loadingTime = null
     }
     else if (loadingTime.indexOf(":") == -1) {
       loadingTime = loadingTime + ' ' + '00:00:00'
     }
-
+   */
 
     if(form.realAmount=='')
     {
@@ -111,17 +112,16 @@ Page({
         case 4: return "核减完成";
         */
         complete: function () {
-          console.log("delivery order:")
           if (res_temp.statusCode == 200) {
             wx.showToast({
               title: '修改成功',
               icon: 'success',
-              duration: 500,
+              duration: 200,
               success: function () {
                 setTimeout(function () {
                   //要延时执行的代码
                   wx.navigateBack();
-                }, 500)
+                }, 200)
               }
             })
           }

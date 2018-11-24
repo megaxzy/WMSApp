@@ -19,9 +19,11 @@ Page({
     index: '',//选择的条目顺序
     hide: [],
     scan_success: '0',
-    scan_model:'1',
+    scan_model:'2',
     focus:'false',
     first_come:'0',
+    //所有的码
+    barcode: [],
   },
   onLoad: function (query) {
     var that = this
@@ -40,7 +42,8 @@ Page({
       warehouse_id:globaldata.chosen_warehouse.id,
       date:date,
       date_today:date,
-      date_today_YMDhms: YMDhms
+      date_today_YMDhms: YMDhms,
+      barcode: globaldata.entry_barcode,
     })
     console.log(query.chosen_delivery_order)
     var chosen_delivery_order_json = JSON.parse(query.chosen_delivery_order)
@@ -82,26 +85,13 @@ Page({
         supply:'',
       });
     }
-
-    //连续扫码跳转
-    that.singleTrans()
-  },
-
-  singleTrans:function(){
-    var that=this
-    var chosen_delivery_order = that.data.chosen_delivery_order
-    chosen_delivery_order = JSON.stringify(chosen_delivery_order);
-    console.log(chosen_delivery_order)
-    var transvar =
-      'chosen_delivery_order=' + chosen_delivery_order
-    wx.navigateTo({
-      url: '../../deliveryOrder/deliveryOrderItemSingle/deliveryOrderItemSingle' + '?' + transvar
-    })
+    //that.getDeliveryOrderItem()
   },
 
   scan_gun: function (e) {
     var that = this
     var value = e.detail.value
+    var success=1
     if (that.data.scan_model == 1) {
       if (!(/^[0-9]*$/.test(value))) {
         that.setData({
@@ -129,12 +119,34 @@ Page({
         });
       }
       else {
-        if ((/^[0-9,A-Z]{26}$/.test(value))) {  //TODO 26
+        if ((/^[0-9,A-Z]{26,27}$/.test(value))) {  //TODO 26
           that.setData({
-            rescode: value
+            rescode: value,
+            //focus:false,
           });
-          console.log(that.data.rescode)
-          that.getSupply()
+          //wx.hideKeyboard()
+          var barcode = that.data.barcode
+          console.log("缓存的")
+          console.log(barcode)
+          for (var i = 0; i < barcode.length; i++) {
+            if (barcode[i] == value) {
+              wx.showModal({
+                title: '警告！！！',
+                content: '条码重复扫描',
+                showCancel: false,
+              })
+              that.setData({
+                rescode: '',
+              });
+              success = 0
+            }
+          }
+          if (success == 1) {
+            that.setData({
+              rescode: value,
+            });
+            that.getSupply()
+          }
         }
         else {
           if ((/^[0-9,A-Z]{27,28}$/.test(value))) {
@@ -177,7 +189,6 @@ Page({
       },
       complete:function(){
         if (that.data.delivery_order_item_list.data.length == 1 && that.data.first_come==0){
-          that.directTrans()
         }
         if(that.data.first_come==1){
           that.setData({
@@ -185,22 +196,6 @@ Page({
           })
         }
       }
-    })
-  },
-
-  directTrans: function () {
-    var that = this
-    var index = 0
-
-    var chosen_delivery_order = JSON.stringify(that.data.chosen_delivery_order);
-    var chosen_delivery_order_item = that.data.delivery_order_item_list.data[index]
-    var chosen_delivery_order_item = JSON.stringify(chosen_delivery_order_item)
-
-    var transvar =
-      'chosen_delivery_order=' + chosen_delivery_order + '&' +
-      'chosen_delivery_order_item=' + chosen_delivery_order_item
-    wx.navigateTo({
-      url: '../../deliveryOrder/deliveryOrderItemChange/deliveryOrderItemChange' + '?' + transvar
     })
   },
 
@@ -214,10 +209,12 @@ Page({
   
     var transvar =
       'chosen_delivery_order=' + chosen_delivery_order + '&' +  
-      'chosen_delivery_order_item=' + chosen_delivery_order_item 
+      'chosen_delivery_order_item=' + chosen_delivery_order_item
+    /*   
     wx.navigateTo({
       url: '../../deliveryOrder/deliveryOrderItemChange/deliveryOrderItemChange' + '?' + transvar
     })
+    */
   },
 
   recover: function () {
@@ -229,19 +226,43 @@ Page({
     })
     that.getDeliveryOrderItem()
   },
+
   scan: function () {
     var that = this
-    //扫码
+    var rescode = ''
+    var success = 1
     wx.scanCode({
-      scanType: 'barCode',
       success: (res) => {
         console.log(res)
         that.setData({
           rescode: res.result
         });
+        rescode = res.result
+        console.log(that.data.rescode)
       },
       complete: function () {
-        that.getSupply()
+        var barcode = that.data.barcode
+        console.log("缓存的")
+        console.log(barcode)
+        for (var i = 0; i < barcode.length; i++) {
+          if (barcode[i] == rescode) {
+            wx.showModal({
+              title: '警告！！！',
+              content: '条码重复扫描',
+              showCancel: false,
+            })
+            that.setData({
+              rescode: ''
+            });
+            success = 0
+          }
+        }
+        if (success == 1) {
+          that.setData({
+            rescode: rescode
+          });
+          that.getSupply()
+        }
       }
     })
   },
@@ -309,9 +330,116 @@ Page({
             scan_success: '0'
           })
         }
+        that.update()
         that.getDeliveryOrderItem()
-        
       }
     })
+  },
+
+  update: function () {
+    var that = this
+    var res_temp
+    var index=-1
+    console.log(that.data.chosen_delivery_order)
+    console.log(that.data.delivery_order_item_list.data.length)
+    console.log(that.data.delivery_order_item_list)
+    for (var i = 0; i < that.data.delivery_order_item_list.data.length; i++){
+      if (that.data.delivery_order_item_list.data[i].supplyId==that.data.supply.id){
+        index=i
+      }
+    }
+    //that.data.delivery_order_item_list[]
+    console.log(that.data.delivery_order_item_list.data[index])
+    if (that.data.delivery_order_item_list.data[index].realAmount == that.data.delivery_order_item_list.data[index].scheduledAmount) {
+      wx.showModal({
+        title: '错误',
+        content: '该条目【计划数量装车】已完成',
+        showCancel: false,
+      })
+    }
+    else {
+      var realAmount = that.data.delivery_order_item_list.data[index].realAmount / that.data.delivery_order_item_list.data[index].unitAmount + 1
+      var object_output_delivery_order_item = {
+        "id": that.data.delivery_order_item_list.data[index].id,
+        "deliveryOrderId": that.data.delivery_order_item_list.data[index].deliveryOrderId,
+        "supplyId": that.data.delivery_order_item_list.data[index].supplyId,
+        "sourceStorageLocationId": that.data.delivery_order_item_list.data[index].sourceStorageLocationId,
+        "scheduledAmount": that.data.delivery_order_item_list.data[index].scheduledAmount,
+        "realAmount": realAmount * that.data.delivery_order_item_list.data[index].unitAmount,
+        "loadingTime": that.data.delivery_order_item_list.data[index].loadingTime,
+        "unit": that.data.delivery_order_item_list.data[index].unit,
+        "unitAmount": that.data.delivery_order_item_list.data[index].unitAmount,
+        "comment": that.data.delivery_order_item_list.data[index].comment,
+        "personId": that.data.user_id
+      }
+      console.log(object_output_delivery_order_item)
+      wx.request({
+        url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/',
+        data: [object_output_delivery_order_item],
+        method: 'PUT',
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/')
+          console.log(res)
+          res_temp = res
+        },
+        //请求失败
+        fail: function (err) {
+          console.log("false")
+          wx.showToast({
+            title: '连接失败,请检查你的网络或者服务端是否开启',
+            icon: 'none',
+            duration: 2000
+          })
+        },
+        /*     
+        case 0: return "待装车";
+        case 1: return "装车中";
+        case 2: return "整单装车";
+        case 3: return "发运在途";
+        case 4: return "核减完成";
+        */
+        complete: function () {
+          that.getDeliveryOrderItem()
+          console.log("delivery order:")
+          if (res_temp.statusCode == 200) {
+
+            wx.showToast({
+              title: '修改成功',
+              icon: 'success',
+              duration: 200,
+              success: function () {
+                setTimeout(function () {
+                }, 200)
+              }
+            })//C37800031181024001F1062284
+            if (that.data.scan_model == 2) {
+              var barcode
+              barcode = that.data.barcode
+              barcode.push(that.data.rescode)
+              that.setData({
+                barcode: barcode,
+              });
+              globaldata.entry_barcode = barcode
+              console.log("global缓存的内容")
+              console.log(globaldata.entry_barcode)
+              that.setData({
+                rescode: '',
+                focus:true
+              });
+            }
+          }
+          else {
+            wx.showModal({
+              title: '错误',
+              content: '' + res_temp.data,
+              showCancel: false,
+            })
+          }
+        }
+      })
+    }
   },
 })

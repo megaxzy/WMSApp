@@ -37,7 +37,7 @@
     "deliveryOrder/deliveryOrder/deliveryOrder",
     "deliveryOrder/deliveryOrderItem/deliveryOrderItem",
     "deliveryOrder/deliveryOrderItemChange/deliveryOrderItemChange",
-
+    "deliveryOrder/deliveryOrderItemSingle/deliveryOrderItemSingle",
     
     "main/index/index"
     
