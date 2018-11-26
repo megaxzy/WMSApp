@@ -25,7 +25,7 @@
   <view class="item">
     <view style="width: 750rpx; ;display:flex;flex-direction: row;" >
       <view class="message">
-        <input  adjust-position="true" focus="{{focus}}" adjust-position="true" bindinput="scan_gun" type="text"  name="res" value="{{rescode}}" placeholder="点击启用扫码枪扫码" />
+        <input  adjust-position="true" focus="{{focus}}" bindinput="scan_gun" type="text"  name="res" value="{{rescode}}" placeholder="点击启用扫码枪扫码" />
       </view>
     </view>
 	</view>

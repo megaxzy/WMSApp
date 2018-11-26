@@ -29,6 +29,7 @@
     "transferOrder/transferOrder/transferOrder",
     "transferOrder/transferOrderItem/transferOrderItem",
     "transferOrder/transferOrderItemChange/transferOrderItemChange",
+    "transferOrder/transferOrderItemSingle/transferOrderItemSingle",
 
     "transferOrder0/transferOrder0/transferOrder0",
     "transferOrder0/transferOrder0Item/transferOrder0Item",

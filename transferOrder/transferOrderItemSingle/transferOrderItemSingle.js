@@ -15,8 +15,8 @@ Page({
     date_today: '',//今天的时间
     date_today_YMDhms: '',//今天的时间
     supply:'', //供货信息
-    chosen_delivery_order:'',
-    delivery_order_item_list: '',
+    chosen_transfer_order: '',
+    transfer_order_item_list: '',
     index: '',//选择的条目顺序
     hide: [],
     scan_success: '0',
@@ -46,14 +46,14 @@ Page({
       date:date,
       date_today:date,
       date_today_YMDhms: YMDhms,
-      barcode: globaldata.delivery_barcode,
+      barcode: globaldata.transfer_barcode,
     })
-    console.log(query.chosen_delivery_order)
-    var chosen_delivery_order_json = JSON.parse(query.chosen_delivery_order)
+    console.log(query.chosen_transfer_order)
+    var chosen_transfer_order_json = JSON.parse(query.chosen_transfer_order)
     this.setData({
-      chosen_delivery_order: chosen_delivery_order_json
+      chosen_transfer_order: chosen_transfer_order_json
     }); 
-    that.getDeliveryOrderItem()
+    that.getTransferOrderItem()
   },
   onShow: function () {
     var that = this
@@ -63,7 +63,7 @@ Page({
       first_come:1,
       focus:'true'
     });
-    that.getDeliveryOrderItem()
+    that.getTransferOrderItem()
   },
 
   change_scan_model_1: function (e) {
@@ -76,7 +76,6 @@ Page({
         supply: '',
       });
     }
-    //that.getDeliveryOrderItem()
   },
   change_scan_model_2: function (e) {
     var that = this
@@ -88,7 +87,6 @@ Page({
         supply:'',
       });
     }
-    //that.getDeliveryOrderItem()
   },
 
   scan_gun: function (e) {
@@ -174,58 +172,27 @@ Page({
       }
     }
   },
- 
-        /*
-        if ((/^[0-9,A-Z]{26,27}$/.test(value))) {  //TODO 26
-          that.setData({
-            rescode: value,
-            //focus:false,
-          });
-          //wx.hideKeyboard()
-          var barcode = that.data.barcode
-          console.log("缓存的")
-          console.log(barcode)
-          for (var i = 0; i < barcode.length; i++) {
-            if (barcode[i] == value) {
-              wx.showModal({
-                title: '警告！！！',
-                content: '条码重复扫描',
-                showCancel: false,
-              })
-              that.setData({
-                rescode: '',
-              });
-              success = 0
-              wxT
-            }
-          }
-          if (success == 1) {
-            that.setData({
-              rescode: value,
-            });
-            that.getSupply()
-          }
-        }*/
-  getDeliveryOrderItem: function () {
+
+  getTransferOrderItem: function () {
     var that = this
     var con = condition.NewCondition();
-    con = condition.AddFirstCondition('deliveryOrderId', 'EQUAL', that.data.chosen_delivery_order.id);
-    if(that.data.supply!=''){
+    con = condition.AddFirstCondition('transferOrderId', 'EQUAL', that.data.chosen_transfer_order.id);
+    if (that.data.supply != '') {
       con = condition.AddCondition('supplyId', 'EQUAL', that.data.supply.id);
     }
     if (that.data.scan_model == 2 && that.data.rescode.length != 0) {
       con = condition.AddCondition('unitAmount', 'EQUAL', that.data.rescode.slice(15, 18));
     }
     wx.request({
-      url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/' + con,
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'transfer_order_item/' + con,
       method: 'GET',
       success: function (res) {
-        //console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/' + con)
+        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'transfer_order_item/' + con)
         var res_temp = res
         that.setData({
-          delivery_order_item_list: res_temp
+          transfer_order_item_list: res_temp
         })
-        //console.log('delivery 信息：', that.data.delivery_order_item_list)
+        console.log('transfer 信息：', that.data.transfer_order_item_list)
       },
       //请求失败
       fail: function (err) {
@@ -236,35 +203,18 @@ Page({
           duration: 2000
         })
       },
-      complete:function(){
-        if (that.data.delivery_order_item_list.data.length == 1 && that.data.first_come==0){
+      complete: function () {
+        if (that.data.transfer_order_item_list.data.length == 1 && that.data.first_come == 0) {
         }
-        if(that.data.first_come==1){
+        if (that.data.first_come == 1) {
           that.setData({
-            first_come:0
+            first_come: 0
           })
         }
       }
     })
   },
 
-  choseItem: function (e) {
-    var that = this
-    var index = e.currentTarget.dataset.index;
-
-    var chosen_delivery_order = JSON.stringify(that.data.chosen_delivery_order);    
-    var chosen_delivery_order_item = that.data.delivery_order_item_list.data[index]
-    var chosen_delivery_order_item = JSON.stringify(chosen_delivery_order_item)
-  
-    var transvar =
-      'chosen_delivery_order=' + chosen_delivery_order + '&' +  
-      'chosen_delivery_order_item=' + chosen_delivery_order_item
-    /*   
-    wx.navigateTo({
-      url: '../../deliveryOrder/deliveryOrderItemChange/deliveryOrderItemChange' + '?' + transvar
-    })
-    */
-  },
 
   recover: function () {
     var that = this
@@ -273,7 +223,7 @@ Page({
       supply: '',
       rescode:'',
     })
-    that.getDeliveryOrderItem()
+    that.getTransferOrderItem()
   },
 
   scan: function () {
@@ -345,7 +295,6 @@ Page({
           })
         }
         else {
-          //console.log(that.data.chosen_delivery_order)
             if (res_temp.data[0].warehouseId != that.data.warehouse_id) {
               wx.showModal({
                 title: '警告！！！',
@@ -378,21 +327,23 @@ Page({
           })
         }
         that.update()
-        that.getDeliveryOrderItem()
+        that.getTransferOrderItem()
       }
     })
   },
 
+
+
   update: function () {
     var that = this
     var res_temp
-    var index=-1
-    for (var i = 0; i < that.data.delivery_order_item_list.data.length; i++){
-      if (that.data.delivery_order_item_list.data[i].supplyId==that.data.supply.id){
-        index=i
+    var index = -1
+    for (var i = 0; i < that.data.transfer_order_item_list.data.length; i++) {
+      if (that.data.transfer_order_item_list.data[i].supplyId == that.data.supply.id) {
+        index = i
       }
     }
-    if (that.data.delivery_order_item_list.data[index].realAmount == that.data.delivery_order_item_list.data[index].scheduledAmount) {
+    if (that.data.transfer_order_item_list.data[index].realAmount == that.data.transfer_order_item_list.data[index].scheduledAmount) {
       wx.showModal({
         title: '错误',
         content: '该条目【计划数量装车】已完成',
@@ -400,78 +351,55 @@ Page({
       })
     }
     else {
-      var realAmount = that.data.delivery_order_item_list.data[index].realAmount / that.data.delivery_order_item_list.data[index].unitAmount + 1
-      var object_output_delivery_order_item = {
-        "id": that.data.delivery_order_item_list.data[index].id,
-        "deliveryOrderId": that.data.delivery_order_item_list.data[index].deliveryOrderId,
-        "supplyId": that.data.delivery_order_item_list.data[index].supplyId,
-        "sourceStorageLocationId": that.data.delivery_order_item_list.data[index].sourceStorageLocationId,
-        "scheduledAmount": that.data.delivery_order_item_list.data[index].scheduledAmount,
-        "realAmount": realAmount * that.data.delivery_order_item_list.data[index].unitAmount,
-        "loadingTime": that.data.delivery_order_item_list.data[index].loadingTime,
-        "unit": that.data.delivery_order_item_list.data[index].unit,
-        "unitAmount": that.data.delivery_order_item_list.data[index].unitAmount,
-        "comment": that.data.delivery_order_item_list.data[index].comment,
+      var realAmount = that.data.transfer_order_item_list.data[index].realAmount / that.data.transfer_order_item_list.data[index].unitAmount + 1
+      var object_output_transfer_order_item = {
+        "id": that.data.transfer_order_item_list.data[index].id,
+        "transferOrderId": that.data.transfer_order_item_list.data[index].transferOrderId,
+        "supplyId": that.data.transfer_order_item_list.data[index].supplyId,
+        "sourceStorageLocationId": that.data.transfer_order_item_list.data[index].sourceStorageLocationId,
+        "sourceUnit": that.data.transfer_order_item_list.data[index].sourceUnit,
+        "sourceUnitAmount": that.data.transfer_order_item_list.data[index].sourceUnitAmount,
+        "targetStorageLocationId": that.data.transfer_order_item_list.data[index].targetStorageLocationId,
+        "scheduledAmount": that.data.transfer_order_item_list.data[index].scheduledAmount,
+        "realAmount": realAmount * that.data.transfer_order_item_list.data[index].unitAmount,
+        "unit": that.data.transfer_order_item_list.data[index].data[index].unit,
+        "unitAmount": that.data.transfer_order_item_list.data[index].data[index].unitAmount,
+        "comment": that.data.transfer_order_item_list.data[index].data[index].comment,
+        "operateTime": that.data.date_today_YMDhms,
         "personId": that.data.user_id
       }
-      //console.log(object_output_delivery_order_item)
+      console.log(object_output_transfer_order_item)
       wx.request({
-        url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/',
-        data: [object_output_delivery_order_item],
+        url: globaldata.url + 'warehouse/' + globaldata.account + 'transfer_order_item/',
+        data: [object_output_transfer_order_item],
         method: 'PUT',
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
+        header: { 'content-type': 'application/json' },
         success: function (res) {
-          //console.log(globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/')
-          //console.log(res)
+          console.log(res)
           res_temp = res
         },
         //请求失败
         fail: function (err) {
           console.log("false")
-          wx.showToast({
+          wx.showModal({
             title: '连接失败,请检查你的网络或者服务端是否开启',
-            icon: 'none',
-            duration: 2000
+            content: '',
+            showCancel: false,
           })
         },
-        /*     
-        case 0: return "待装车";
-        case 1: return "装车中";
-        case 2: return "整单装车";
-        case 3: return "发运在途";
-        case 4: return "核减完成";
-        */
         complete: function () {
-          that.getDeliveryOrderItem()
-          //console.log("delivery order:")
           if (res_temp.statusCode == 200) {
-
             wx.showToast({
-              title: '修改成功',
+              title: '存入成功',
               icon: 'success',
               duration: 200,
               success: function () {
                 setTimeout(function () {
+                  //要延时执行的代码
+                  
                 }, 200)
               }
-            })//C37800031181024001F1062284
-            if (that.data.scan_model == 2) {
-              var barcode
-              barcode = that.data.barcode
-              barcode.push(that.data.rescode)
-              that.setData({
-                barcode: barcode,
-              });
-              globaldata.entry_barcode = barcode
-              console.log("global缓存的内容")
-              console.log(globaldata.entry_barcode)
-              that.setData({
-                rescode: '',
-                focus:true
-              });
-            }
+            })
           }
           else {
             wx.showModal({
@@ -483,5 +411,10 @@ Page({
         }
       })
     }
+
   },
+
+
+
+
 })

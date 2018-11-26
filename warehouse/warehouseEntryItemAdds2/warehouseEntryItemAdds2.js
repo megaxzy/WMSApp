@@ -5,6 +5,7 @@
 var condition = require('../../utils/condition.js');
 var globaldata = require('../../utils/globaldata.js');
 var time = require('../../utils/time.js');
+var timer = require('../../utils/wxTimer.js'); 
 Page({
   data: {
     name: '',
@@ -52,6 +53,8 @@ Page({
     expected_amount:'',
     //所有的码
     barcode: [],
+    //判断长度
+    codeLength: '',
   },
   onLoad: function (query) {
     var that = this
@@ -73,6 +76,7 @@ Page({
       date_today_YMDhms: YMDhms,
       all_storage_location: globaldata.all_storage_location,
       barcode: globaldata.entry_barcode,
+      
     })
     console.log(that.data.all_storage_location)
     query.warehouse_entry = query.warehouse_entry.replace(/%26/g, "&");
@@ -186,7 +190,9 @@ Page({
     var that = this
     var value = e.detail.value
     var success = 1
-    console.log(value)
+    that.setData({
+      codeLength: value.length,
+    });
     if(that.data.scan_model==1){
       if (!(/^[0-9]*$/.test(value))) {
         that.setData({
@@ -236,7 +242,65 @@ Page({
         });
       }
       else {
+        if (value.length == 1) {
+          var x = new Date();
+          var y = x.getTime();
+          console.log("当前时间戳【扫码开始】为：" + y);
+        }
+        if (value.length >= 24) {
+          //开启定时器
+          var wxTimer1 = new timer({
+            judgeTime: "50",
+            complete: function () {
+              console.log("完成了")
+              if (that.data.codeLength == value.length && value.length != 24) {
+
+                that.setData({
+                  rescode: value,
+                  //focus:false,
+                });
+                //wx.hideKeyboard()
+                var barcode = that.data.barcode
+                console.log("缓存的")
+                console.log(barcode)
+                x = new Date();
+                y = x.getTime();
+                console.log("当前时间戳【扫码结束1】为：" + y);
+                for (var i = 0; i < barcode.length; i++) {
+                  if (barcode[i] == value) {
+                    wx.showModal({
+                      title: '警告！！！',
+                      content: '条码重复扫描',
+                      showCancel: false,
+                    })
+                    that.setData({
+                      rescode: '',
+                    });
+                    success = 0
+                  }
+                }
+
+                if (success == 1) {
+                  that.setData({
+                    rescode: value,
+                  });
+                  x = new Date();
+                  y = x.getTime();
+                  console.log("当前时间戳【扫码结束2】为：" + y);
+                  that.getSupply()
+                }
+              }
+            }
+          })
+          wxTimer1.start(that);
+        }
+
+
+        /*
         if ((/^[0-9,A-Z]{26,27}$/.test(value))) {  //TODO 26
+          x = new Date();
+          y = x.getTime();
+          console.log("当前时间戳【扫码结束1】为：" + y);
           that.setData({
             rescode: value,
             //focus:false,
@@ -262,13 +326,16 @@ Page({
             that.setData({
               rescode: value,
             });
+            x = new Date();
+            y = x.getTime();
+            console.log("当前时间戳【扫码结束2】为：" + y);
             that.getSupply()
           }
         }
         else {
           if ((/^[0-9,A-Z]{27,28}$/.test(value))) {
           }
-        }
+        }*/
       }
     }
   },
