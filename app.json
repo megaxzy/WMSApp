@@ -34,6 +34,7 @@
     "transferOrder0/transferOrder0/transferOrder0",
     "transferOrder0/transferOrder0Item/transferOrder0Item",
     "transferOrder0/transferOrder0ItemChange/transferOrder0ItemChange",
+    "transferOrder0/transferOrder0ItemSingle/transferOrder0ItemSingle",
 
     "deliveryOrder/deliveryOrder/deliveryOrder",
     "deliveryOrder/deliveryOrderItem/deliveryOrderItem",

@@ -83,9 +83,20 @@ Page({
         supply: '',
       });
     }
-
+    that.singleTrans()
   },
-
+  singleTrans: function () {
+    var that = this
+    var chosen_transfer_order = that.data.chosen_transfer_order
+    chosen_transfer_order = JSON.stringify(chosen_transfer_order);
+    console.log("123456789456789")
+    console.log(chosen_transfer_order)
+    var transvar =
+      'chosen_transfer_order=' + chosen_transfer_order
+    wx.navigateTo({
+      url: '../../transferOrder0/transferOrder0ItemSingle/transferOrder0ItemSingle' + '?' + transvar
+    })
+  },
   scan_gun: function (e) {
     var that = this
     var value = e.detail.value

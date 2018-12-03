@@ -83,7 +83,7 @@ Page({
     that.setData({
       warehouse_entry: warehouse_entry_json
     })
-    that.showWarehouseEntryItem();
+    //that.showWarehouseEntryItem();
   },
 
   //用来保证在退回entry界面的时候入库单信息改变
