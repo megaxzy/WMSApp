@@ -12,7 +12,7 @@ Page({
     requiredata: '', //收到的用户信息
     all_warehouse: '', //收到的所有的仓库信息
     all_warehouse_array: [], //仓库姓名合集
-    index:3,  //选择的哪项  默认为2
+    index:0,  //选择的哪项  默认为2
     chosen_warehouse:'',
     all_storage_location:'',
     all_material:'',
@@ -22,11 +22,7 @@ Page({
   },
 
   onShow: function () {
-    /*
-    var x = "###112121"
-    var y = "12"
-    console.log(x.indexOf(y))
-    */
+
     var that=this
     //获得仓库的所有内容
     var con = condition.NewCondition();
@@ -34,8 +30,6 @@ Page({
     wx.request({
       url: globaldata.url + 'warehouse/'+globaldata.account+'warehouse/' + con,
       success: function (res) {
-        //console.log(res)
-        //console.log(res.data.length)
         var res_temp = res
         that.setData({
           all_warehouse: res
@@ -53,20 +47,10 @@ Page({
       complete: function ()
       {
         globaldata.all_warehouse = that.data.all_warehouse 
-        //test
-        /*
-        console.log('all_warehouse：')
-        console.log(that.data.all_warehouse.data[0].name)
-        console.log(that.data.all_warehouse.data[0])
-        console.log(that.data.all_warehouse)
-        console.log(that.data.all_warehouse.data.length)
-        */
-        //testend
         var all_warehouse_array=[];
         for (var i = 0; i < that.data.all_warehouse.data.length; i++) {
           all_warehouse_array.push(that.data.all_warehouse.data[i].name);//添加数组的功能
         } 
-        console.log(all_warehouse_array)
         that.setData({
           all_warehouse_array:all_warehouse_array
         })
@@ -79,44 +63,7 @@ Page({
   },
 
 
-/*
-  test: function () {
-    console.log("beginning")
-    var date = new Date();
-    var now = date.getTime();
-    var endDate = new Date("2019-10-01 00:00:00");//设置截止时间
-    var end = endDate.getTime();
-    var leftTime = end - now; //时间差                              
-    var d, h, m, s, ms;
-    
-    if (leftTime >= 0) {
-      d = Math.floor(leftTime / 1000 / 60 / 60 / 24);
-      h = Math.floor(leftTime / 1000 / 60 / 60 % 24);
-      m = Math.floor(leftTime / 1000 / 60 % 60);
-      s = Math.floor(leftTime / 1000 % 60);
-      ms = Math.floor(leftTime % 1000);
-      if (ms < 100) {
-        ms = "0" + ms;
-      }
-      if (s < 10) {
-        s = "0" + s;
-      }
-      if (m < 10) {
-        m = "0" + m;
-      }
-      if (h < 10) {
-        h = "0" + h;
-      }
-    } else {
-      console.log('已截止')
-    }
-    console.log(now,end,leftTime,d,h,m,s,ms)
-    //this.setTimeout(countTime, 50);
-  },
-*/
-
   WarehouseChose: function (e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       index: e.detail.value
     })
@@ -173,26 +120,12 @@ Page({
       var contest2 =condition.NewCondition();
       contest2 = condition.AddFirstCondition('password', 'ADD', this.data.password);
 
-      console.log('condition test:  ');
-      console.log(con);
-      console.log('condition test end  ');
-      
-      console.log('condition test2:  ');
-      console.log(contest2);
-      console.log('condition test2 end  ');
-      /*
-      var jsonObj = JSON.parse(jsonTest)
-      console.log(jsonObj) 
-
-      var jsonStr = JSON.stringify(jsonObj)   
-      console.log(jsonStr) 
-      */
       wx.request({
         //TODO 常量
         url: globaldata.url + 'ledger/' + globaldata.account +'person/'+con,
         method: 'GET',//GET为默认方法   /POST
         success: function (res) {
-          console.log("succeed connect")
+
           //定义变量 不这么定义好像无法赋值到globaldata中
           var res_temp=res
           that.setData({
@@ -202,7 +135,7 @@ Page({
         },
         //请求失败
         fail: function (err) {
-          console.log("false")
+
           wx.showModal({
             title: '错误',
             content: '连接失败,请检查你的网络或者服务端是否开启',
@@ -212,7 +145,7 @@ Page({
         complete: function () //请求完成后执行的函数
         {
           if (that.data.requiredata.statusCode == '500'|| that.data.requiredata.statusCode== '404') {
-            console.log('连接超时')
+
             wx.showModal({
               title: '错误',
               content: '连接超时',
@@ -220,7 +153,7 @@ Page({
             })
           }
           else if(that.data.requiredata.data.length==0){
-            console.log('登陆失败')
+
             wx.showToast({
               title: '登录失败,请检查用户名或者密码是否输入正确',
               icon: 'none',
@@ -228,16 +161,11 @@ Page({
             })
           }
           else {     
-            //test
-            console.log('resquiredata：')   
-            console.log(that.data.requiredata.data[0].name)   
-            console.log(that.data.requiredata.data[0])      
-            console.log(that.data.requiredata)
-            //testend
+
             
             globaldata.chosen_warehouse=that.data.all_warehouse.data[that.data.index]
             //console如果以'...'+变量的形式构成 则变量无法正常显示出来
-            console.log(globaldata.chosen_warehouse)
+
             globaldata.user_id = that.data.requiredata.data[0].id
             globaldata.user_name=that.data.requiredata.data[0].name
             globaldata.user_role =that.data.requiredata.data[0].role
@@ -277,8 +205,7 @@ Page({
     wx.request({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/less/' + con, //+'/',
       success: function (res) {
-        //console.log(res)
-        //console.log(res.data.length) 
+
         var res_temp = res
         if (res_temp.statusCode == 500) {
           wx.showToast({
@@ -303,10 +230,7 @@ Page({
       complete: function () {
 
         globaldata.all_storage_location = that.data.all_storage_location
-        //test
-        console.log('all_storage_location：')
-        console.log(that.data.all_storage_location)
-        //testend
+
       }
     })
   },
@@ -361,10 +285,7 @@ Page({
       complete: function () {
 
         globaldata.all_material = that.data.all_material
-        //test
-        console.log('all_material：')
-        console.log(that.data.all_material)
-        //testend
+
       }
     })
   },
@@ -399,10 +320,7 @@ Page({
       complete: function () {
 
         globaldata.all_supplier = that.data.all_supplier
-        //test
-        console.log('all_supplier：')
-        console.log(that.data.all_supplier)
-        //testend
+
       }
     })
   },
@@ -423,18 +341,7 @@ Page({
             duration: 2000
           })
         }
-        /*
-        var x = JSON.stringify(res_temp)
-        console.log(x)
-        var list = res.data.object.list;
-        list.forEach(function (item, index, array) {
-          array[index] = {
-            firstImage: item.imageList[0].url,
-            name: item.name,
-            productId: item.productId
-          }
-        });
-        */
+
         that.setData({
           all_supply: res
         })
@@ -451,10 +358,6 @@ Page({
       complete: function () {
 
         globaldata.all_supply = that.data.all_supply
-        //test
-        console.log('all_supply：')
-        console.log(that.data.all_supply)
-        //testend
       }
     })
   }

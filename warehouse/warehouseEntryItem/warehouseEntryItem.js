@@ -112,12 +112,12 @@ Page({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'warehouse_entry_item/' + con,
       method: 'GET',
       success: function (res) {
-        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'warehouse_entry_item/' + con)
+
         var res_temp = res
         that.setData({
           warehouse_entry_item: res
         })
-        console.log(res)
+
       },
       fail: function (err) {
         console.log("false")
@@ -131,7 +131,6 @@ Page({
         var hide = [];
         for (var i = 0; i < that.data.warehouse_entry_item.data.length; i++) {
           hide.push(true);//添加数组的功能
-          console.log(hide[i])
         }
         that.setData({
           hide: hide
@@ -226,7 +225,7 @@ Page({
           var warehouse_entry = JSON.stringify(that.data.warehouse_entry);
 
           warehouse_entry = warehouse_entry.replace(/&/g, "%26");
-          console.log('发过去的：' + warehouse_entry)
+
           var transvar =
             'warehouse_entry=' + warehouse_entry + '&' +
             'supply=' + supply
@@ -240,7 +239,7 @@ Page({
     var warehouse_entry = JSON.stringify(that.data.warehouse_entry);
 
     warehouse_entry = warehouse_entry.replace(/&/g, "%26");
-    console.log('发过去的：' + warehouse_entry)
+
     var transvar =
       'warehouse_entry=' + warehouse_entry + '&' +
       'supply=' + supply
@@ -258,7 +257,7 @@ Page({
     var that=this
     var value = e.detail.value
     //wx.hideKeyboard()
-    console.log(value)
+
     if (!(/^[0-9]*$/.test(value))) {
       that.setData({
         //TODO此处应该是res 仅作测试
@@ -270,7 +269,7 @@ Page({
         that.setData({
           rescode: value
         });
-        console.log(that.data.rescode)
+
         that.getSupply()
         that.showWarehouseEntryItem()
       }
@@ -337,13 +336,13 @@ Page({
     wx.scanCode({
         scanType: 'barCode',
         success: (res) => {
-          console.log(res)
+
           that.setData({
             rescode:res.result
           });
         },
       complete: function () {
-        console.log(that.data.rescode)
+
         that.getSupply()
         that.showWarehouseEntryItem()
       }
@@ -360,8 +359,7 @@ Page({
       header: {'content-type': 'application/json'},
       method: 'GET',
       success: function (res) {
-        console.log("succeed connect")
-        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'supply/' + con)
+
         var res_temp = res
         if (res_temp.data.length == 0){
           wx.showModal({
@@ -372,8 +370,7 @@ Page({
         }
         else{
           if(that.data.warehouse_entry.supplierId!=res_temp.data[0].supplierId){
-            console.log(that.data.warehouse_entry.supplierId)
-            console.log(res_temp.data[0].supplierId)
+
             wx.showModal({
               title: '警告！！！',
               content: '该供货码不属于该供货商，请切换入库单或修改信息',
@@ -393,8 +390,7 @@ Page({
               that.setData({
                 supply: res_temp.data[0]
               })
-              console.log(that.data.supply)
-              console.log(res.data[0].barCodeNo)//TODO 暂时查不到barcodeno
+
               that.setData({
                 supplier_id: that.data.supply.supplierId,
                 material_id: that.data.supply.materialId
@@ -419,7 +415,7 @@ Page({
         })
       },
       complete:function(){
-        console.log("what is happened")
+
         if(that.data.scan_success==1){
           wx.showToast({
             title: '扫码成功',//TODO此处还可以使用
@@ -438,7 +434,7 @@ Page({
           
         }
         else{
-          console.log("what is happened")
+
           /*
           wx.showToast({
             title: '扫码失败',//TODO此处还可以使用
@@ -462,14 +458,12 @@ Page({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'supplier/' + con,
       method: 'GET',//GET为默认方法   /POST
       success: function (res) {
-        console.log("succeed connect")
-        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'supplier/' + con)
+
         var res_temp = res.data[0].name
         that.setData({
           supplier_name: res_temp
         })
-        console.log(res)
-        console.log(res.data[0].name)
+
       },
       //请求失败
       fail: function (err) {
@@ -495,8 +489,7 @@ Page({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'material/' + con,
       method: 'GET',//GET为默认方法   /POST
       success: function (res) {
-        console.log("succeed connect")
-        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'material/' + con)
+
         var res_temp_name = res.data[0].name
         var res_temp_no = res.data[0].no
         var res_temp_product_line = res.data[0].productLine
@@ -505,8 +498,7 @@ Page({
           material_no:res_temp_no,
           material_product_line:res_temp_product_line
         })
-        console.log(res)
-        console.log(res.data[0].name)
+
       },
       //请求失败
       fail: function (err) {
@@ -532,8 +524,7 @@ Page({
         url: globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con,
         method: 'GET',
         success: function (res) {
-          console.log("succeed connect1")
-          console.log(globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con)
+
           var res_temp = res
           that.setData({
             default_entry_storage_location_name: res_temp.data[0].name, //默认入库目标库位
@@ -561,8 +552,7 @@ Page({
         url: globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con2,
         method: 'GET',//GET为默认方法   /POST
         success: function (res) {
-          console.log("succeed connect2")
-          console.log(globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con2)
+
           var res_temp = res
           that.setData({
             default_qualified_storage_location_name: res_temp.data[0].name, //默认入库合格品库位
@@ -591,8 +581,7 @@ Page({
         url: globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con3,
         method: 'GET',//GET为默认方法   /POST
         success: function (res) {
-          console.log("succeed connect3")
-          console.log(globaldata.url + 'warehouse/' + globaldata.account + 'storage_location/' + con3)
+
           var res_temp = res
           that.setData({
             default_unqualified_storage_location_name: res_temp.data[0].name, //默认入库不合格库位

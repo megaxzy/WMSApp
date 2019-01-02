@@ -180,9 +180,10 @@ Page({
     if (that.data.supply != '') {
       con = condition.AddCondition('supplyId', 'EQUAL', that.data.supply.id);
     }
+    /*
     if (that.data.scan_model == 2 && that.data.rescode.length != 0) {
       con = condition.AddCondition('unitAmount', 'EQUAL', that.data.rescode.slice(15, 18));
-    }
+    }*/
     wx.request({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'transfer_order_item/' + con,
       method: 'GET',
@@ -351,7 +352,7 @@ Page({
       })
     }
     else {
-      var realAmount = that.data.transfer_order_item_list.data[index].realAmount / that.data.transfer_order_item_list.data[index].unitAmount + 1
+      var realAmount = that.data.transfer_order_item_list.data[index].realAmount  + 1*that.data.rescode.slice(15,18)
       var object_output_transfer_order_item = {
         "id": that.data.transfer_order_item_list.data[index].id,
         "transferOrderId": that.data.transfer_order_item_list.data[index].transferOrderId,

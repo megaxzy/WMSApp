@@ -9,32 +9,15 @@
 
   <view class="line">' '</view>
 
-  <!--
-  <view class="item">
-    <view style="width: 750rpx; ;display:flex;flex-direction: row;" >
-      <view class="message">
-        <input  adjust-position="true" bindfocus="hide" bindinput="scan_gun" type="text"  name="res" value="{{rescode}}" placeholder="点击启用扫码枪扫码" />
-      </view>
-    </view>
-	</view>
+  <view class="{{warehouse_entry.state == 3 ?  'hide' : ''+ warehouse_entry.state==2 ? 'hide':''+ warehouse_entry.state==4 ? 'hide':''+warehouse_entry.state==1 ? 'hide':''}}" >
+    <view class="loginBtnView"> 
+      <button class="loginBtn" type="primary" bindtap="trans">进入快速扫码模式</button> 
+    </view> 
+    <view class="loginBtnView"> 
+      <button class="loginBtn" type="primary" bindtap="trans2">进入确认扫码模式</button> 
+    </view> 
+  </view>
 
-  <view class="line">' '</view>
-
-
-  <view class="loginBtnView"> 
-    <button class="loginBtn" type="primary" bindtap="scan">手机扫码</button> 
-  </view> 
-
-  <view class="loginBtnView"> 
-    <button class="loginBtn" type="primary" bindtap="recover">恢复</button> 
-  </view> 
-  -->
-  <view class="loginBtnView"> 
-    <button class="loginBtn" type="primary" bindtap="trans">进入快速扫码模式</button> 
-  </view> 
-  <view class="loginBtnView"> 
-    <button class="loginBtn" type="primary" bindtap="trans2">进入确认扫码模式</button> 
-  </view> 
 	<view class="item">
 		<view class="title" style="	text-align: center;">【入库单条目】 信息</view>
     <view class="line">' '</view> 
@@ -51,13 +34,7 @@
         <text decode="{{true}}">\n</text>
         物料名称：{{item.materialName}}
         <text decode="{{true}}">\n</text>
-        <!--
-        存货日期：{{item.inventoryDate}}
-        <text decode="{{true}}">\n</text>
-        -->
-        状态：{{item.state==0 ? '待入库':''+ item.state==1 ? '送检中':'' + item.state==2 ? '正品入库':''+ item.state==3 ? '不良品入库':''}}
-        <text decode="{{true}}">\n</text>
-        备注：{{item.comment==null ? '':'' + item.comment}}
+        入库库位名称：{{item.storageLocationName}}
       </view>
 
 

@@ -40,9 +40,6 @@ Page({
     var date_today = Y + '-' + M + '-' + D
     var date_yesterday = Y_yesterday + '-' + M_yesterday + '-' + D_yesterday
     var date_tomorrow = Y_tomorrow + '-' + M_tomorrow + '-' + D_tomorrow
-    console.log("时间:");
-    console.log(date_today)
-    console.log(date_yesterday)
     this.setData({
       name:globaldata.user_name,  
       role:globaldata.user_role, 
@@ -106,15 +103,15 @@ Page({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'warehouse_entry/' + con,
       method: 'GET',
       success: function (res) {
-        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'warehouse_entry/' + con)
+
         var res_temp = res
         that.setData({
           warehouseEntry_list: res
         })
-        console.log(res)
+
       },
       fail: function (err) {
-        console.log("false")
+
         wx.showToast({
           title: '连接失败,请检查你的网络或者服务端是否开启',
           icon: 'none',

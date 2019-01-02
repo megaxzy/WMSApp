@@ -1,13 +1,18 @@
 
-var url = 'http://megaxzy.com:9000/'//正式服
-//var url = 'http://localhost:9000/'
+//var url = 'http://www.megaxzy.com:9000/'//正式服
+//var url = 'https://localhost:9000/'
+//var url = 'https://localhost:443/'
 //var url = 'http://192.168.43.103:9000/'
 //var url = 'https://wms.jackquantop.com/9000/'
+//var url = 'http://47.93.35.199:9000/'//正式服
+var url = 'https://www.antufengda.com:9000/'//正式服
+//var url = 'http://wms.antufengda.com:9000/'//正式服
+
 
 var account = 'WMS_Template/'
 
 var user_id='' //用户id
-var user_name=''  //用户名称
+var user_name=''  //用户名称2
 var user_role=''  //用户职位 
 var user_authority=''  //用户权限
 var all_warehouse=''   //所有仓库的json格式

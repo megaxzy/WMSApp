@@ -48,6 +48,7 @@ Page({
     show_entry_name: 'false',
     vague_entry_name: [],
     //李尔码需求
+    //单位数量
     unit_number:'',
     //订单数量
     expected_amount:'',
@@ -294,48 +295,6 @@ Page({
           })
           wxTimer1.start(that);
         }
-
-
-        /*
-        if ((/^[0-9,A-Z]{26,27}$/.test(value))) {  //TODO 26
-          x = new Date();
-          y = x.getTime();
-          console.log("当前时间戳【扫码结束1】为：" + y);
-          that.setData({
-            rescode: value,
-            //focus:false,
-          });
-          //wx.hideKeyboard()
-          var barcode = that.data.barcode
-          console.log("缓存的")
-          console.log(barcode)
-          for (var i = 0; i < barcode.length; i++) {
-            if (barcode[i] == value) {
-              wx.showModal({
-                title: '警告！！！',
-                content: '条码重复扫描',
-                showCancel: false,
-              })
-              that.setData({
-                rescode: '',
-              });
-              success = 0
-            }
-          }
-          if (success == 1) {
-            that.setData({
-              rescode: value,
-            });
-            x = new Date();
-            y = x.getTime();
-            console.log("当前时间戳【扫码结束2】为：" + y);
-            that.getSupply()
-          }
-        }
-        else {
-          if ((/^[0-9,A-Z]{27,28}$/.test(value))) {
-          }
-        }*/
       }
     }
   },
@@ -437,8 +396,8 @@ Page({
           }
           if(that.data.scan_model==2){//lierma
             that.setData({
-              unit_number: that.data.rescode.slice(15,18),
-              expected_amount:1,
+              unit_number: 1,
+              expected_amount: that.data.rescode.slice(15, 18)*1,
             })
           }
           that.setData({
@@ -572,40 +531,6 @@ Page({
         showCancel: false
       });
     }
-    /*
-    else if (qualified_storage_location_id == '' && form.qualifiedLocationNo.length != '' && form.qualifiedLocationName.length != '') {
-      wx.showModal({
-        title: '合格品库位信息有误',
-        showCancel: false
-      });
-    }
-    */
-    /*
-    else if (!(/^([0-9]{4})-((0([1-9]{1}))|(1[1|2]))-(([0-2]([1-9]{1}))|(3[0|1]))[\s]+(20|21|22|23|[0-1]\d):[0-5]\d:[0-5] $/.test(form.manufactureDate))  &&
-    !(/^([0-9]{4})[-](([0]([1-9]{1}))|(1[0|1|2]))[-](([0-2]([1-9]{1}))|([3][0|1]))$/.test(form.manufactureDate)) && 
-    ! form.manufactureDate == '') {
-      wx.showModal({
-        title: '生产日期格式有误',
-        showCancel: false
-      });
-    }
-    else if (!(/^(d{2}|d{4})-((0([1-9]{1}))|(1[1|2]))-(([0-2]([1-9]{1}))|(3[0|1]))[\s]+(20|21|22|23|[0-1]\d):[0-5]\d:[0-5] $/.test(form.manufactureDate)) &&
-      !(/^(d{2}|d{4})-((0([1-9]{1}))|(1[1|2]))-(([0-2]([1-9]{1}))|(3[0|1]))$/.test(form.manufactureDate)) &&
-      !form.manufactureDate == '') {
-      wx.showModal({
-        title: '生产日期格式有误',
-        showCancel: false
-      });
-    }
-    */
-    /*
-    else if (!(/^[1-2][0-9]{3}[-][0-1]{0,1}[1-9][-][0-1]{0,1}[1-9][\s]}$/.test(form.manufactureDate))) {
-      wx.showModal({
-        title: '生产日期格式有误',
-        showCancel: false
-      });
-    }
-    */
 
     else {
       var res_message

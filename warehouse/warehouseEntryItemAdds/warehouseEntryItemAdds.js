@@ -3,8 +3,9 @@
 //C37800106181112002F1095904
 //C37800106181112002F10959212
 
-//C37800106181112002F10959282 
-//C37800106181113002F10959284
+//C37800106181112002F10959282   //sometimes
+//C37800106181112005F10959287
+//C37800106181113001F10959362
 //TODO 库位编码联想  自动获取入库库位名称
 var condition = require('../../utils/condition.js');
 var globaldata = require('../../utils/globaldata.js');
@@ -59,6 +60,8 @@ Page({
     scan_time:'',
     //判断长度
     codeLength: '',
+    //手机连续扫码
+    is_phone:0,
   },
   onLoad: function (query) {
     var that = this
@@ -69,7 +72,6 @@ Page({
     var D = time.getD()
     var date = Y + '-' + M + '-' + D
     var YMDhms=time.getYMDhms()
-    console.log("当前时间：" + time.getYMDhms());
     this.setData({
       name:globaldata.user_name,
       role:globaldata.user_role,
@@ -81,7 +83,6 @@ Page({
       all_storage_location: globaldata.all_storage_location,
       barcode:globaldata.entry_barcode
     })
-    console.log(that.data.all_storage_location)
     query.warehouse_entry = query.warehouse_entry.replace(/%26/g, "&");
     var warehouse_entry_json=JSON.parse(query.warehouse_entry)
     this.setData({
@@ -118,17 +119,16 @@ Page({
     //扫码
     wx.scanCode({
       success: (res) => {
-        console.log(res)
+
         that.setData({
           rescode: res.result
         });
         rescode=res.result
-        console.log(that.data.rescode)
+
       },
       complete: function () {
         var barcode = that.data.barcode
-        console.log("缓存的")
-        console.log(barcode)
+
         for (var i = 0; i < barcode.length; i++) {
           if(barcode[i]==rescode){
             wx.showModal({
@@ -144,8 +144,12 @@ Page({
         }
         if(success==1){
           that.setData({
-            rescode: rescode
+            rescode: rescode,//////////////////////that.data.codeLength ==
+            codeLength:rescode.length
           });
+          that.setData({
+            is_phone:1
+          })
           that.getSupply()
         }
       }
@@ -157,8 +161,7 @@ Page({
     var qualified_storage_location_name = ''
     var unqualified_storage_location_name = ''
 
-    console.log(that.data.all_storage_location)
-    console.log(that.data.supply)
+
     for (var h = 0; h < that.data.all_storage_location.data.length; h++) {
       if (that.data.supply.defaultEntryStorageLocationNo == that.data.all_storage_location.data[h].no) {
         entry_storage_location_name = that.data.all_storage_location.data[h].name
@@ -237,25 +240,25 @@ Page({
         if(value.length==1){
           var x = new Date();
           var y = x.getTime();
-          console.log("当前时间戳【扫码开始】为：" + y);
+
         }
         if (value.length >= 24) {
           //开启定时器
           var wxTimer = new timer({
-            judgeTime: "70",
+            judgeTime: "500",
             complete: function () {
-              console.log("完成了")
+
               if (that.data.codeLength == value.length && value.length!=24) {
                 that.setData({
                   rescode: value,   
                   //focus:false,
                 });
                 var barcode = that.data.barcode
-                //judge
+                //test
                 var x = new Date();
                 var y = x.getTime();
-                console.log("当前时间戳【judge开始】为：" + y);
-                //
+                console.log("当前时间戳【judge开始】为："+value +" "+value.length +" "+ y);
+                //testend
                 for (var i = 0; i < barcode.length; i++) {
                   if (barcode[i] == value) {
                     wx.showModal({
@@ -269,64 +272,25 @@ Page({
                     success = 0
                   }
                 }
-
                 if (success == 1) {
                   that.setData({
                     rescode: value,
                   });
+                  //test
                   x = new Date();
                   y = x.getTime();
                   console.log("当前时间戳【扫码结束2】为：" + y);
-                  that.getSupply()
+                  //test end
+                  console.log(that.data.codeLength + value.length)
+                  if (that.data.codeLength == value.length){
+                    that.getSupply()
+                  }
                 }
               }
             }
           })
           wxTimer.start(that);
         }
-        
-        /*
-        //(/^[\s,\n,\r,\n\r]$/.test(value.slice(value.length - 1, value.length)))
-        //if ((/^[0-9,A-Z]{26}$/.test(value)))
-        if ((/^[0-9,A-Z]{26,27}$/.test(value))){  
-          var x = new Date();
-          var y = x.getTime();
-          console.log("当前时间戳【扫码结束 开始判断】为：" + y );
-          that.setData({
-            rescode: value,
-            //focus: false,
-          });
-          var barcode = that.data.barcode
-          console.log("缓存的")
-          console.log(barcode)
-          if(barcode.length!=0){
-            for (var i = 0; i < barcode.length; i++) {
-              if (barcode[i] == value) {
-                wx.showModal({
-                  title: '警告！！！',
-                  content: '条码重复扫描',
-                  showCancel: false,
-                })
-                that.setData({
-                  rescode: '',
-                });
-                success = 0
-              }
-            }
-          }
-          var x = new Date();
-          var y = x.getTime();
-          console.log("当前时间戳【扫码结束 sdfsdfsdfs】为：" + y);
-          if (success == 1) {
-            that.setData({
-              rescode: value,
-            });
-            x = new Date();
-            y = x.getTime();
-            console.log("当前时间戳【扫码 判断结束】为：" + y + "length" + value.length);
-            that.getSupply()
-          }
-        }*/
       }
     }
   },
@@ -335,7 +299,42 @@ Page({
   getSupply: function () {
     //获得供货信息
     var that = this
+
+    
+    /*
+    var random=that.data.rescode.slice(15,that.data.rescode.length)
+    var con = condition.NewCondition();
+    con = condition.AddFirstCondition('barCodeNo', 'EQUAL', rescode);
+    wx.request({
+      url: globaldata.url + 'warehouse/' + globaldata.account + 'stock_record/validate_random_code/' + con,
+      header: { 'content-type': 'application/json' },
+      data: [{
+        randomCode:random,
+        entryOrDeliver:0
+      }],
+      method: 'PUT',
+      success: function (res) {
+
+      },
+      //请求失败
+      fail: function (err) {
+        console.log("false")
+        wx.showToast({
+          title: '连接失败,请检查你的网络或者服务端是否开启',
+          icon: 'none',
+          duration: 2000
+        })
+      },
+      complete: function () {
+
+      }
+    })
+    */
+
+
+
     var rescode
+
     if(that.data.scan_model==1){
       rescode = that.data.rescode
     }
@@ -423,15 +422,17 @@ Page({
           }
           if(that.data.scan_model==2){//lierma
             that.setData({
-              unit_number: that.data.rescode.slice(15,18)
+              unit_number: 1
             })
           }
           that.setData({
             scan_success: 0
           })
-          that.create()
-        }
-        else{  
+          console.log(that.data.codeLength)
+          console.log(that.data.rescode)
+          if (that.data.codeLength == that.data.rescode.length) {
+            that.create()
+          }      
         }
       }
     })
@@ -441,7 +442,7 @@ Page({
     var that = this 
     var x = new Date();
     var y = x.getTime();
-    console.log("当前时间戳【入库单条目开始】为：" + y);
+    //console.log("当前时间戳【入库单条目开始】为：" + y);
       var entry_storage_location_id=''
       var qualified_storage_location_id=''
       var unqualified_storage_location_id=''
@@ -488,8 +489,8 @@ Page({
 
         inventoryDate = '20' + that.data.rescode.slice(9, 11) + '-' + that.data.rescode.slice(11, 13) + '-' + that.data.rescode.slice(13, 15) + ' ' + '00:00:00'
         manufactureDate=that.data.date_today_YMDhms
-        unitAmount = that.data.rescode.slice(15,18)
-        expectedAmount=1
+        unitAmount = 1
+        expectedAmount = 1*that.data.rescode.slice(15, 18)
       }
       if (manufactureDate == '') {
         manufactureDate = null
@@ -521,7 +522,7 @@ Page({
         "inventoryDate": inventoryDate,//auto
         "manufactureDate": manufactureDate,//input   
       }
-      //console.log(object_output)
+
       wx.request({
         url: globaldata.url + 'warehouse/' + globaldata.account + 'warehouse_entry_item/',
         data: [object_output],
@@ -555,9 +556,10 @@ Page({
           })
           x = new Date();
           y = x.getTime();
-          console.log("当前时间戳【入库单条目】完成：" + y);
+          //console.log("当前时间戳【入库单条目】完成：" + y);
           if (res_message.data.length == 1) {
             //实现入库单信息跟新
+            /*
             wx.request({
               url: globaldata.url + 'warehouse/' + globaldata.account + 'warehouse_entry/',
               data: [{
@@ -596,7 +598,7 @@ Page({
             })
             x = new Date();
             y = x.getTime();
-            console.log("当前时间戳【入库单结束】为：" + y);
+            //console.log("当前时间戳【入库单结束】为：" + y);  */
             if (that.data.scan_model == 2) {
               var barcode
               barcode = that.data.barcode
@@ -605,11 +607,11 @@ Page({
                 barcode: barcode,
               });
               globaldata.entry_barcode = barcode
-              console.log("global缓存的内容" + globaldata.entry_barcode)
+              //console.log("global缓存的内容" + globaldata.entry_barcode)
             }
             that.setData({
               supply:'',
-              focus: true,
+              
               rescode: '',
               entry_storage_location_name: '',
               qualified_storage_location_name: '',
@@ -618,9 +620,22 @@ Page({
               qualified_storage_location_no: '',
               unqualified_storage_location_no: '',
             })
+            if(that.data.is_phone==1){
+              that.setData({
+                focus: false,
+                is_phone: 0
+              })
+              that.scan()
+            }
+            else{
+              that.setData({
+                focus: true,
+              }) 
+            }
+
             var barcode = that.data.barcode
-            console.log("缓存的")
-            console.log(barcode)
+            //console.log("缓存的")
+            //console.log(barcode)
             x = new Date();
             y = x.getTime();
             console.log("当前时间戳【所有结束】为：" + y);
@@ -639,228 +654,3 @@ Page({
   },
 })
 
-
-
-
-
-
-
-
-
-
-/*
-  choseEntryItem: function (e) {
-    var that = this
-    var index = e.currentTarget.dataset.index;
-    that.setData({
-      index: index,
-    })
-    var hide = that.data.hide
-    if (that.data.hide[index] == true) {
-      hide[index] = false
-      that.setData({
-        hide: hide,
-      })
-    }
-    else {
-      hide[index] = true
-      that.setData({
-        hide: hide,
-      })
-    }
-  },
-  showAllItem: function (e) {
-    var that = this 
-    var con = condition.NewCondition();
-    con = condition.AddFirstCondition('warehouseEntryId', 'EQUAL',that.data.warehouse_entry.id );
-    wx.request({
-      url: globaldata.url + 'warehouse/' + globaldata.account + 'warehouse_entry_item/' + con,
-      method: 'GET',
-      success: function (res) {
-        console.log("succeed connect1")
-        console.log(globaldata.url + 'warehouse/' + globaldata.account + 'warehouse_entry_item/' + con)
-        var res_temp = res
-          that.setData({
-            all_warehouse_entry_item: res_temp, 
-          })
-        console.log(that.data.all_warehouse_entry_item)
-        
-      },
-      //请求失败
-      fail: function (err) {
-        console.log("false")
-        wx.showToast({
-          title: '连接失败,请检查你的网络或者服务端是否开启',
-          icon: 'none',
-          duration: 2000
-        })
-      },
-      complete: function () {
-        var hide = [];
-        for (var i = 0; i < that.data.all_warehouse_entry_item.data.length; i++) {
-          hide.push(true);//添加数组的功能
-          console.log(hide[i])
-        }
-        that.setData({
-          hide: hide
-        })
-      }
-    })
-  }
-  */
-  /*
-  getTheLocationNo:function(e){
-    var that = this
-    var location_name = e.detail.value
-    var location_no
-    for (var i = 0; i < that.data.all_storage_location.data.length; i++) {
-      if (location_name == that.data.all_storage_location.data[i].name){
-        location_no = that.data.all_storage_location.data[i].no
-        break
-      }
-      
-    } 
-    
-  },
-  getTheLocationName: function (e) {
-
-  }
-  */
-
-
-
-
-
-
-
-  /*
-  scan_gun: function (e) {
-    var that = this
-    var value = e.detail.value
-    var success = 1
-    console.log(value)
-    if(that.data.scan_model==1){
-      if (!(/^[0-9]*$/.test(value))) {
-        that.setData({
-          rescode: ''
-        });
-      }
-      else {
-        if ((/^[0-9]{7}$/.test(value))) {  //TODO 26
-          that.setData({
-            rescode: value,
-            focus: false,
-          });
-          wx.hideKeyboard()
-          var barcode = that.data.barcode
-          console.log("缓存的")
-          console.log(barcode)
-          for (var i = 0; i < barcode.length; i++) {
-            if (barcode[i] == value) {
-              wx.showModal({
-                title: '警告！！！',
-                content: '条码重复扫描',
-                showCancel: false,
-              })
-              that.setData({
-                rescode: '',
-              });
-              success = 0
-            }
-          }
-          if (success == 1) {
-            that.setData({
-              rescode: value,
-            });
-            that.getSupply()
-          }   
-        }
-        else {
-          if ((/^[0-9]{8,9}$/.test(value))) {
-          }
-        }
-      }
-    }
-    else if (that.data.scan_model == 2){
-      if (!(/^[0-9,A-Z]*$/.test(value))) {
-        that.setData({
-          rescode: ''
-        });
-      }
-      else {
-        //(/^[\s,\n,\r,\n\r]$/.test(value.slice(value.length - 1, value.length)))
-        //if ((/^[0-9,A-Z]{26}$/.test(value)))
-        if(value.length==1){
-          var date = new Date();
-          var now = date.getTime();
-          that.setData({
-            scan_time: now
-          })
-          console.log("shijian" +now)
-          if(that.judgeTime()==1){
-            value = that.data.rescode//add
-            console.log(value)
-            if ((/^[0-9,A-Z]{25,26,27}$/.test(value))) {
-              that.setData({
-                rescode: value,
-                focus: false,
-              });
-              wx.hideKeyboard()
-              var barcode = that.data.barcode
-              console.log("缓存的")
-              console.log(barcode)
-              for (var i = 0; i < barcode.length; i++) {
-                if (barcode[i] == value) {
-                  wx.showModal({
-                    title: '警告！！！',
-                    content: '条码重复扫描',
-                    showCancel: false,
-                  })
-                  that.setData({
-                    rescode: '',
-                  });
-                  success = 0
-                }
-              }
-              if (success == 1) {
-                that.setData({
-                  rescode: value,
-                });
-                that.getSupply()
-              }
-            }
-            else{
-            }
-          }
-        }
-        else{
-          var date = new Date();
-          var now = date.getTime();
-          that.setData({
-            scan_time:now
-          })
-          console.log("shijian"+now)
-        }
-      }
-    }
-  },//C37800106181112002F1095904
-  //C37800031181024001F1062284
-  
-  judgeTime:function(test){
-      var that=this
-      var date = new Date();
-      var now = date.getTime();
-      console.log("panduan "+now)
-      console.log("panduas " + that.data.scan_time)
-      while(1){
-        var date = new Date();
-        var now = date.getTime();
-        var x = now - that.data.scan_time
-        console.log("x=" +x)
-        if(now-that.data.scan_time>2000){
-          break
-        }
-      }
-      console.log("成功jishi")
-      return 1;
-  },*/

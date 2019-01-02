@@ -211,9 +211,11 @@ Page({
     if(that.data.supply!=''){
       con = condition.AddCondition('supplyId', 'EQUAL', that.data.supply.id);
     }
+    /*
     if (that.data.scan_model == 2 && that.data.rescode.length != 0) {
       con = condition.AddCondition('unitAmount', 'EQUAL', that.data.rescode.slice(15, 18));
     }
+    */
     wx.request({
       url: globaldata.url + 'warehouse/' + globaldata.account + 'delivery_order_item/' + con,
       method: 'GET',
@@ -396,7 +398,7 @@ Page({
         content: '该条目【计划数量装车】已完成',
         showCancel: false,
       })
-    } //C37800106181220002F10959284
+    } //C37800106181220002F10959281
     else {
       var object_judge = {
         "supplyId": that.data.supply.id,
@@ -427,7 +429,7 @@ Page({
         },
         complete: function () {
           if (res_temp.statusCode == 200) {
-            var realAmount = that.data.delivery_order_item_list.data[index].realAmount / that.data.delivery_order_item_list.data[index].unitAmount + 1
+            var realAmount = that.data.delivery_order_item_list.data[index].realAmount + 1 * that.data.rescode.slice(15, 18)
             var object_output_delivery_order_item = {
               "id": that.data.delivery_order_item_list.data[index].id,
               "deliveryOrderId": that.data.delivery_order_item_list.data[index].deliveryOrderId,
